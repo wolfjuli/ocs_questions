@@ -1,5 +1,8 @@
 \documentclass{report}
 
+
+\usepackage{graphicx}
+
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{ulem}
@@ -10,6 +13,8 @@
 \usepackage{amssymb}
 \usepackage{mathtools}
 \newcommand{\partder}[1]{\frac{\partial h^l}{\partial #1}}
+
+\graphicspath{{figures/}}
 
 \title{OCS Hints for Questions}
 \author{Julian Wolf}
@@ -48,12 +53,25 @@ $\alpha x + (1 - \alpha)y \ in X, \forall x, y \in X, \alpha \in [0, 1]$
 $f(\alpha x + (1 - \alpha)y) \leq \alpha f(x) + (1 - \alpha)f(y) , \forall x, y \in X, \alpha \in [0, 1]$ 
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item When hessian is strictly positive, it is a strict global maximum
+\item 
+\begin{itemize}
+	\item When hessian is strictly positive, it is a strict global maximum
+	\item \textbf{unconst Local minimum:} $f(x^*) \leq f(x), \forall x \texttt{ with } || x - x^* || \leq \varepsilon$
+	\item \textbf{unconst global minimum:} $f(x^*) \leq f(x), \forall x \in \mathbb{R}$
+\end{itemize}
 
+\begin{figure}[H]
+\includegraphics[scale=0.3]{loc_glob_min.png}
+\caption{Local/Global minimas\label{fig:min}}
+\end{figure}	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item If positive and negative Eigenvalues, we can not define convexity
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item 
+\begin{itemize}
 \item Descent direction: angle of step and derivation direction $< 90^\circ$
+\end{itemize}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item Identity, Hessian, Gauss Newton, Diag Hessian, zik zak
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -71,18 +89,33 @@ $f(\alpha x + (1 - \alpha)y) \leq \alpha f(x) + (1 - \alpha)f(y) , \forall x, y 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item \sout{iterative}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item nesterov in gradient, heavy-ball just in pai...
+\item nesterov in gradient, heavy-ball just in point
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item in subspace reduce to eq, what is a subspace?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item First pages of slide 10
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item middle/end of pages slide 10 - start in interior and just take small steps $->$ we can ignore constraint under these conditions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item \sout{too fast}
-\item Example 24.1. image
-\item image 2
-\item image 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item see figure~\ref{fig:ex1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item see figure~\ref{fig:ex2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item see figure~\ref{fig:ex2}
 
 
 \end{enumerate}
+\begin{figure}[H]
+\includegraphics[scale=0.08]{2017_01_24-ex1.jpg}
+\caption{Example1,  24.01.2017\label{fig:ex1}}
+\end{figure}
+
+\begin{figure}[H]
+\includegraphics[scale=0.08]{2017_01_24-ex2.jpg}
+\caption{Example 2,  24.01.2017\label{fig:ex2}}
+\end{figure}
 \end{document}
