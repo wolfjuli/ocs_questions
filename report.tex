@@ -61,21 +61,73 @@ $f(\alpha x + (1 - \alpha)y) \leq \alpha f(x) + (1 - \alpha)f(y) , \forall x, y 
 \end{itemize}
 
 \begin{figure}[H]
-\includegraphics[scale=0.3]{loc_glob_min.png}
+\includegraphics[width=\textwidth]{loc_glob_min.png}
 \caption{Local/Global minimas\label{fig:min}}
 \end{figure}	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item 
+\begin{itemize}
 \item If positive and negative Eigenvalues, we can not define convexity
+\item First order necessessary optimality condition: $\nabla f(x^*) = 0$
+\item Second order necessessary optimality condition: $\nabla^2 f(x^*) $ is positive semi definite
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{cond_quad_q.png}
+\caption{Different scenarios for Q\label{fig:cond_quad}}
+\end{figure}	
+\end{itemize}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item 
 \begin{itemize}
 \item Descent direction: angle of step and derivation direction $< 90^\circ$
+\item General form of gradient method: \\
+1. Choose an initial vector $x ^0 \in \mathbb{R}^n$\\
+2. Choose a descent direction $d^k$ that satisfies $\nabla f (x^k)'  d^k < 0$\\
+3. Choose a positive step size $\alpha^k$\\
+4. Compute the new vector as\\
+$x^{k+1} = x^k + \alpha^k d^k$\\
+5. Set $k = k + 1$ and goto 2
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{desc_dir.png}
+\caption{Simple descent direction\label{fig:desc_dir}}
+\end{figure}
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item Identity, Hessian, Gauss Newton, Diag Hessian, zik zak
+\item $d^k = -D^k \nabla f (x^k )$
+\begin{itemize}
+	\item Identity: $D^k = I$, = Gradient descent, zig zagging problem, very bad on Rosenbrock Fct
+	\item Hessian: $D^k = \nabla^2 f(x^k)$, = Newtons method, very fast convergence, very good on rosenbrock, unstable in despite of initial values (may diverge or find local maxima instead of minima), con: calculation of inverse of hessian - very expensive in large networks
+	\item Diagonal Hessian (approximation of Newton): $d_i^k \approx \left(
+\frac{\partial^2  f (x^k)}{(\partial x_i)^2}
+\right)^{-1}$, very bad performance on Rosenbrock, 
+	\item Gauss Newton method: Too complicated to remember, replace $D^k$ with non linear least square problem, even better performance on rosenbrock then newton, con: again calculation of inverse, but not of hessian
+	\item \textbf{Step size} $\alpha$: 
+	\begin{itemize}
+		\item \textbf{Minimization rule:} choose $\alpha$ such that $f(x + \alpha d)$ is minimized along $d$. Hard if $f$ is complicated
+		\item \textbf{Limited minimization rule:} iterative: start small and increase size of $\alpha$ until $f(x)$ is bigger then before, then choose the previous. Easy to implement
+		\item \textbf{Armijo rule:} it is not sufficient that $f(x^{k+1}) < f(x^k)$, thus, the step sizes $\beta^ms$ for $m = 0,1,...$ are chosen such that the energy decrease is sufficiently large (dependent on derivation of $f(x)$, formula too complicated), or graphical:
+	\begin{figure}[H]
+	\includegraphics[width=\textwidth]{armijo.png}
+	\caption{Graphical representation of the idea of Armijo\label{fig:desc_dir}}
+	\end{figure}
+		
+	\end{itemize}
+\end{itemize}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item upper bound, \sout{... too fast...}
+\item 
+\begin{itemize}
+	\item \textbf{Linear:} $\limsup_{k \rightarrow \infty} \frac{e(x^{k+1})}{e(x^k)}\leq \beta$ (blue line)
+	\item \textbf{superlinear:} $\limsup_{k \rightarrow \infty} \frac{e(x^{k+1})}{e(x^k)^p} < \infty$ (red line)
+	\item \textbf{sublinear:} $\limsup_{k \rightarrow \infty} \frac{e(x^{k+1})}{e(x^k)} = 1$ (black line)
+\end{itemize}
+
+\begin{figure}[H]
+\includegraphics[width=10cm]{convergence.png}
+\caption{Graphical representation of linear, superinear and sublinear convergence \label{fig:desc_dir}}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item Energy convergence 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -110,12 +162,12 @@ $f(\alpha x + (1 - \alpha)y) \leq \alpha f(x) + (1 - \alpha)f(y) , \forall x, y 
 
 \end{enumerate}
 \begin{figure}[H]
-\includegraphics[scale=0.08]{2017_01_24-ex1.jpg}
+\includegraphics[width=\textwidth]{2017_01_24-ex1.jpg}
 \caption{Example1,  24.01.2017\label{fig:ex1}}
 \end{figure}
 
 \begin{figure}[H]
-\includegraphics[scale=0.08]{2017_01_24-ex2.jpg}
+\includegraphics[width=\textwidth]{2017_01_24-ex2.jpg}
 \caption{Example 2,  24.01.2017\label{fig:ex2}}
 \end{figure}
 \end{document}
