@@ -117,6 +117,15 @@ $x^{k+1} = x^k + \alpha^k d^k$\\
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item \begin{itemize}
+
+	\item  there exists a definite real number such that, for every pair of points on the graph of this function, the absolute value of the slope of the line connecting them is not greater than this real number
+	
+	\item (There is something missing here)
+	
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item 
 \begin{itemize}
 	\item \textbf{Linear:} $\limsup_{k \rightarrow \infty} \frac{e(x^{k+1})}{e(x^k)}\leq \beta$ (blue line)
@@ -128,20 +137,60 @@ $x^{k+1} = x^k + \alpha^k d^k$\\
 \includegraphics[width=10cm]{convergence.png}
 \caption{Graphical representation of linear, superinear and sublinear convergence \label{fig:desc_dir}}
 \end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item Energy convergence 
+\item \begin{itemize}
+	\item $\tilde{g}(x, x^k) = g(x^k) + \nabla g(x^k)'(x - x^k)$
+	\item is affine: because the derivation of the function is independent to a move of constants?!?!?
+\end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item \sout{too fast}
+\item \textbf{Linear}:
+\begin{itemize}
+	\item pointcloud, best fitting by polynomial equations
+	\item Solve least square problem to find optimal parameters
+	\item $\frac{1}{2}|| Ax - z ||^2$
+\end{itemize} 
+\textbf{Non-Linear:}
+\begin{itemize}
+	\item Measure distance to beacons to get our own unkown location
+	\item non linear least squares problem
+	\item $min_x \frac{1}{2} \sum_{i = 1^m} (d_i - \sqrt{(x_i - p_1^i)^2 + (x_2 - p_2^i)^2})^2$
+\end{itemize} 
+\textbf{Gauss-Newton}:
+\begin{itemize}
+	\item Uses $(\nabla g(x^k)\nabla g(x^k)')^{-1}$ instead of hessian
+	\item Approximates Current point with parabola and minimizes this subproblem (as plain Newton)
+\end{itemize}
+(check this shit out)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item \sout{polynomial euqations, distance to std. Newton}
+\item \begin{itemize}
+	\item incremental of gauss newton - incremental growing least squares estimate
+	\item example watertank: many measurements with noise - a very good and fast convergence to correct level is reached
+	\item extended Kalman Filter: input data behaves according to a function
+\end{itemize}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item incremental of gauss newton
+\item \begin{itemize}
+	\item $Q$ positive definite: $\left(\frac{\sqrt{L/I}-1}{\sqrt{L/I} + 1}\right)^n || x^0  - x* ||$
+	\item $Q$ positive semidefinite: not motivated to write formula
+	\item Best method: conjugate gradient method (by Polyak) see next question
+\end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item \sout{too fast}
+\item \begin{itemize}
+	\item Motivation: converge faster the GD but avoid Newton overhead
+	\item Q-conjugate if: $d^i  Q d^j = 0, \forall i, j \texttt{ with } i \neq j$
+	\item Algorithm: 
+	Use Gram-Schmidt to find conjugate direction, calculate new search direction (easy as all but one coefficient are zero), choose $\alpha^k$ by minimization method, algorithm terminates after at most n steps. 
+\end{itemize}
+(I think this is the algorithm where every single dimension is differenciated and optimized - hence the n termination)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item \sout{iterative}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item nesterov in gradient, heavy-ball just in point
+\item \begin{itemize}
+	\item Heavy-ball: Idea is like in physics: a ball uses its momentum it gained beforehand to overcome small increases or flat areas of its way
+	\item Problem: function needs to be strongly $\mu > 0$ convex and twice continously differentiable
+	\item Nesterov overcomes the twice diff. and the $\mu > 0$ problem by a dynamic choice of overrelaxation param $\beta^k = \frac{t_k - 1}{t_k + 1} \rightarrow 1$, gradient is evaluated at extrapolated point
+	\item Both algorithms are optimal
+	\item HB is optimal like the $Q$ positive semidefinite optimality, Nesterov also yields linear convergence rate on strongly convex sets
+	\end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item in subspace reduce to eq, what is a subspace?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
