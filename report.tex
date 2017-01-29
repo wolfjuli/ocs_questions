@@ -202,19 +202,52 @@ $x^{k+1} = x^k + \alpha^k d^k$\\
 \caption{Graphical representation of convex and non-convex set \label{fig:convex}}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item First pages of slide 10
+\item \begin{itemize}
+	\item $z$ is a fixed vector, find vector $x^*$ in a closed convex set X
+	\item $min_x f(x) = || x - z || ^2$
+\end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item middle/end of pages slide 10 - start in interior and just take small steps $->$ we can ignore constraint under these conditions
+\begin{itemize}
+	\item Given a feasible vector $x$, a feasible
+direction at $x$ is a vector $d$ such that the
+vector $x + \alpha d$ is feasible for all sufficiently
+small $\alpha > 0$.
+	\item a feasable method generates starts at $x^0$ and generates multiple such points $x^{k+1}$
+\end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item \sout{too fast}
+\item 
+\begin{itemize}
+	\item Conditional gradient solves subproblem with linear cost, gradient projection method solves quadratic cost fct
+	\item The conditional gradient method generates the point $\overline{x}^k$ by finding a feasible point which is furthest way from $x^k$ along
+the negative gradient direction $-\nabla f (x^k )$.
+
+\end{itemize}
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{proj_desc.png}
+\caption{Graphical representation of conditional (left) and projective (right) method\label{fig:proj_desc}}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item see figure~\ref{fig:ex1}
+\item \begin{itemize}
+	\item iterative method $x^{k+1} = x^k + \alpha^k (H^k)^{-1} (\texttt{big AHA formula})$
+	\item affine scaling: choose $H^k = (X^k)^{-2}$, $X^k = diag(x_1, ..., x_n)$ leads to $y^{k+1} = y^k + \alpha^k (AX^k A' )^{-1} b $, $\alpha^k$ ensures $x^{k+1} > 0$
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item see figure~\ref{fig:ex2}
+\item 
+\begin{itemize}
+	\item Interpretation 1: The gradient of the cost function $\nabla f (x^*)$
+belongs to the subspace spanned by the gradients of the
+constraint functions $\nabla h_i (x^* )$
+	\item Interpretation 2: The cost gradient $\nabla f (x^* )$ is orthogonal to
+the subspace of first order feasible directions
+	\item for failure see figure~\ref{fig:ex1}. The Eigenvectors are lineary dependent, we loose one dimension and thus we can not optimize the problem (at least I think so)
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item see figure~\ref{fig:ex2}
+\item solve $ min_x \frac{1}{2} ||x - y||^2$
+
+\item solve $min_x \frac{1}{2}||x-y||^2 \texttt{ s.t. } a^Tx = b$
 
 
 \end{enumerate}
