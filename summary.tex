@@ -12,8 +12,10 @@
 \newcommand{\NN}{\mathbb{N}}
 \newcommand{\ZZ}{\mathbb{Z}}
 \newcommand{\T}[1]{#1^{\top}}
+\newcommand{\kth}[2][k]{#2^{(#1)}}
+\DeclareMathOperator{\diag}{diag}
 
-\title{Summary of Slides}
+\title{Summary of OCS Slides}
 \author{Philipp Gabler}
 \date{}
 
@@ -102,7 +104,7 @@ neighbourhood; i.e., there is an \(\epsilon > 0\) such that
 \begin{equation*}
   f(x^*) \leq f(x) \quad \forall x \text{ with } \lVert x^* - x \rVert \leq \epsilon.
 \end{equation*}
-For constrained minima, we require additionally that \(x \in X\).
+For \emph{constrained} minima, we just require additionally that \(x \in X \subset \RR^n\).
 
 \paragraph{First Order Neccessary Condition for Optimality.}
 In a small neighbourhood of \(x^*\), we can by Taylor expansion write \(f\) as
@@ -113,7 +115,7 @@ Since \(x^*\) is a local minimum, \(f(x^* + \Delta x) - f(x^*) \geq 0\), and we 
 \begin{equation*}
   f(x^*) + \T{\nabla f(x^*)} \Delta x - f(x^*) = \T{\nabla f(x^*)} \Delta x \geq 0.
 \end{equation*}
-Since wlog. we can choose \(\Delta x\) to have also opposite sign, it holds also that
+Since wlog. we can choose \(\Delta x\) to have the opposite sign, it holds also that
 \begin{equation*}
   \T{\nabla f(x^*)} \Delta x \leq 0,
 \end{equation*}
@@ -145,6 +147,51 @@ convexity, we have for all \(\alpha \in [0, 1)\):
 \end{equation*}
 which contradicts the assumption, so \(x^*\) must also be a global minimum.
 
-Furthermore, the neccessary condition for minima, \(\nabla f(x^*) = 0\) for convex functions becomes
-a sufficient condition.
+Furthermore, the neccessary condition for minima, \(\nabla f(x^*) = 0\), for convex functions
+becomes a sufficient condition.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Gradient Methods}
+
+\paragraph{Basic Idea.}
+To find a minimum of \(f\), we construct a sequence \(\kth{x}\) such that for all \(k\),
+\(f(\kth[k+1]{x}) < f(\kth{x})\).  To do that, we choose an initial \(\kth[0]{x}\) and then set
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} + \kth{\alpha} \kth{d}.
+\end{equation*}
+Here \(\kth{\alpha}\) is some step size, and \(\kth{d}\) is a \emph{descent direction} which must
+satisfy
+\begin{equation*}
+  \pd{f}{{\kth{d}}}(\kth{x}) = \T{\nabla f(\kth{x})} \kth{d} < 0, 
+\end{equation*}
+where \(\pd{f}{{\kth{d}}}\) is the directional derivative in direction \(\kth{d}\).
+
+\paragraph{Matrix-Scaled Gradients.}
+Given the above form, one can choose \(\kth{d} = -\kth{D} \nabla f(\kth{x})\) for a positive
+definite \(\kth{D}\):
+\begin{equation*}
+  \T{\nabla f(\kth{x})} \kth{d} = -\T{\nabla f(\kth{x})} \kth{D} \nabla f(\kth{x}) < 0,
+\end{equation*}
+by the definition of positive definiteness.
+
+\paragraph{Steepest descent.} \(\kth{D} = I\). Simple, but slow convergence.
+
+\paragraph{Newton's method.} \(\kth{D} = (\nabla^2 f(\kth{x}))^{-1}\).  Fast convergence, but
+\(\nabla^2 f(\kth{x})\) needs to be positive definite to be invertible.  Corresponds to local
+approximation by a quadratic surface (see below).
+  
+\paragraph{Levenberg-Marquart method.} \(\kth{D} = (\nabla^2 f(\kth{x}) + \lambda ()^{-1}\).  Tries
+to fix problems with Newton's method by regularization.
+
+\paragraph{Diagonal scaling.} \(\kth{D} = \diag(\kth{d}_1, \ldots, \kth{d}_n)\). E.g. approximating
+Newton's method with
+\begin{equation*}
+  \kth{d}_i = \left( \pd[2]{f}{x_i}(\kth{x}) \right)^{-1}.
+\end{equation*}
+
+\paragraph{Gauss-Newton method.} For a nonlinear least-squares problem
+\(f(x) = \frac{1}{2} \lVert g(x) \rVert^2\), we can choose
+\(\kth{D} = \left( \nabla g(\kth{x} \T{\nabla g(\kth{x})} \right)^{-1}\).  This is related to the
+pseudo-inverse.
+
 \end{document}
