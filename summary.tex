@@ -15,6 +15,7 @@
 
 \title{Summary of Slides}
 \author{Philipp Gabler}
+\date{}
 
 \begin{document}
 \maketitle
@@ -77,6 +78,73 @@ If \(X\) is a convex set, then \(f: \RR \to \RR\) is called convex if for all \(
 \begin{equation*}
   f(\alpha x + (1 - \alpha) y) \leq \alpha f(x) + (1 - \alpha) f(y).
 \end{equation*}
+This means that no points lie below any tangent.
 
+\paragraph{Level Sets.}
+For an objective function \(f: X \to \RR\), and \(c \in \RR\), the sets
+\begin{equation*}
+  S_c(f) = \{x \in X: f(x) = c\}
+\end{equation*}
+are called \emph{level sets} of \(f\). They can be convex even if \(f\) is not!
 
+\paragraph{Definiteness.}
+A matrix \(Q\) is called \emph{positive semidefinite} if \(\T{x} Q x \geq 0\) for all \(x\).  \(Q\)
+is called \emph{positive definite} if \(\T{x} Q x > 0\) for all \(x \neq 0\).  Sometimes this is
+written as \(Q \succeq 0\) and \(Q \succ 0\).
+
+\paragraph{Local and Global Minima.}
+A point \(x^*\) is called an \emph{unconstrained global minimum} of \(f\) if for all \(x\)
+\begin{equation*}
+  f(x^*) \leq f(x).
+\end{equation*}
+\(x^*\) is called an \emph{unconstrained local minimum} of \(f\) if it is minimal in some
+neighbourhood; i.e., there is an \(\epsilon > 0\) such that
+\begin{equation*}
+  f(x^*) \leq f(x) \quad \forall x \text{ with } \lVert x^* - x \rVert \leq \epsilon.
+\end{equation*}
+For constrained minima, we require additionally that \(x \in X\).
+
+\paragraph{First Order Neccessary Condition for Optimality.}
+In a small neighbourhood of \(x^*\), we can by Taylor expansion write \(f\) as
+\begin{equation*}
+  f(x) = f(x^* + \Delta x) = f(x^*) + \T{\nabla f(x^*)} \Delta x + o(\lVert \Delta x \rVert).
+\end{equation*}
+Since \(x^*\) is a local minimum, \(f(x^* + \Delta x) - f(x^*) \geq 0\), and we have
+\begin{equation*}
+  f(x^*) + \T{\nabla f(x^*)} \Delta x - f(x^*) = \T{\nabla f(x^*)} \Delta x \geq 0.
+\end{equation*}
+Since wlog. we can choose \(\Delta x\) to have also opposite sign, it holds also that
+\begin{equation*}
+  \T{\nabla f(x^*)} \Delta x \leq 0,
+\end{equation*}
+so \(\T{\nabla f(x^*)} \Delta x = 0\), which, since \(\Delta x\) is arbitrary, implies that
+\(\nabla f(x^*) = 0\).
+
+\paragraph{Second Order Neccessary Condition for Optimality.}
+By second order Taylor expansion, we get
+\begin{align*}
+  0 &\leq f(x^* + \Delta x) - f(x^*) \\
+    &= f(x^*) + \underbrace{\T{\nabla f(x^*)} \Delta x}_{= 0} +
+      \frac{1}{2} \T{\Delta x} \nabla^2 f(x^*) \Delta x + o(\lVert \Delta x \rVert^2) - f(x^*) \\
+    &=  \frac{1}{2} \T{\Delta x} \nabla^2 f(x^*) \Delta x + o(\lVert \Delta x \rVert^2).
+\end{align*}
+From this follows that \(\T{\Delta x} \nabla^2 f(x^*) \Delta x \geq 0\).  Since \(\Delta x\) is
+arbitrary, this means that \(\nabla^2 f(x^*)\) must be positive semidefinite.
+
+\paragraph{Sufficient Condition for Optimality.}
+If for a point \(x^*\) we have \(\T{\nabla f(x^*)} = 0\) and \(\nabla^2 f(x^*)\) positive
+\emph{definite} (no ``semi-''!), then \(x^*\) is a strict unconstrained local minimum of
+f. 
+
+\paragraph{Minima of Convex Functions.}
+For a convex function \(f\), local minima are also global minima: suppose \(x*\) were a local, but
+not global minimum. Then there must be some \(y^* \neq x^*\) with \(f(y^*) < f(x^*)\).  By
+convexity, we have for all \(\alpha \in [0, 1)\):
+\begin{equation*}
+  f(\alpha x^* + (1 - \alpha) y^*) < \alpha f(x^*) + (1 - \alpha) f(y^*) < f(x^*),
+\end{equation*}
+which contradicts the assumption, so \(x^*\) must also be a global minimum.
+
+Furthermore, the neccessary condition for minima, \(\nabla f(x^*) = 0\) for convex functions becomes
+a sufficient condition.
 \end{document}
