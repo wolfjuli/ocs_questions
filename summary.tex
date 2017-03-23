@@ -1,0 +1,82 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{commath}
+
+\graphicspath{{figures/}}
+
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\T}[1]{#1^{\top}}
+
+\title{Summary of Slides}
+\author{Philipp Gabler}
+
+\begin{document}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+\paragraph{General Form.} A general minimization problem has the form
+\begin{equation*}
+  \min_{x} f(x) \quad \text{s.t. } x \in X,
+\end{equation*}
+for a \emph{constraint set} \(X \subseteq \RR^n\) (often given by some \emph{constraint functions}
+and an \emph{objective function} \(f: X \to \RR\).  We want to find an optimal value or
+\emph{minimizer} \(x^* \in X\) such that
+\begin{equation*}
+  f(x^*) \leq f(x), \quad \forall x \in X.
+\end{equation*}
+
+\paragraph{Types of Optimization Problems.}
+\begin{enumerate}
+\item
+  \begin{enumerate}
+  \item Discrete: \(X\) is a discrete set, also called \emph{interger programming}.
+  \item Continuous: \(X\) is continuous (ie. uncountable)
+  \end{enumerate}
+\item
+  \begin{enumerate}
+  \item Linear: Objective functions and constraints are all linear:
+    \begin{equation*}
+      \min_x \T{c} x, \quad\text{s.t. } Ax \leq b,\; x \geq 0.
+    \end{equation*}
+    Constraints describe a polyhedron.  Efficiently solvable.
+  \item Quadratic: Objective function is quadratic, constraints linear:
+    \begin{equation*}
+      \min_x \frac{1}{2}\T{x} Q x + \T{c} x, \quad\text{s.t. } Ax \leq b,\; Ex = d.
+    \end{equation*}
+    If \(Q\) is positive semidefinite, the objective is convex and the problem is polynomially
+    solvable.
+  \item Nonlinear: no further constraints.
+  \end{enumerate}
+\item
+  \begin{enumerate}
+  \item Unconstrained: Optimal solution searched in full \(\RR^n\). Easier to characterize, and
+    usually to solve.
+  \item Constrained: Optimal solution in an admissible region, usually more difficult to
+    setup/characterize.
+  \end{enumerate}
+\end{enumerate}
+
+\paragraph{Convexity.}
+A set \(X\) is convex, if for all \(x, y \in X\) and \(\alpha \in [0,1]\):
+\begin{equation*}
+  \alpha x + (1 - \alpha) y \in X.
+\end{equation*}
+This means that \(X\) contains all convex combinations of points from it.
+
+\paragraph{Convex Functions.}
+If \(X\) is a convex set, then \(f: \RR \to \RR\) is called convex if for all \(x, y \in X\) and
+\(\alpha \in [0,1]\):
+\begin{equation*}
+  f(\alpha x + (1 - \alpha) y) \leq \alpha f(x) + (1 - \alpha) f(y).
+\end{equation*}
+
+
+\end{document}
