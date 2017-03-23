@@ -8,6 +8,10 @@
 
 \graphicspath{{figures/}}
 
+\usepackage{todonotes}
+\let\oldtodo\todo
+\renewcommand{\todo}[1]{\oldtodo[noline]{#1}}
+
 \newcommand{\RR}{\mathbb{R}}
 \newcommand{\NN}{\mathbb{N}}
 \newcommand{\ZZ}{\mathbb{Z}}
@@ -148,7 +152,7 @@ convexity, we have for all \(\alpha \in [0, 1)\):
 which contradicts the assumption, so \(x^*\) must also be a global minimum.
 
 Furthermore, the neccessary condition for minima, \(\nabla f(x^*) = 0\), for convex functions
-becomes a sufficient condition.
+becomes a sufficient condition.\todo{why this?}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Gradient Methods}
@@ -178,7 +182,7 @@ by the definition of positive definiteness.
 
 \paragraph{Newton's method.} \(\kth{D} = (\nabla^2 f(\kth{x}))^{-1}\).  Fast convergence, but
 \(\nabla^2 f(\kth{x})\) needs to be positive definite to be invertible.  Corresponds to local
-approximation by a quadratic surface (see below).
+approximation by a quadratic surface (see below). \todo{references to later sections}
   
 \paragraph{Levenberg-Marquart method.} \(\kth{D} = (\nabla^2 f(\kth{x}) + \lambda ()^{-1}\).  Tries
 to fix problems with Newton's method by regularization.
