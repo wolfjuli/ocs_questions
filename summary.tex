@@ -20,6 +20,9 @@
 \newcommand{\kth}[2][k]{#2^{(#1)}}
 \DeclareMathOperator{\diag}{diag}
 
+\usepackage{tocloft}
+\setcounter{tocdepth}{4}
+\cftsetindents{paragraph}{2ex}{2ex}
 
 \title{Summary of OCS Slides}
 \author{Philipp Gabler}
@@ -27,6 +30,8 @@
 
 \begin{document}
 \maketitle
+
+\tableofcontents
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
@@ -242,6 +247,23 @@ until we find one for which the decrease in the objective is sufficiently large.
 \includegraphics[width=\textwidth]{armijo.png}
 \caption{Graphical interpretation of Armijo rule.\label{fig:armijo}}
 \end{figure}
+
+\paragraph{Termination of Gradient Methods.}
+Gradient methods are not automatically convergent, so we need some stopping criterion.  The standard
+approach is to terminate iteration based on the norm of the gradient:
+\begin{equation*}
+  \lVert \nabla f(\kth{x}) \rVert \leq \epsilon,
+\end{equation*}
+for some reasonable \(\epsilon > 0\).  Since the absolute sizes of the gradients are not
+neccessarily meaningful, a better criterion is
+\begin{equation*}
+  \frac{\lVert \nabla f(\kth{x}) \rVert}{\lVert \nabla f(\kth[0]{x}) \rVert} \leq \epsilon.
+\end{equation*}
+Assuming we have diagonal scaling, we can also use
+\(\lVert \kth{D} \nabla f(\kth[0]{x}) \rVert \leq \epsilon\).
+
+If \(\nabla^2 f(x)\) is positive definite, we have a strongly convex problem, and the norm of the
+gradient actually bounds the distance to a local minimum \(\lVert x - x^* \rVert\).
 
 
 \end{document}
