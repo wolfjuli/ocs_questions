@@ -1,23 +1,25 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{commath}
 
+\usepackage{graphicx}
+\usepackage{float}
 \graphicspath{{figures/}}
 
 \usepackage{todonotes}
 \let\oldtodo\todo
 \renewcommand{\todo}[1]{\oldtodo[noline]{#1}}
 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{commath}
 \newcommand{\RR}{\mathbb{R}}
 \newcommand{\NN}{\mathbb{N}}
 \newcommand{\ZZ}{\mathbb{Z}}
 \newcommand{\T}[1]{#1^{\top}}
 \newcommand{\kth}[2][k]{#2^{(#1)}}
 \DeclareMathOperator{\diag}{diag}
+
 
 \title{Summary of OCS Slides}
 \author{Philipp Gabler}
@@ -137,6 +139,9 @@ By second order Taylor expansion, we get
 From this follows that \(\T{\Delta x} \nabla^2 f(x^*) \Delta x \geq 0\).  Since \(\Delta x\) is
 arbitrary, this means that \(\nabla^2 f(x^*)\) must be positive semidefinite.
 
+A point which has this property is called a \emph{stationary point}.  In ``normal'' cases, it is
+either a local optimum or a saddle point.
+
 \paragraph{Sufficient Condition for Optimality.}
 If for a point \(x^*\) we have \(\T{\nabla f(x^*)} = 0\) and \(\nabla^2 f(x^*)\) positive
 \emph{definite} (no ``semi-''!), then \(x^*\) is a strict unconstrained local minimum of
@@ -178,24 +183,65 @@ definite \(\kth{D}\):
 \end{equation*}
 by the definition of positive definiteness.
 
-\paragraph{Steepest descent.} \(\kth{D} = I\). Simple, but slow convergence.
-
-\paragraph{Newton's method.} \(\kth{D} = (\nabla^2 f(\kth{x}))^{-1}\).  Fast convergence, but
+\begin{enumerate}
+\item Steepest descent: \(\kth{D} = I\). Simple, but slow convergence.
+\item Newton's method: \(\kth{D} = (\nabla^2 f(\kth{x}))^{-1}\).  Fast convergence, but
 \(\nabla^2 f(\kth{x})\) needs to be positive definite to be invertible.  Corresponds to local
 approximation by a quadratic surface (see below). \todo{references to later sections}
-  
-\paragraph{Levenberg-Marquart method.} \(\kth{D} = (\nabla^2 f(\kth{x}) + \lambda ()^{-1}\).  Tries
+\item Levenberg-Marquart method: \(\kth{D} = (\nabla^2 f(\kth{x}) + \lambda I)^{-1}\).  Tries
 to fix problems with Newton's method by regularization.
-
-\paragraph{Diagonal scaling.} \(\kth{D} = \diag(\kth{d}_1, \ldots, \kth{d}_n)\). E.g. approximating
+\item Diagonal scaling: \(\kth{D} = \diag(\kth{d}_1, \ldots, \kth{d}_n)\). E.g. approximating
 Newton's method with
 \begin{equation*}
   \kth{d}_i = \left( \pd[2]{f}{x_i}(\kth{x}) \right)^{-1}.
 \end{equation*}
-
-\paragraph{Gauss-Newton method.} For a nonlinear least-squares problem
+\item Gauss-Newton method: For a nonlinear least-squares problem
 \(f(x) = \frac{1}{2} \lVert g(x) \rVert^2\), we can choose
-\(\kth{D} = \left( \nabla g(\kth{x} \T{\nabla g(\kth{x})} \right)^{-1}\).  This is related to the
+\(\kth{D} = ( \nabla g(\kth{x} \T{\nabla g(\kth{x})})^{-1}\).  This is related to the
 pseudo-inverse.
+\end{enumerate}
+
+\paragraph{Step Size Selection.}
+To ensure convergence and performance, \(\kth{\alpha}\) needs to be chosen with care.
+Theoretically, it is not enough set it such that \(f(\kth[k+1]{x}) < f(\kth{x})\); there are
+counterexamples for which this holds, but \(\lim_{, \to \infty} f(\kth{x}) > f(x^*)\), e.g., when
+the step sequence in the limit oscillates between two values on the opposite sides of a ``bowl''.
+
+Some usual approaches to choosing the step size are:
+\begin{enumerate}
+\item Minimization rule: choose \(\kth{\alpha}\) such that the minimum in the descent direction is
+  taken, i.e.
+  \begin{equation*}
+    f(\kth{x} + \kth{\alpha}\kth{d}) = \min_{\alpha \geq 0} f(\kth{x} + \alpha\kth{d}).
+  \end{equation*}
+\item Limited minimization rule: ``heuristically'' search the best \(\kth{\alpha}\) in some set,
+  like in an interval \([0, s]\) or among some values \(\{\beta^0 s, \beta^1 s, \ldots \}\) for some
+  fixed \(\beta \in (0, 1)\) and \(s > 0\).
+\item Constant step size: sometimes, an optimal (or good enough) value \(\kth{\alpha} = s\) can be
+  computed from the objective function in advance.
+\item Diminishing step size: choose a decreasing sequence with
+  \(\lim_{k \to \infty} \kth{\alpha} = 0\) and \(\sum_{k = 0}^{\infty} \kth{\alpha} = \infty\).  The
+  latter is sufficient to ensure convergence (we can never ``run out of space'' before the optimum
+  is reached).  This has good theoretical properties for some setups, but the convergence rate can
+  be quite slow.
+\end{enumerate}
+
+\paragraph{Armijo Rule.}
+This is a special method for step size selection, which has nice theoretical properties (e.g. using
+it, the \(\kth{x}\) always converge to a stationary point).  To apply it, we fix scalars \(s\), \(0 <
+\beta < 1\), and \(0 < \sigma < 1\), and set \(\kth{\alpha} = \beta^{m_k} s\), where we choose
+\(m_k\) as the first nonnegative integer for which
+\begin{equation*}
+  f(\kth{x} + \beta^{m_k} s \kth{d}) - f(\kth{x}) \leq \sigma \beta^{m_k} s \nabla \T{f(\kth{x})} \kth{d}.
+\end{equation*}
+
+The interpretation of this is that we try out the step sizes \(\beta^{m_k} s\) in decreasing order,
+until we find one for which the decrease in the objective is sufficiently large.
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{armijo.png}
+\caption{Graphical interpretation of Armijo rule.\label{fig:armijo}}
+\end{figure}
+
 
 \end{document}
