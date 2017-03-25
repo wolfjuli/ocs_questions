@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
+\usepackage{hyperref}
 
 \usepackage{graphicx}
 \usepackage{float}
@@ -12,6 +13,7 @@
 
 \usepackage{amsmath}
 \usepackage{amssymb}
+% \usepackage{amsthm}
 \usepackage{commath}
 \newcommand{\RR}{\mathbb{R}}
 \newcommand{\NN}{\mathbb{N}}
@@ -20,9 +22,16 @@
 \newcommand{\kth}[2][k]{#2^{(#1)}}
 \DeclareMathOperator{\diag}{diag}
 
+\newcounter{summary}[section]
+\newcommand{\summary}[1]{%
+  \paragraph{\arabic{section}.\arabic{summary}\enspace #1.}\refstepcounter{summary}}
+\renewcommand{\thesummary}{\thesection .\arabic{summary}}
+
 \usepackage{tocloft}
 \setcounter{tocdepth}{4}
-\cftsetindents{paragraph}{2ex}{2ex}
+\cftsetindents{paragraph}{0ex}{5ex}
+
+\hyphenation{Lip-schitz}
 
 \title{Summary of OCS Slides}
 \author{Philipp Gabler}
@@ -32,11 +41,15 @@
 \maketitle
 
 \tableofcontents
+\newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent First of all, the \href{http://web.mit.edu/6.252/www/LectureNotes/}{material} by the
+course of Dimitri P. Bertsekas cover pretty much the same material. What a coincidence.
+
 \section{Introduction}
 
-\paragraph{General Form.} A general minimization problem has the form
+\summary{General Form} A general minimization problem has the form
 \begin{equation*}
   \min_{x} f(x) \quad \text{s.t. } x \in X,
 \end{equation*}
@@ -47,7 +60,8 @@ and an \emph{objective function} \(f: X \to \RR\).  We want to find an optimal v
   f(x^*) \leq f(x), \quad \forall x \in X.
 \end{equation*}
 
-\paragraph{Types of Optimization Problems.}
+
+\summary{Types of Optimization Problems}
 \begin{enumerate}
 \item
   \begin{enumerate}
@@ -78,14 +92,16 @@ and an \emph{objective function} \(f: X \to \RR\).  We want to find an optimal v
   \end{enumerate}
 \end{enumerate}
 
-\paragraph{Convexity.}
+
+\summary{Convexity}
 A set \(X\) is convex, if for all \(x, y \in X\) and \(\alpha \in [0,1]\):
 \begin{equation*}
   \alpha x + (1 - \alpha) y \in X.
 \end{equation*}
 This means that \(X\) contains all convex combinations of points from it.
 
-\paragraph{Convex Functions.}
+
+\summary{Convex Functions}
 If \(X\) is a convex set, then \(f: \RR \to \RR\) is called convex if for all \(x, y \in X\) and
 \(\alpha \in [0,1]\):
 \begin{equation*}
@@ -93,19 +109,22 @@ If \(X\) is a convex set, then \(f: \RR \to \RR\) is called convex if for all \(
 \end{equation*}
 This means that no points lie below any tangent.
 
-\paragraph{Level Sets.}
+
+\summary{Level Sets}
 For an objective function \(f: X \to \RR\), and \(c \in \RR\), the sets
 \begin{equation*}
   S_c(f) = \{x \in X: f(x) = c\}
 \end{equation*}
 are called \emph{level sets} of \(f\). They can be convex even if \(f\) is not!
 
-\paragraph{Definiteness.}
-A matrix \(Q\) is called \emph{positive semidefinite} if \(\T{x} Q x \geq 0\) for all \(x\).  \(Q\)
-is called \emph{positive definite} if \(\T{x} Q x > 0\) for all \(x \neq 0\).  Sometimes this is
-written as \(Q \succeq 0\) and \(Q \succ 0\).
 
-\paragraph{Local and Global Minima.}
+\summary{Definiteness} A matrix \(Q\) is called \emph{positive semidefinite} if
+\(\T{x} Q x \geq 0\) for all \(x\).  \(Q\) is called \emph{positive definite} if \(\T{x} Q x > 0\)
+for all \(x \neq 0\).  Sometimes this is written as \(Q \succeq 0\) and
+\(Q \succ 0\).\footnote{\url{https://en.wikipedia.org/wiki/Positive-definite_matrix}}
+
+
+\summary{Local and Global Minima}
 A point \(x^*\) is called an \emph{unconstrained global minimum} of \(f\) if for all \(x\)
 \begin{equation*}
   f(x^*) \leq f(x).
@@ -117,7 +136,8 @@ neighbourhood; i.e., there is an \(\epsilon > 0\) such that
 \end{equation*}
 For \emph{constrained} minima, we just require additionally that \(x \in X \subset \RR^n\).
 
-\paragraph{First Order Neccessary Condition for Optimality.}
+
+\summary{First Order Neccessary Condition for Optimality}
 In a small neighbourhood of \(x^*\), we can by Taylor expansion write \(f\) as
 \begin{equation*}
   f(x) = f(x^* + \Delta x) = f(x^*) + \T{\nabla f(x^*)} \Delta x + o(\lVert \Delta x \rVert).
@@ -133,7 +153,8 @@ Since wlog. we can choose \(\Delta x\) to have the opposite sign, it holds also 
 so \(\T{\nabla f(x^*)} \Delta x = 0\), which, since \(\Delta x\) is arbitrary, implies that
 \(\nabla f(x^*) = 0\).
 
-\paragraph{Second Order Neccessary Condition for Optimality.}
+
+\summary{Second Order Neccessary Condition for Optimality}
 By second order Taylor expansion, we get
 \begin{align*}
   0 &\leq f(x^* + \Delta x) - f(x^*) \\
@@ -147,12 +168,14 @@ arbitrary, this means that \(\nabla^2 f(x^*)\) must be positive semidefinite.
 A point which has this property is called a \emph{stationary point}.  In ``normal'' cases, it is
 either a local optimum or a saddle point.
 
-\paragraph{Sufficient Condition for Optimality.}
+
+\summary{Sufficient Condition for Optimality}
 If for a point \(x^*\) we have \(\T{\nabla f(x^*)} = 0\) and \(\nabla^2 f(x^*)\) positive
 \emph{definite} (no ``semi-''!), then \(x^*\) is a strict unconstrained local minimum of
 f. 
 
-\paragraph{Minima of Convex Functions.}
+
+\summary{Minima of Convex Functions}
 For a convex function \(f\), local minima are also global minima: suppose \(x*\) were a local, but
 not global minimum. Then there must be some \(y^* \neq x^*\) with \(f(y^*) < f(x^*)\).  By
 convexity, we have for all \(\alpha \in [0, 1)\):
@@ -167,7 +190,7 @@ becomes a sufficient condition.\todo{why this?}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Gradient Methods}
 
-\paragraph{Basic Idea.}
+\summary{Basic Idea}\label{gradient_methods}
 To find a minimum of \(f\), we construct a sequence \(\kth{x}\) such that for all \(k\),
 \(f(\kth[k+1]{x}) < f(\kth{x})\).  To do that, we choose an initial \(\kth[0]{x}\) and then set
 \begin{equation*}
@@ -180,7 +203,8 @@ satisfy
 \end{equation*}
 where \(\pd{f}{{\kth{d}}}\) is the directional derivative in direction \(\kth{d}\).
 
-\paragraph{Matrix-Scaled Gradients.}
+
+\summary{Matrix-Scaled Gradients}
 Given the above form, one can choose \(\kth{d} = -\kth{D} \nabla f(\kth{x})\) for a positive
 definite \(\kth{D}\):
 \begin{equation*}
@@ -206,7 +230,8 @@ Newton's method with
 pseudo-inverse.
 \end{enumerate}
 
-\paragraph{Step Size Selection.}
+
+\summary{Step Size Selection}
 To ensure convergence and performance, \(\kth{\alpha}\) needs to be chosen with care.
 Theoretically, it is not enough set it such that \(f(\kth[k+1]{x}) < f(\kth{x})\); there are
 counterexamples for which this holds, but \(\lim_{, \to \infty} f(\kth{x}) > f(x^*)\), e.g., when
@@ -231,7 +256,8 @@ Some usual approaches to choosing the step size are:
   be quite slow.
 \end{enumerate}
 
-\paragraph{Armijo Rule.}
+
+\summary{Armijo Rule}
 This is a special method for step size selection, which has nice theoretical properties (e.g. using
 it, the \(\kth{x}\) always converge to a stationary point).  To apply it, we fix scalars \(s\), \(0 <
 \beta < 1\), and \(0 < \sigma < 1\), and set \(\kth{\alpha} = \beta^{m_k} s\), where we choose
@@ -241,14 +267,16 @@ it, the \(\kth{x}\) always converge to a stationary point).  To apply it, we fix
 \end{equation*}
 
 The interpretation of this is that we try out the step sizes \(\beta^{m_k} s\) in decreasing order,
-until we find one for which the decrease in the objective is sufficiently large.
+until we find one for which the decrease in the objective is sufficiently large (see
+Fig.~\ref{fig:armijo}).
 
-\begin{figure}[H]
+\begin{figure}[h]
 \includegraphics[width=\textwidth]{armijo.png}
 \caption{Graphical interpretation of Armijo rule.\label{fig:armijo}}
 \end{figure}
 
-\paragraph{Termination of Gradient Methods.}
+
+\summary{Termination of Gradient Methods}
 Gradient methods are not automatically convergent, so we need some stopping criterion.  The standard
 approach is to terminate iteration based on the norm of the gradient:
 \begin{equation*}
@@ -263,7 +291,94 @@ Assuming we have diagonal scaling, we can also use
 \(\lVert \kth{D} \nabla f(\kth[0]{x}) \rVert \leq \epsilon\).
 
 If \(\nabla^2 f(x)\) is positive definite, we have a strongly convex problem, and the norm of the
-gradient actually bounds the distance to a local minimum \(\lVert x - x^* \rVert\).
+gradient actually bounds the distance to a local minimum \(\enVert{x - x^*}\).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Convergence Analysis}
+
+\summary{Gradient Related Condition}
+A sequence of descent directions \(\{\kth{d}\}\) is called \emph{gradient related} to a step
+sequence \(\{\kth{x}\}\), if for any subsequence \(\{\kth{x}\}_{k \in \mathcal{K}}\) converging to a
+nonstationary point, the corresponding subsequence \(\{\kth{d}\}_{k \in \mathcal{K}}\) is bounded
+and satisfies
+\begin{equation*}
+  \limsup_{k \in \mathcal{K} \to \infty} \T{\nabla f(\kth{x})} \kth{d} < 0.
+\end{equation*}
+The interpretation of this is that in the limit, \(\kth{d}\) is still a descent direction (see
+Summary~\ref{gradient_methods}).
+
+This is, for example, satisfied for \(\kth{d} = -\kth{D}\nabla f(\kth{x})\), when the eigenvalues of
+\(\kth{D}\) are bounded between zero and a positive constant.  It fails if the directions get more
+and more orthogonal to the gradient; a counterexample would be a sequence which oscillates in the
+limit, due to a badly chosen step size (there, all finite directions are descent directions, but
+they get ``worse'' in the limit).
+
+
+\summary{Lipschitz continuity}
+A continuously differentiable function \(f: \RR^n \to \RR\) is called \emph{Lipschitz continuous},
+if there is value \(L \geq 0\), called \emph{Lipschitz constant}, such that for all \(x, y \in
+\RR^n\) and \(t \in [0, 1]\):
+\begin{equation*}
+  \enVert{\nabla f(x + ty) - \nabla f(x)} \leq Lt \enVert{y}.
+\end{equation*}
+Intuitively, a Lipschitz continuous function is limited in how fast it can change: there exists a
+Lipschitz constant such that, for every pair of points on the graph of this function, the absolute
+value of the slope of the line connecting them is not greater than this
+constant.\footnote{\url{https://en.wikipedia.org/wiki/Lipschitz_continuity}}
+
+A function \(\RR \to \RR\) is Lipschitz continuous with \(L = \sup_x |g'(x)|\) if and only if it has
+bounded first derivative.
+
+
+\summary{Descent Lemma} Let \(f: \RR^n \to \RR\) be Lipschitz continuous with Lipschitz constant
+\(L\).  Then for all \(x, y\), we have the following quadratic upper bound on the objective function
+at \(x\):
+\begin{equation*}
+  f(x + y) \leq f(x) + \T{\nabla f(x)}y + \frac{L}{2}\enVert{y}^2.
+\end{equation*}
+
+Derivation: let \(g(t) = f(x + ty)\) for \(t \in [0, 1]\).
+\begin{align*}
+  f(x + y) - f(x) &= g(1) - g(0) \\
+                  &= \int_0^1 \dod{g}{t}(t) \dif t \\
+                  &= \int_0^1 \T{\nabla f(x + ty)} y \dif t \\
+                  &= \int_0^1 \T{\nabla f(x)} y \dif t
+                    + \int_0^1 \left( \T{\nabla f(x + ty)} - \T{\nabla f(x)} \right) \cdot y \dif t \\
+                  &\overset{(*)}{\leq} \int_0^1 \T{\nabla f(x)} y \dif t
+                    + \int_0^1 \enVert[1]{\nabla f(x + ty) - \nabla f(x)}\! \cdot \enVert[1]{y} \dif t \\
+                  &\leq \T{\nabla f(x)} y + \enVert[1]{y} \int_0^1 Lt\enVert[1]{y} \dif t \\
+                  &= \T{\nabla f(x)} y + \frac{L}{2}\enVert[1]{y}^2,
+\end{align*}
+where (1) is an application of the Cauchy-Schwarz theorem
+\(\langle x, y \rangle \leq \enVert{x} \cdot \enVert{y}\), and (2) follows from Lipschitz
+continuity.
+
+
+
+\summary{Interpretation of Descent Lemma}
+We can express the lemma in terms of a step sequence \(\{\kth{x}\}\) by substituting \(\{x
+\mapsto \kth{x}, y \mapsto (x - \kth{x})\}\):
+\begin{equation*}
+  f(x) \leq f(\kth{x}) + \T{\nabla f(\kth{x})}(x - \kth{x}) + \frac{L}{2}\enVert[1]{x - \kth{x}}^2.
+\end{equation*}
+This is actually a local upper bound of \(f\) at \(x\) by a quadratic function, which we can
+optimize analytically by derivation:
+\begin{gather*}
+  \nabla f(\kth{x}) + L (x - \kth{x}) \overset{!}{=} 0\\
+  \quad \Rightarrow x = \kth{x} - \frac{1}{L} \nabla f(\kth{x})
+\end{gather*}
+Convergent step size methods relate to this fact.
+
+
+\summary{Convergence with Constant Step Size}
+
+Derivation: by Lipschitz continuity we have
+\begin{align*}
+  f(\kth{x} + \kth{\alpha}\kth{d}) - f(\kth{x})
+  &\leq \overbrace{\T{\nabla f(\kth{x})} \kth{d}}^{< 0} \kth{\alpha} +
+    \frac{1}{2} (\kth{\alpha})^2 L \enVert[1]{\kth{d}}^2 \\
+  &= \underbrace{\kth{\alpha} \left( \frac{1}{2} \kth{\alpha} L \enVert[1]{\kth{d}}^2
+    - \envert[1]{\nabla f(\kth{x}) \kth{d}} \right)}_{A}
+\end{align*}
 
 \end{document}
