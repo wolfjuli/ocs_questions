@@ -429,4 +429,44 @@ This would however contradict to \(\kth{d}\) being gradient related, since it im
 Therefore, every accumulation point \(\bar{x}\) of \(\{\kth{x}\}\) must be stationary
 (\(\nabla f(\bar{x}) = 0\)).
 
+\summary{Convergence with Armijo Rule}
+\todo{TODO}
+
+\summary{Convergence Rates}
+Important for practical problems, to compare different algorithms.  Is usually measured in terms of
+a step-dependent error function \(e: \RR^n \to \RR\) with \(e(x^*) = 0\).  Common choices are
+\begin{equation*}
+  e(x) = \enVert[1]{x - x^*}, \quad\text{or} \\
+  e(x) = f(x) - f(x^*)
+\end{equation*}
+We are interested in the asymptotic behaviour of \(e\), in terms of how much better the method
+improves for every step.  We have:
+\begin{enumerate}
+\item Sublinear convergence, if for all \(k\)
+  \begin{equation*}
+    \limsup_{k \to \infty} \frac{e(\kth[k+1]{x})}{e(\kth{x})} = 1.
+  \end{equation*}
+\item Linear convergence, if for all \(k\)
+  \begin{equation*}
+    \limsup_{k \to \infty}
+    \frac{e(\kth[k+1]{x})}{e(\kth{x})} \leq \beta \in (0, 1).
+  \end{equation*}
+\item Superlinear convergence, if for all \(k\)
+  \begin{equation*}
+    \limsup_{k \to \infty} \frac{e(\kth[k+1]{x})}{e(\kth{x})} = 0.
+  \end{equation*}
+  (which does not imply that the method does not converge!)
+\end{enumerate}
+Alternatively, we can compare \(e\) to a standard sequence of powers: if there exist \(q > 0\),
+\(\beta \in (0, 1)\), and \(p \geq 1\) such that
+\begin{equation*}
+  e(\kth{x}) \leq q \beta^{p^k},
+\end{equation*}
+we have linear convergence if \(p = 1\), and superlinear convergence of order \(p\) if \(p > 1\).
+The latter is equivalent to
+\begin{equation*}
+  \limsup_{k \to \infty} \frac{e(\kth[k+1]{x})}{e(\kth{x})^p} < \infty.
+\end{equation*}
+\todo{derivations for some rates? analysis of quadratic model?}
+
 \end{document}
