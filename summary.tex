@@ -21,6 +21,7 @@
 \newcommand{\T}[1]{#1^{\top}}
 \newcommand{\kth}[2][k]{#2^{(#1)}}
 \DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator*{\argmin}{arg min}
 
 \newcounter{summary}[section]
 \newcommand{\summary}[1]{%
@@ -547,5 +548,49 @@ simply a large enough multiple of \(I\), or more advanced methods like modified 
 factorization\footnote{\url{https://www.gnu.org/software/gsl/manual/html_node/Modified-Cholesky-Decomposition.html}}
 or a combination of a dampening factor with a trust
 region\footnote{\url{https://en.wikipedia.org/wiki/Trust_region}}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Least Squares Optimization}
+
+\summary{General Form}
+We want to minimize a function
+\begin{equation*}
+  f(x) = \frac{1}{2} \enVert[1]{g(x)}^2 = \frac{1}{2} \sum_i \enVert[1]{g_i(x)}^2,
+\end{equation*}
+for a continuously differentiable function \(g\) with components \(g_i\), which can be linear or
+nonlinear.  This is equivalent to solving the problem \(g(x) = 0\).
+
+\summary{Gauss-Newton Method}
+To get a step method, we replace \(g(x)\) by a local approximation around \(\kth{x}\):
+\begin{equation*}
+  \tilde{g}(x, \kth{x}) = g(\kth{x}) + \T{\nabla g(\kth{x})}(x - \kth{x}).
+\end{equation*}
+Then we have a quadratic problem:
+\begin{align*}
+  \kth[k+1]{x} &= \argmin_{x \in \RR^n} \frac{1}{2} \enVert[1]{\tilde{g}(x, \kth{x})}^2 \\
+               &= \argmin_{x \in \RR^n} \frac{1}{2} \enVert[1]{g(\kth{x}) + \T{\nabla g(\kth{x})}(x -
+                 \kth{x})}^2 \\
+  \Rightarrow\hspace{1.125cm} 0 &\overset{!}{=} \frac{1}{2} \left( \enVert[1]{g(\kth{x})}^2
+      + 2\T{(x - \kth{x})} \nabla g(\kth{x}) g(\kth{x})
+      + \T{(x - \kth{x})} \nabla g(\kth{x}) \T{\nabla g(\kth{x})} g(\kth{x}) \right) \\
+  \Rightarrow\quad \kth[k+1]{x} &= \kth{x} - \left(\nabla g(\kth{x}) \T{\nabla
+                                  g(\kth{x})}\right)^{-1}
+                                  \nabla g(\kth{x}) g(\kth{x}),
+\end{align*}
+assuming that \((\nabla g(\kth{x}) \T{\nabla g(\kth{x})}\) is invertible.
+
+
+\summary{Levenberg-Marquardt Method}
+To ensure that \((\nabla g(\kth{x}) \T{\nabla g(\kth{x})}\) is invertible, and the descent direction
+is actually gradient related, one can use a modified iteration
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} - \kth{\alpha}\left(\nabla g(\kth{x}) \T{\nabla g(\kth{x})} + \kth{\delta} I\right)^{-1}
+  \nabla g(\kth{x}) g(\kth{x}),
+\end{equation*}
+where \(\kth{\alpha}\) can be chosen by the Armijo rule, and \(\kth{\delta} > 0\).
+
+
+
 
 \end{document}
