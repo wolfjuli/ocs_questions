@@ -190,7 +190,7 @@ becomes a sufficient condition.\todo{why this?}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Gradient Methods}
 
-\summary{Basic Idea}\label{gradient_methods}
+\summary{Basic Idea}\label{s:gradient_methods}
 To find a minimum of \(f\), we construct a sequence \(\kth{x}\) such that for all \(k\),
 \(f(\kth[k+1]{x}) < f(\kth{x})\).  To do that, we choose an initial \(\kth[0]{x}\) and then set
 \begin{equation*}
@@ -305,7 +305,7 @@ and satisfies
   \limsup_{k \in \mathcal{K} \to \infty} \T{\nabla f(\kth{x})} \kth{d} < 0.
 \end{equation*}
 The interpretation of this is that in the limit, \(\kth{d}\) is still a descent direction (see
-Summary~\ref{gradient_methods}).
+Summary~\ref{s:gradient_methods}).
 
 This is, for example, satisfied for \(\kth{d} = -\kth{D}\nabla f(\kth{x})\), when the eigenvalues of
 \(\kth{D}\) are bounded between zero and a positive constant.  It fails if the directions get more
@@ -330,7 +330,8 @@ A function \(\RR \to \RR\) is Lipschitz continuous with \(L = \sup_x |g'(x)|\) i
 bounded first derivative.
 
 
-\summary{Descent Lemma} Let \(f: \RR^n \to \RR\) be Lipschitz continuous with Lipschitz constant
+\summary{Descent Lemma}\label{s:descent_lemma}
+Let \(f: \RR^n \to \RR\) be Lipschitz continuous with Lipschitz constant
 \(L\).  Then for all \(x, y\), we have the following quadratic upper bound on the objective function
 at \(x\):
 \begin{equation*}
@@ -355,7 +356,7 @@ continuity.
 
 
 
-\summary{Interpretation of Descent Lemma}
+\summary{Interpretation of Descent Lemma}\label{s:descent_lemma_interpretation}
 We can express the lemma in terms of a step sequence \(\{\kth{x}\}\) by substituting \(\{x
 \mapsto \kth{x}, y \mapsto (x - \kth{x})\}\):
 \begin{equation*}
@@ -468,5 +469,83 @@ The latter is equivalent to
   \limsup_{k \to \infty} \frac{e(\kth[k+1]{x})}{e(\kth{x})^p} < \infty.
 \end{equation*}
 \todo{derivations for some rates? analysis of quadratic model?}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Newton's Method and Variants}
+
+\summary{Basic Idea}
+A second order method, which is one of the fastest gradient methods.  We generate the sequence
+\(\{\kth{x}\}\) based on
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} - \kth{\alpha}\left( \nabla^2 f(\kth{x}) \right)^{-1} \nabla f(\kth{x}),
+\end{equation*}
+where we assume that the direction \((\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}\) is
+defined and a descent direction.
+
+This has three problems when we are far from a local minimum:
+\begin{enumerate}
+\item The Hessian can be singular~-- we what are reasonable approximations in this case?
+\item The Hessian is convex~-- it attracts local maxima as well as minima.  Thus, we must choose the
+  step size carfully.
+\item The direction might not be a descent direction.
+\end{enumerate}
+Variants of the method deal with this, to ensure convergence globally while maintaining the fast
+convergence rate.
+
+
+\summary{Derivation of Newton's Method from Taylor Expansion}
+
+By Taylor approximation: Given a point \(\kth{x}\), we can approximate a function
+\(f \in \mathcal{C}^2\) locally as
+\begin{equation*}
+  f^k(x) = f(\kth{x}) + \T{\nabla f(\kth{x})}(x - \kth{x})
+  + \frac{1}{2} \T{(x - \kth{x})} \nabla^2 f(\kth{x})(x - \kth{x}).
+\end{equation*}
+Compare this to the Descent Lemma (Summary~\ref{s:descent_lemma_interpretation})~-- there,
+\(\nabla^2 f\) is approximated by \(L\), with some transformation of the metric.
+
+We can analytically minimize this approximation, which gives the stated update rule:
+\begin{align*}
+  \nabla f^k(x) = \nabla f(\kth{x}) + \nabla^2 f(\kth{x})(x - \kth{x}) &\overset{!}{=} 0 \\
+  \nabla^2 f(\kth{x})(x - \kth{x}) &= -\nabla f(\kth{x}) \\
+  (x - \kth{x}) &= -(\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}) \\
+  x = \kth[k+1]{x} &= \kth{x} - (\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}).
+\end{align*}
+
+\summary{Relation of Newton's Method to Equation Solving}
+The general for of Newton's method is not used for optimization, but for solving equations of the
+form \(g(x) = 0\), where \(g: \RR^n \to \RR^n \in \mathcal{C}^1\).  For this problem, the method has the form
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} - (\T{\nabla g(\kth{x})})^{-1} g(\kth{x}).
+\end{equation*}
+A method converging to a stationary point results from setting \(g(x) = \nabla f(x)\), implying a
+symmetric matrix \(\T{\nabla g(x)} = \nabla^2 f(x)\).
+
+
+\summary{Local convergence} For a local optimum \(x^*\) of \(f\), we must have
+\(\nabla f(x^*) = 0\), or, by the above relation to equation solving, \(g(x^*) = 0\).  Now, suppose
+\(\kth{x} \to x\) and \(\nabla f(x^*)\) is nonsingular.  Expanding \(g\) around \(x^*\), we get
+\begin{equation*}
+  0 = g(x^*) = g(\kth{x}) + \T{\nabla g(\kth{x})} (x^* - \kth{x}) + o\!\del[1]{\,\enVert[1]{x^* - \kth{x}}};
+\end{equation*}
+multiplying from the left with \((\T{\nabla g(\kth{x})})^{-1}\), this is
+\begin{gather*}
+  \kth{x} - x^* - (\T{\nabla g(\kth{x})})^{-1} g(\kth{x}) = \kth[k+1]{x} - x^* = o\!\del[1]{\,\enVert[1]{x^* - \kth{x}}} \\
+  \Rightarrow \quad \lim_{k \to \infty} \frac{\enVert[1]{\kth[k+1]{x} - x^*}}{\enVert[1]{\kth{x} - x^*}} = 0,
+\end{gather*}
+therefore we have superlinear convergence.
+
+
+\summary{Global Convergence by Diagonal Modifications} To solve the problems mentioned above, when
+we are far away from an optimum, we can add a diagonal matrix \(\kth{\Delta}\) to the Hessian, such
+that \(\nabla^2 f(\kth{x}) + \kth{\Delta} \succ 0\).  In that way, we the Newton equation
+\begin{equation*}
+  \left( \nabla^2 f(\kth{x}) + \kth{\Delta} \right) \kth{d} = -\nabla f(\kth{x})
+\end{equation*}
+can be solved, and \(\kth{d}\) is a descent direction.  Some possibilities for \(\kth{\Delta}\) are
+simply a large enough multiple of \(I\), or more advanced methods like modified Cholesky
+factorization\footnote{\url{https://www.gnu.org/software/gsl/manual/html_node/Modified-Cholesky-Decomposition.html}}
+or a combination of a dampening factor with a trust
+region\footnote{\url{https://en.wikipedia.org/wiki/Trust_region}}.
 
 \end{document}
