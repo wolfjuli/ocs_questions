@@ -591,6 +591,14 @@ is actually gradient related, one can use a modified iteration
 where \(\kth{\alpha}\) can be chosen by the Armijo rule, and \(\kth{\delta} > 0\).
 
 
+\summary{Connection of Gauss-Newton to Newton} The target function of a least squares problem,
+\(f(x) = \frac{1}{2}\enVert[0]{g(x)}^2\), with components \(g_i\), has derivatives
+\begin{align*}
+  \nabla f(x) &= \T{\nabla g(x)} g(x), \\
+  \nabla^2 f(x) &= \nabla g(x) \T{\nabla g(x)} + \sum_i \nabla^2 g_i(x) g_i(x).
+\end{align*}
+Neglecting the second-order part in the Hessian, this reduces to a form equivalent to Newton's
+method, but saving the computation of the Hessian (intuitively, \(\nabla^2 g \approx (\nabla g)^2\)).
 
 
 \end{document}
