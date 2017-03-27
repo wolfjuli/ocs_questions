@@ -131,7 +131,7 @@ This means that no points lie below any tangent.  Equivalent to this are the fir
 \begin{equation*}
   f(x) \geq f(y) + \T{\nabla f(y)}(x - y), \quad \forall x, y \in X
 \end{equation*}
-and the secon-order condition
+and the second-order condition
 \begin{equation*}
   \nabla^2 f(x) \succeq 0 \quad \forall x \in X.
 \end{equation*}
@@ -183,7 +183,7 @@ so \(\T{\nabla f(x^*)} \Delta x = 0\), which, since \(\Delta x\) is arbitrary, i
 By second order Taylor expansion, we get
 \begin{align*}
   0 &\leq f(x^* + \Delta x) - f(x^*) \\
-    &= f(x^*) + \underbrace{\T{\nabla f(x^*)} \Delta x}_{= 0} +
+    &= f(x^*) + \underbrace{\T{\nabla f(x^*)} \Delta x}_{=\; 0} +
       \frac{1}{2} \T{\Delta x} \nabla^2 f(x^*) \Delta x + o(\lVert \Delta x \rVert^2) - f(x^*) \\
     &=  \frac{1}{2} \T{\Delta x} \nabla^2 f(x^*) \Delta x + o(\lVert \Delta x \rVert^2).
 \end{align*}
@@ -196,14 +196,17 @@ either a local optimum or a saddle point.
 
 \summary{Sufficient Condition for Optimality}
 
-If for a point \(x^*\) we have \(\T{\nabla f(x^*)} = 0\) and \(\nabla^2 f(x^*)\) positive
-\emph{definite} (no ``semi-''!), then \(x^*\) is a strict unconstrained local minimum of f.
+If for a point \(x^*\) we have
+\begin{equation*}
+  \T{\nabla f(x^*)} = 0 \text{ and } \nabla^2 f(x^*) \succ 0,
+\end{equation*}
+(no ``semi-''!), then \(x^*\) is a strict unconstrained local minimum of f.
 
 
 \summary{Minima of Convex Functions}
 
-For a convex function \(f\), local minima are also global minima: suppose \(x*\) were a local, but
-not global minimum. Then there must be some \(y^* \neq x^*\) with \(f(y^*) < f(x^*)\).  By
+For a convex function \(f\), local minima are also global minima: suppose \(x^*\) were a local, but
+not global minimum.  Then there must be some \(y^* \neq x^*\) with \(f(y^*) < f(x^*)\).  But by
 convexity, we have for all \(\alpha \in [0, 1)\):
 \begin{equation*}
   f(\alpha x^* + (1 - \alpha) y^*) < \alpha f(x^*) + (1 - \alpha) f(y^*) < f(x^*),
@@ -244,10 +247,10 @@ by the definition of positive definiteness.
 \begin{enumerate}
 \item Steepest descent: \(\kth{D} = I\). Simple, but slow convergence.
 \item Newton's method: \(\kth{D} = (\nabla^2 f(\kth{x}))^{-1}\).  Fast convergence, but
-\(\nabla^2 f(\kth{x})\) needs to be positive definite to be invertible.  Corresponds to local
-approximation by a quadratic surface (see below). \todo{references to later sections}
+  \(\nabla^2 f(\kth{x})\) needs to be positive definite to be useful.  Corresponds to local
+  approximation by a quadratic surface (see Summary~\ref{s:newton_method_derivation}).
 \item Levenberg-Marquart method: \(\kth{D} = (\nabla^2 f(\kth{x}) + \lambda I)^{-1}\).  Tries
-to fix problems with Newton's method by regularization.
+to fix problems with Newton's method by regularization (see Summary~\ref{s:levenberg_method}).
 \item Diagonal scaling: \(\kth{D} = \diag(\kth{d}_1, \ldots, \kth{d}_n)\). E.g. approximating
 Newton's method with
 \begin{equation*}
@@ -256,7 +259,7 @@ Newton's method with
 \item Gauss-Newton method: For a nonlinear least-squares problem
 \(f(x) = \frac{1}{2} \lVert g(x) \rVert^2\), we can choose
 \(\kth{D} = ( \nabla g(\kth{x} \T{\nabla g(\kth{x})})^{-1}\).  This is related to the
-pseudo-inverse.
+pseudo-inverse (see Summary~\ref{s:gauss_newton_method}.
 \end{enumerate}
 
 
@@ -264,8 +267,9 @@ pseudo-inverse.
 
 To ensure convergence and performance, \(\kth{\alpha}\) needs to be chosen with care.
 Theoretically, it is not enough set it such that \(f(\kth[k+1]{x}) < f(\kth{x})\); there are
-counterexamples for which this holds, but \(\lim_{, \to \infty} f(\kth{x}) > f(x^*)\), e.g., when
-the step sequence in the limit oscillates between two values on the opposite sides of a ``bowl''.
+counterexamples for which this holds, but \(\lim_{k \to \infty} f(\kth{x}) > f(x^*)\), e.g., when
+the step sequence in the limit oscillates between two values on the opposite sides of a ``bowl''
+(cf. Summary~\ref{s:gradient_related_condition}).
 
 Some usual approaches to choosing the step size are:
 \begin{enumerate}
@@ -299,7 +303,7 @@ it, the \(\kth{x}\) always converge to a stationary point).  To apply it, we fix
 
 The interpretation of this is that we try out the step sizes \(\beta^{m_k} s\) in decreasing order,
 until we find one for which the decrease in the objective is sufficiently large (see
-Fig.~\ref{fig:armijo}).
+Figure~\ref{fig:armijo}).
 
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{armijo.png}
@@ -329,7 +333,7 @@ gradient actually bounds the distance to a local minimum \(\enVert{x - x^*}\).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Convergence Analysis}
 
-\summary{Gradient Related Condition}
+\summary{Gradient Related Condition}\label{s:gradient_related_condition}
 
 A sequence of descent directions \(\{\kth{d}\}\) is called \emph{gradient related} to a step
 sequence \(\{\kth{x}\}\), if for any subsequence \(\{\kth{x}\}_{k \in \mathcal{K}}\) converging to a
@@ -354,15 +358,21 @@ A continuously differentiable function \(f: \RR^n \to \RR\) is called \emph{Lips
 if there is value \(L \geq 0\), called \emph{Lipschitz constant}, such that for all \(x, y \in
 \RR^n\) and \(t \in [0, 1]\):
 \begin{equation*}
-  \enVert{\nabla f(x + ty) - \nabla f(x)} \leq Lt \enVert{y}.
+  \enVert{\nabla f(x + ty) - \nabla f(x)} \leq Lt \enVert{y},
 \end{equation*}
+or more generally
+\begin{equation*}
+  \enVert{f(x) - f(y)} \leq L \envert{x - y}
+\end{equation*}
+for some norm.
+
 Intuitively, a Lipschitz continuous function is limited in how fast it can change: there exists a
 Lipschitz constant such that, for every pair of points on the graph of this function, the absolute
 value of the slope of the line connecting them is not greater than this
 constant.\footnote{\url{https://en.wikipedia.org/wiki/Lipschitz_continuity}}
 
 A function \(\RR \to \RR\) is Lipschitz continuous with \(L = \sup_x |g'(x)|\) if and only if it has
-bounded first derivative.
+a bounded first derivative.
 
 
 \summary{Descent Lemma}\label{s:descent_lemma}
@@ -380,14 +390,13 @@ Derivation: let \(g(t) = f(x + ty)\) for \(t \in [0, 1]\).
                   &= \int_0^1 \T{\nabla f(x + ty)} y \dif t \\
                   &= \int_0^1 \T{\nabla f(x)} y \dif t
                     + \int_0^1 \left( \T{\nabla f(x + ty)} - \T{\nabla f(x)} \right) \cdot y \dif t \\
-                  &\overset{(1)}{\leq} \int_0^1 \T{\nabla f(x)} y \dif t
+                  &\overset{(1)}{\leq}  \T{\nabla f(x)} y
                     + \int_0^1 \enVert[1]{\nabla f(x + ty) - \nabla f(x)}\! \cdot \enVert[1]{y} \dif t \\
                   &\overset{(2)}{\leq} \T{\nabla f(x)} y + \enVert[1]{y} \int_0^1 Lt\enVert[1]{y} \dif t \\
                   &= \T{\nabla f(x)} y + \frac{L}{2}\enVert[1]{y}^2,
 \end{align*}
 where (1) is an application of the Cauchy-Schwarz theorem
-(\(\langle x, y \rangle \leq \enVert{x} \cdot \enVert{y}\)), and (2) follows from Lipschitz
-continuity.
+(\(\langle x, y \rangle \leq \enVert{x} \cdot \enVert{y}\)), and (2) from Lipschitz continuity.
 
 
 \summary{Interpretation of Descent Lemma}\label{s:descent_lemma_interpretation}
@@ -398,7 +407,7 @@ We can express the lemma in terms of a step sequence \(\{\kth{x}\}\) by substitu
   f(x) \leq f(\kth{x}) + \T{\nabla f(\kth{x})}(x - \kth{x}) + \frac{L}{2}\enVert[1]{x - \kth{x}}^2.
 \end{equation*}
 This is actually a local upper bound of \(f\) at \(x\) by a quadratic function, which we can
-optimize analytically by derivation:
+optimize analytically:
 \begin{gather*}
   \nabla f(\kth{x}) + L (x - \kth{x}) \overset{!}{=} 0\\
   \quad \Rightarrow x = \kth{x} - \frac{1}{L} \nabla f(\kth{x})
@@ -409,7 +418,7 @@ Convergent step size methods relate to this fact.
 \summary{Convergence with Constant Step Size}
 
 Assume \(f\) is Lipschitz continuous, and \(\{\kth{x}\}\) is a sequence generated by a gradient
-method with gradient related \(\kth{d} \neq 0\).  The we have
+method with gradient related \(\kth{d} \neq 0\).  By that we have
 \begin{align*}
   f(\kth{x} + \kth{\alpha}\kth{d}) - f(\kth{x})
   &\leq \overbrace{\T{\nabla f(\kth{x})} \kth{d}}^{< 0} \kth{\alpha} +
@@ -475,30 +484,30 @@ Therefore, every accumulation point \(\bar{x}\) of \(\{\kth{x}\}\) must be stati
 
 Important for practical problems, to compare different algorithms.  Is usually measured in terms of
 a step-dependent error function \(e: \RR^n \to \RR\) with \(e(x^*) = 0\).  Common choices are
-\begin{equation*}
-  e(x) = \enVert[1]{x - x^*}, \quad\text{or} \\
+\begin{gather*}
+  e(x) = \enVert[1]{x - x^*}, \text{ or } \\
   e(x) = f(x) - f(x^*)
-\end{equation*}
+\end{gather*}
 We are interested in the asymptotic behaviour of \(e\), in terms of how much better the method
 improves for every step.  We have:
 \begin{enumerate}
-\item Sublinear convergence, if for all \(k\)
+\item Sublinear convergence, if
   \begin{equation*}
     \limsup_{k \to \infty} \frac{e(\kth[k+1]{x})}{e(\kth{x})} = 1.
   \end{equation*}
-\item Linear convergence, if for all \(k\)
+\item Linear convergence, if
   \begin{equation*}
     \limsup_{k \to \infty}
     \frac{e(\kth[k+1]{x})}{e(\kth{x})} \leq \beta \in (0, 1).
   \end{equation*}
-\item Superlinear convergence, if for all \(k\)
+\item Superlinear convergence, if
   \begin{equation*}
     \limsup_{k \to \infty} \frac{e(\kth[k+1]{x})}{e(\kth{x})} = 0.
   \end{equation*}
   (which does not imply that the method does not converge!)
 \end{enumerate}
 Alternatively, we can compare \(e\) to a standard sequence of powers: if there exist \(q > 0\),
-\(\beta \in (0, 1)\), and \(p \geq 1\) such that
+\(\beta \in (0, 1)\), and \(p \geq 1\) such that for all \(k\)
 \begin{equation*}
   e(\kth{x}) \leq q \beta^{p^k},
 \end{equation*}
@@ -534,7 +543,7 @@ Variants of the method deal with this, to ensure convergence globally while main
 convergence rate.
 
 
-\summary{Derivation of Newton's Method from Taylor Expansion}
+\summary{Derivation of Newton's Method from Taylor Expansion}\label{s:newton_method_derivation}
 
 By Taylor approximation: Given a point \(\kth{x}\), we can approximate a function
 \(f \in \mathcal{C}^2\) locally as
@@ -609,8 +618,11 @@ We want to minimize a function
 for a continuously differentiable function \(g\) with components \(g_i\), which can be linear or
 nonlinear.  This is equivalent to solving the problem \(g(x) = 0\).
 
+Usually, a least squares problem is a model fitting problem, where \(g_i(x) = z_i - h(y_i, x)\), for
+a model function \(h\) with parameters \(x\), samples \(y_i\), and targets and \(z_i\).
 
-\summary{Gauss-Newton Method}
+
+\summary{Gauss-Newton Method}\label{s:gauss_newton_method}
 
 To get a step method, we replace \(g(x)\) by a local approximation around \(\kth{x}\):
 \begin{equation*}
@@ -618,12 +630,14 @@ To get a step method, we replace \(g(x)\) by a local approximation around \(\kth
 \end{equation*}
 Then we have a quadratic problem:
 \begin{align*}
-  \kth[k+1]{x} &= \argmin_{x \in \RR^n} \frac{1}{2} \enVert[1]{\tilde{g}(x, \kth{x})}^2 \\
+  \kth[k+1]{x} &\in \argmin_{x \in \RR^n} \frac{1}{2} \enVert[1]{\tilde{g}(x, \kth{x})}^2 \\
                &= \argmin_{x \in \RR^n} \frac{1}{2} \enVert[1]{g(\kth{x}) + \T{\nabla g(\kth{x})}(x -
-                 \kth{x})}^2 \\
-  \Rightarrow\hspace{1.125cm} 0 &\overset{!}{=} \frac{1}{2} \left( \enVert[1]{g(\kth{x})}^2
-      + 2\T{(x - \kth{x})} \nabla g(\kth{x}) g(\kth{x})
-      + \T{(x - \kth{x})} \nabla g(\kth{x}) \T{\nabla g(\kth{x})} g(\kth{x}) \right) \\
+                 \kth{x})}^2
+\end{align*}
+\begin{align*}
+  \Rightarrow\hspace{1.125cm} 0 &\overset{!}{=} \frac{1}{2} \Big(\enVert[1]{g(\kth{x})}^2
+                                  + 2\T{(x - \kth{x})} \nabla g(\kth{x}) g(\kth{x}) \\
+  &\qquad  + \T{(x - \kth{x})} \nabla g(\kth{x}) \T{\nabla g(\kth{x})} g(\kth{x}) \Big) \\
   \Rightarrow\quad \kth[k+1]{x} &= \kth{x} - \left(\nabla g(\kth{x}) \T{\nabla
                                   g(\kth{x})}\right)^{-1}
                                   \nabla g(\kth{x}) g(\kth{x}),
@@ -631,15 +645,15 @@ Then we have a quadratic problem:
 assuming that \((\nabla g(\kth{x}) \T{\nabla g(\kth{x})}\) is invertible.
 
 
-\summary{Levenberg-Marquardt Method}
+\summary{Levenberg-Marquardt Method}\label{s:levenberg_method}
 
-To ensure that \((\nabla g(\kth{x}) \T{\nabla g(\kth{x})}\) is invertible, and the descent direction
-is actually gradient related, one can use a modified iteration
+To ensure that \(\nabla g(\kth{x}) \T{\nabla g(\kth{x})}\) is invertible, and the descent direction
+is actually gradient related, one can use a modified iteration scheme
 \begin{equation*}
   \kth[k+1]{x} = \kth{x} - \kth{\alpha}\left(\nabla g(\kth{x}) \T{\nabla g(\kth{x})} + \kth{\delta} I\right)^{-1}
   \nabla g(\kth{x}) g(\kth{x}),
 \end{equation*}
-where \(\kth{\alpha}\) can be chosen by the Armijo rule, and \(\kth{\delta} > 0\).
+where \(\kth{\alpha}\) can be chosen by the Armijo rule, and \(\kth{\delta} > 0\) large enough.
 
 
 \summary{Connection of Gauss-Newton to Newton}
@@ -656,15 +670,14 @@ method, but saving the computation of the Hessian (intuitively, \(\nabla^2 g \ap
 
 \summary{Incremental Gradient Methods}
 
-Usually, a least squares problem is a model fitting problem, where \(g_i(x) = z_i - h(y_i, x)\), for
-a model function \(h\) with parameters \(x\), samples \(y_i\), and targets and \(z_i\).  Thus, we
-can see each \(g_i\) as a data block, and \(g = (g_1, \ldots, g_m)\) as the data set.  (In machine
-learning terminology, this corresponds to stochastic gradient descent with minibatches for ``data
-blocks''.)
+If a least squares problem is a model fitting problem, where \(g_i(x) = z_i - h(y_i, x)\), for
+samples \(y_i\), and targets and \(z_i\), we can see each \(g_i\) as a data block, and
+\(g = (g_1, \ldots, g_m)\) as the data set.  (In machine learning terminology, this corresponds to
+stochastic gradient descent with minibatches for ``data blocks''.)
 
-If the data set is large, the Gauss-Newton iterations are costly (because the matrix to be inverted
-becomes large).  Sometimes, for example in real-time applications, the data samples also are not
-provided in advance, but only incrementally.  Therefore, we can use the following scheme to
+When this data set is large, the Gauss-Newton iterations are costly (because the matrix to be
+inverted becomes large).  Sometimes, for example in real-time applications, the data samples also
+are not provided in advance, but only incrementally.  Therefore, we can use the following scheme to
 calculate updates based on single samples:
 \begin{align*}
   \kth{\xi}_0 &= \kth{x} \\
@@ -716,7 +729,7 @@ If the \(g_i\) are nonlinear, we can use a linearization at the last available i
   \tilde{g}_i(x, \xi_{i-1}) = g_i(\xi_{i-1}) + \T{\nabla g_i(\xi_{i-1})}(x - \xi_{i-1}), \\
   \xi_i \in \argmin_x \sum_{j=1}^{i} \lambda^{i-j} \enVert[1]{\tilde{g}_j(x, \xi_{i_1})}.
 \end{gather*}
-The iteration scheme stays the same, but we have to adapt the model parts to
+The iteration scheme stays the same, but the model parts must be adapted to
 \begin{align*}
   \tilde{z}_i &= \tilde{g}_i(z_i, \xi_{i-1}), \\
   C_i &= - \T{\nabla g_i(\xi_{i-1})}.
