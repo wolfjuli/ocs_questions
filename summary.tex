@@ -551,7 +551,7 @@ region\footnote{\url{https://en.wikipedia.org/wiki/Trust_region}}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Least Squares Optimization}
+\section{Least Squares Optimization and Model Fitting}
 
 \summary{General Form}
 We want to minimize a function
@@ -560,6 +560,7 @@ We want to minimize a function
 \end{equation*}
 for a continuously differentiable function \(g\) with components \(g_i\), which can be linear or
 nonlinear.  This is equivalent to solving the problem \(g(x) = 0\).
+
 
 \summary{Gauss-Newton Method}
 To get a step method, we replace \(g(x)\) by a local approximation around \(\kth{x}\):
@@ -603,9 +604,9 @@ method, but saving the computation of the Hessian (intuitively, \(\nabla^2 g \ap
 
 \summary{Incremental Gradient Methods} Usually, a least squares problem is a model fitting problem,
 where \(g_i(x) = z_i - h(y_i, x)\), for a model function \(h\) with parameters \(x\), samples
-\(y_i\), and targets and \(z_i\).  Thus, we can see each \(g_i\) as a data block (or minibatch, in
-terms of machine learning terminology), and \(g = (g_1, \ldots, g_m)\) as the data set (or whole
-batch, resp. epoch).
+\(y_i\), and targets and \(z_i\).  Thus, we can see each \(g_i\) as a data block, and
+\(g = (g_1, \ldots, g_m)\) as the data set.  (In machine learning terminology, this corresponds to
+stochastic gradient descent with minibatches for ``data blocks''.)
 
 If the data set is large, the Gauss-Newton iterations are costly (because the matrix to be inverted
 becomes large).  Sometimes, for example in real-time applications, the data samples also are not
@@ -627,4 +628,39 @@ where we base the update on the intermediate \(\kth{\xi}_i\) instead of using th
 This converges very fast in the first iterations, but needs further restictions on the step size to
 ensure global convergence.
 
+
+\summary{Kalman Filter} If the model (ie. the functions \(g_i\)) is linear, one Gauss-Newton
+iteration is enough to find the least squares estimate (this amounts to the analytical solution
+using the Moore-Penrose pseudoinverse).  However, we can develop an incremental method for this,
+avoiding the matrix inversion.  This method is called \emph{Kalman filter}.
+
+Suppose \(g_i(x) = z_i - C_i x_i\), with \(z_i \in \RR^r\) and \(C_i \in \RR^{r \times n}\) (the
+model parameters).  We are interested in a method for finding
+\begin{equation*}
+  \xi_i \in \argmin_x \sum_{j=1}^{i} \lambda^{i-j} \enVert[1]{z_j - C_j x}.
+\end{equation*}
+The optimal solution is then \(x^* = \xi_m\).  For \(\lambda = 1\), this is the least squares fit;
+for \(\lambda < 1\), we ``decay'' the importance of ``older'' samples.  The sequence of \(\xi_i\)
+can be generated iteratively by
+\begin{align*}
+  \xi_i &= \xi_{i-1} + H_i^{-1}\T{C_i}(z_i - C_i \xi_{i-1}), \quad\text{with} \\
+  H_i &= \lambda H_{i-1} + \T{C_i}C_i, \\
+  H_0 &= 0,\quad \xi_0 \text{ arbitrary}.
+\end{align*}
+(\(H_i\) and \(C_i\) are relatively small, compared to \(\nabla f(\kth{x})\).)
+
+Example: for a linear model \(x(t) = l + ft\), with parameters \(f, l\), we use \(C = [1, t]\).
+
+\summary{Extended Kalman Filter}
+If the \(g_i\) are nonlinear, we can use a linearization at the last available iteration
+\(\xi_{i-1}\) to get the \emph{extended Kalman filter}:
+\begin{gather*}
+  \tilde{g}_i(x, \xi_{i-1}) = g_i(\xi_{i-1}) + \T{\nabla g_i(\xi_{i-1})}(x - \xi_{i-1}), \\
+  \xi_i \in \argmin_x \sum_{j=1}^{i} \lambda^{i-j} \enVert[1]{\tilde{g}_j(x, \xi_{i_1})}.
+\end{gather*}
+The iteration scheme stays the same, but we have to adapt the model parts to
+\begin{align*}
+  \tilde{z}_i &= \tilde{g}_i(z_i, \xi_{i-1}), \\
+  C_i &= - \T{\nabla g_i(\xi_{i-1})}.
+\end{align*}
 \end{document}
