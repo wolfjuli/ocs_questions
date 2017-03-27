@@ -50,7 +50,9 @@ course of Dimitri P. Bertsekas cover pretty much the same material. What a coinc
 
 \section{Introduction}
 
-\summary{General Form} A general minimization problem has the form
+\summary{General Form}
+
+A general minimization problem has the form
 \begin{equation*}
   \min_{x} f(x) \quad \text{s.t. } x \in X,
 \end{equation*}
@@ -63,6 +65,7 @@ and an \emph{objective function} \(f: X \to \RR\).  We want to find an optimal v
 
 
 \summary{Types of Optimization Problems}
+
 \begin{enumerate}
 \item
   \begin{enumerate}
@@ -94,7 +97,22 @@ and an \emph{objective function} \(f: X \to \RR\).  We want to find an optimal v
 \end{enumerate}
 
 
+\summary{Definiteness}
+
+A symmetric matrix \(Q\) is called \emph{positive semidefinite} if \(\T{x} Q x \geq 0\) for all
+\(x\), and \emph{positive definite} if \(\T{x} Q x > 0\) for all \(x \neq 0\).  Sometimes this is
+written as \(Q \succeq 0\) and
+\(Q \succ 0\).\footnote{\url{https://en.wikipedia.org/wiki/Positive-definite_matrix}} In the case of
+\(Q \in \RR^{2 \times 2}\), we can use the following criteria:
+\begin{enumerate}
+\item \(Q \succeq 0 \Leftrightarrow \det Q \geq 0, Q_{11} \geq 0, Q_{22} \geq 0\) 
+\item \(Q \succ 0 \Leftrightarrow \det Q > 0, Q_{11} > 0 \Leftrightarrow \) all eigenvalues of \(Q\)
+  are positive.
+\end{enumerate}
+
+
 \summary{Convexity}
+
 A set \(X\) is convex, if for all \(x, y \in X\) and \(\alpha \in [0,1]\):
 \begin{equation*}
   \alpha x + (1 - \alpha) y \in X.
@@ -103,15 +121,24 @@ This means that \(X\) contains all convex combinations of points from it.
 
 
 \summary{Convex Functions}
-If \(X\) is a convex set, then \(f: \RR \to \RR\) is called convex if for all \(x, y \in X\) and
+
+If \(X\) is a convex set, then \(f: X \to \RR\) is called convex if for all \(x, y \in X\) and
 \(\alpha \in [0,1]\):
 \begin{equation*}
   f(\alpha x + (1 - \alpha) y) \leq \alpha f(x) + (1 - \alpha) f(y).
 \end{equation*}
-This means that no points lie below any tangent.
+This means that no points lie below any tangent.  Equivalent to this are the first-order condition
+\begin{equation*}
+  f(x) \geq f(y) + \T{\nabla f(y)}(x - y), \quad \forall x, y \in X
+\end{equation*}
+and the secon-order condition
+\begin{equation*}
+  \nabla^2 f(x) \succeq 0 \quad \forall x \in X.
+\end{equation*}
 
 
 \summary{Level Sets}
+
 For an objective function \(f: X \to \RR\), and \(c \in \RR\), the sets
 \begin{equation*}
   S_c(f) = \{x \in X: f(x) = c\}
@@ -119,13 +146,8 @@ For an objective function \(f: X \to \RR\), and \(c \in \RR\), the sets
 are called \emph{level sets} of \(f\). They can be convex even if \(f\) is not!
 
 
-\summary{Definiteness} A matrix \(Q\) is called \emph{positive semidefinite} if
-\(\T{x} Q x \geq 0\) for all \(x\).  \(Q\) is called \emph{positive definite} if \(\T{x} Q x > 0\)
-for all \(x \neq 0\).  Sometimes this is written as \(Q \succeq 0\) and
-\(Q \succ 0\).\footnote{\url{https://en.wikipedia.org/wiki/Positive-definite_matrix}}
-
-
 \summary{Local and Global Minima}
+
 A point \(x^*\) is called an \emph{unconstrained global minimum} of \(f\) if for all \(x\)
 \begin{equation*}
   f(x^*) \leq f(x).
@@ -139,6 +161,7 @@ For \emph{constrained} minima, we just require additionally that \(x \in X \subs
 
 
 \summary{First Order Neccessary Condition for Optimality}
+
 In a small neighbourhood of \(x^*\), we can by Taylor expansion write \(f\) as
 \begin{equation*}
   f(x) = f(x^* + \Delta x) = f(x^*) + \T{\nabla f(x^*)} \Delta x + o(\lVert \Delta x \rVert).
@@ -156,6 +179,7 @@ so \(\T{\nabla f(x^*)} \Delta x = 0\), which, since \(\Delta x\) is arbitrary, i
 
 
 \summary{Second Order Neccessary Condition for Optimality}
+
 By second order Taylor expansion, we get
 \begin{align*}
   0 &\leq f(x^* + \Delta x) - f(x^*) \\
@@ -171,12 +195,13 @@ either a local optimum or a saddle point.
 
 
 \summary{Sufficient Condition for Optimality}
+
 If for a point \(x^*\) we have \(\T{\nabla f(x^*)} = 0\) and \(\nabla^2 f(x^*)\) positive
-\emph{definite} (no ``semi-''!), then \(x^*\) is a strict unconstrained local minimum of
-f. 
+\emph{definite} (no ``semi-''!), then \(x^*\) is a strict unconstrained local minimum of f.
 
 
 \summary{Minima of Convex Functions}
+
 For a convex function \(f\), local minima are also global minima: suppose \(x*\) were a local, but
 not global minimum. Then there must be some \(y^* \neq x^*\) with \(f(y^*) < f(x^*)\).  By
 convexity, we have for all \(\alpha \in [0, 1)\):
@@ -188,10 +213,12 @@ which contradicts the assumption, so \(x^*\) must also be a global minimum.
 Furthermore, the neccessary condition for minima, \(\nabla f(x^*) = 0\), for convex functions
 becomes a sufficient condition.\todo{why this?}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Gradient Methods}
 
 \summary{Basic Idea}\label{s:gradient_methods}
+
 To find a minimum of \(f\), we construct a sequence \(\kth{x}\) such that for all \(k\),
 \(f(\kth[k+1]{x}) < f(\kth{x})\).  To do that, we choose an initial \(\kth[0]{x}\) and then set
 \begin{equation*}
@@ -206,6 +233,7 @@ where \(\pd{f}{{\kth{d}}}\) is the directional derivative in direction \(\kth{d}
 
 
 \summary{Matrix-Scaled Gradients}
+
 Given the above form, one can choose \(\kth{d} = -\kth{D} \nabla f(\kth{x})\) for a positive
 definite \(\kth{D}\):
 \begin{equation*}
@@ -233,6 +261,7 @@ pseudo-inverse.
 
 
 \summary{Step Size Selection}
+
 To ensure convergence and performance, \(\kth{\alpha}\) needs to be chosen with care.
 Theoretically, it is not enough set it such that \(f(\kth[k+1]{x}) < f(\kth{x})\); there are
 counterexamples for which this holds, but \(\lim_{, \to \infty} f(\kth{x}) > f(x^*)\), e.g., when
@@ -259,6 +288,7 @@ Some usual approaches to choosing the step size are:
 
 
 \summary{Armijo Rule}
+
 This is a special method for step size selection, which has nice theoretical properties (e.g. using
 it, the \(\kth{x}\) always converge to a stationary point).  To apply it, we fix scalars \(s\), \(0 <
 \beta < 1\), and \(0 < \sigma < 1\), and set \(\kth{\alpha} = \beta^{m_k} s\), where we choose
@@ -278,6 +308,7 @@ Fig.~\ref{fig:armijo}).
 
 
 \summary{Termination of Gradient Methods}
+
 Gradient methods are not automatically convergent, so we need some stopping criterion.  The standard
 approach is to terminate iteration based on the norm of the gradient:
 \begin{equation*}
@@ -294,10 +325,12 @@ Assuming we have diagonal scaling, we can also use
 If \(\nabla^2 f(x)\) is positive definite, we have a strongly convex problem, and the norm of the
 gradient actually bounds the distance to a local minimum \(\enVert{x - x^*}\).
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Convergence Analysis}
 
 \summary{Gradient Related Condition}
+
 A sequence of descent directions \(\{\kth{d}\}\) is called \emph{gradient related} to a step
 sequence \(\{\kth{x}\}\), if for any subsequence \(\{\kth{x}\}_{k \in \mathcal{K}}\) converging to a
 nonstationary point, the corresponding subsequence \(\{\kth{d}\}_{k \in \mathcal{K}}\) is bounded
@@ -316,6 +349,7 @@ they get ``worse'' in the limit).
 
 
 \summary{Lipschitz continuity}
+
 A continuously differentiable function \(f: \RR^n \to \RR\) is called \emph{Lipschitz continuous},
 if there is value \(L \geq 0\), called \emph{Lipschitz constant}, such that for all \(x, y \in
 \RR^n\) and \(t \in [0, 1]\):
@@ -332,9 +366,9 @@ bounded first derivative.
 
 
 \summary{Descent Lemma}\label{s:descent_lemma}
-Let \(f: \RR^n \to \RR\) be Lipschitz continuous with Lipschitz constant
-\(L\).  Then for all \(x, y\), we have the following quadratic upper bound on the objective function
-at \(x\):
+
+Let \(f: \RR^n \to \RR\) be Lipschitz continuous with Lipschitz constant \(L\).  Then for all
+\(x, y\), we have the following quadratic upper bound on the objective function at \(x\):
 \begin{equation*}
   f(x + y) \leq f(x) + \T{\nabla f(x)}y + \frac{L}{2}\enVert{y}^2.
 \end{equation*}
@@ -356,10 +390,10 @@ where (1) is an application of the Cauchy-Schwarz theorem
 continuity.
 
 
-
 \summary{Interpretation of Descent Lemma}\label{s:descent_lemma_interpretation}
-We can express the lemma in terms of a step sequence \(\{\kth{x}\}\) by substituting \(\{x
-\mapsto \kth{x}, y \mapsto (x - \kth{x})\}\):
+
+We can express the lemma in terms of a step sequence \(\{\kth{x}\}\) by substituting
+\(\{x \mapsto \kth{x}, y \mapsto (x - \kth{x})\}\):
 \begin{equation*}
   f(x) \leq f(\kth{x}) + \T{\nabla f(\kth{x})}(x - \kth{x}) + \frac{L}{2}\enVert[1]{x - \kth{x}}^2.
 \end{equation*}
@@ -373,6 +407,7 @@ Convergent step size methods relate to this fact.
 
 
 \summary{Convergence with Constant Step Size}
+
 Assume \(f\) is Lipschitz continuous, and \(\{\kth{x}\}\) is a sequence generated by a gradient
 method with gradient related \(\kth{d} \neq 0\).  The we have
 \begin{align*}
@@ -431,10 +466,13 @@ This would however contradict to \(\kth{d}\) being gradient related, since it im
 Therefore, every accumulation point \(\bar{x}\) of \(\{\kth{x}\}\) must be stationary
 (\(\nabla f(\bar{x}) = 0\)).
 
+
 \summary{Convergence with Armijo Rule}
 \todo{TODO}
 
+
 \summary{Convergence Rates}
+
 Important for practical problems, to compare different algorithms.  Is usually measured in terms of
 a step-dependent error function \(e: \RR^n \to \RR\) with \(e(x^*) = 0\).  Common choices are
 \begin{equation*}
@@ -471,10 +509,12 @@ The latter is equivalent to
 \end{equation*}
 \todo{derivations for some rates? analysis of quadratic model?}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Newton's Method and Variants}
 
 \summary{Basic Idea}
+
 A second order method, which is one of the fastest gradient methods.  We generate the sequence
 \(\{\kth{x}\}\) based on
 \begin{equation*}
@@ -513,9 +553,12 @@ We can analytically minimize this approximation, which gives the stated update r
   x = \kth[k+1]{x} &= \kth{x} - (\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}).
 \end{align*}
 
+
 \summary{Relation of Newton's Method to Equation Solving}
+
 The general for of Newton's method is not used for optimization, but for solving equations of the
-form \(g(x) = 0\), where \(g: \RR^n \to \RR^n \in \mathcal{C}^1\).  For this problem, the method has the form
+form \(g(x) = 0\), where \(g: \RR^n \to \RR^n \in \mathcal{C}^1\).  For this problem, the method has
+the form
 \begin{equation*}
   \kth[k+1]{x} = \kth{x} - (\T{\nabla g(\kth{x})})^{-1} g(\kth{x}).
 \end{equation*}
@@ -523,9 +566,11 @@ A method converging to a stationary point results from setting \(g(x) = \nabla f
 symmetric matrix \(\T{\nabla g(x)} = \nabla^2 f(x)\).
 
 
-\summary{Local convergence} For a local optimum \(x^*\) of \(f\), we must have
-\(\nabla f(x^*) = 0\), or, by the above relation to equation solving, \(g(x^*) = 0\).  Now, suppose
-\(\kth{x} \to x\) and \(\nabla f(x^*)\) is nonsingular.  Expanding \(g\) around \(x^*\), we get
+\summary{Local convergence}
+
+For a local optimum \(x^*\) of \(f\), we must have \(\nabla f(x^*) = 0\), or, by the above relation
+to equation solving, \(g(x^*) = 0\).  Now, suppose \(\kth{x} \to x\) and \(\nabla f(x^*)\) is
+nonsingular.  Expanding \(g\) around \(x^*\), we get
 \begin{equation*}
   0 = g(x^*) = g(\kth{x}) + \T{\nabla g(\kth{x})} (x^* - \kth{x}) + o\!\del[1]{\,\enVert[1]{x^* - \kth{x}}};
 \end{equation*}
@@ -537,9 +582,11 @@ multiplying from the left with \((\T{\nabla g(\kth{x})})^{-1}\), this is
 therefore we have superlinear convergence.
 
 
-\summary{Global Convergence by Diagonal Modifications} To solve the problems mentioned above, when
-we are far away from an optimum, we can add a diagonal matrix \(\kth{\Delta}\) to the Hessian, such
-that \(\nabla^2 f(\kth{x}) + \kth{\Delta} \succ 0\).  In that way, we the Newton equation
+\summary{Global Convergence by Diagonal Modifications}
+
+To solve the problems mentioned above, when we are far away from an optimum, we can add a diagonal
+matrix \(\kth{\Delta}\) to the Hessian, such that \(\nabla^2 f(\kth{x}) + \kth{\Delta} \succ 0\).
+In that way, we the Newton equation
 \begin{equation*}
   \left( \nabla^2 f(\kth{x}) + \kth{\Delta} \right) \kth{d} = -\nabla f(\kth{x})
 \end{equation*}
@@ -554,6 +601,7 @@ region\footnote{\url{https://en.wikipedia.org/wiki/Trust_region}}.
 \section{Least Squares Optimization and Model Fitting}
 
 \summary{General Form}
+
 We want to minimize a function
 \begin{equation*}
   f(x) = \frac{1}{2} \enVert[1]{g(x)}^2 = \frac{1}{2} \sum_i \enVert[1]{g_i(x)}^2,
@@ -563,6 +611,7 @@ nonlinear.  This is equivalent to solving the problem \(g(x) = 0\).
 
 
 \summary{Gauss-Newton Method}
+
 To get a step method, we replace \(g(x)\) by a local approximation around \(\kth{x}\):
 \begin{equation*}
   \tilde{g}(x, \kth{x}) = g(\kth{x}) + \T{\nabla g(\kth{x})}(x - \kth{x}).
@@ -583,6 +632,7 @@ assuming that \((\nabla g(\kth{x}) \T{\nabla g(\kth{x})}\) is invertible.
 
 
 \summary{Levenberg-Marquardt Method}
+
 To ensure that \((\nabla g(\kth{x}) \T{\nabla g(\kth{x})}\) is invertible, and the descent direction
 is actually gradient related, one can use a modified iteration
 \begin{equation*}
@@ -592,8 +642,10 @@ is actually gradient related, one can use a modified iteration
 where \(\kth{\alpha}\) can be chosen by the Armijo rule, and \(\kth{\delta} > 0\).
 
 
-\summary{Connection of Gauss-Newton to Newton} The target function of a least squares problem,
-\(f(x) = \frac{1}{2}\enVert[0]{g(x)}^2\), with components \(g_i\), has derivatives
+\summary{Connection of Gauss-Newton to Newton}
+
+The target function of a least squares problem, \(f(x) = \frac{1}{2}\enVert[0]{g(x)}^2\), with
+components \(g_i\), has derivatives
 \begin{align*}
   \nabla f(x) &= \T{\nabla g(x)} g(x), \\
   \nabla^2 f(x) &= \nabla g(x) \T{\nabla g(x)} + \sum_i \nabla^2 g_i(x) g_i(x).
@@ -602,11 +654,13 @@ Neglecting the second-order part in the Hessian, this reduces to a form equivale
 method, but saving the computation of the Hessian (intuitively, \(\nabla^2 g \approx (\nabla g)^2\)).
 
 
-\summary{Incremental Gradient Methods} Usually, a least squares problem is a model fitting problem,
-where \(g_i(x) = z_i - h(y_i, x)\), for a model function \(h\) with parameters \(x\), samples
-\(y_i\), and targets and \(z_i\).  Thus, we can see each \(g_i\) as a data block, and
-\(g = (g_1, \ldots, g_m)\) as the data set.  (In machine learning terminology, this corresponds to
-stochastic gradient descent with minibatches for ``data blocks''.)
+\summary{Incremental Gradient Methods}
+
+Usually, a least squares problem is a model fitting problem, where \(g_i(x) = z_i - h(y_i, x)\), for
+a model function \(h\) with parameters \(x\), samples \(y_i\), and targets and \(z_i\).  Thus, we
+can see each \(g_i\) as a data block, and \(g = (g_1, \ldots, g_m)\) as the data set.  (In machine
+learning terminology, this corresponds to stochastic gradient descent with minibatches for ``data
+blocks''.)
 
 If the data set is large, the Gauss-Newton iterations are costly (because the matrix to be inverted
 becomes large).  Sometimes, for example in real-time applications, the data samples also are not
@@ -629,10 +683,12 @@ This converges very fast in the first iterations, but needs further restictions 
 ensure global convergence.
 
 
-\summary{Kalman Filter} If the model (ie. the functions \(g_i\)) is linear, one Gauss-Newton
-iteration is enough to find the least squares estimate (this amounts to the analytical solution
-using the Moore-Penrose pseudoinverse).  However, we can develop an incremental method for this,
-avoiding the matrix inversion.  This method is called \emph{Kalman filter}.
+\summary{Kalman Filter}
+
+If the model (ie. the functions \(g_i\)) is linear, one Gauss-Newton iteration is enough to find the
+least squares estimate (this amounts to the analytical solution using the Moore-Penrose
+pseudoinverse).  However, we can develop an incremental method for this, avoiding the matrix
+inversion.  This method is called \emph{Kalman filter}.
 
 Suppose \(g_i(x) = z_i - C_i x_i\), with \(z_i \in \RR^r\) and \(C_i \in \RR^{r \times n}\) (the
 model parameters).  We are interested in a method for finding
@@ -651,7 +707,9 @@ can be generated iteratively by
 
 Example: for a linear model \(x(t) = l + ft\), with parameters \(f, l\), we use \(C = [1, t]\).
 
+
 \summary{Extended Kalman Filter}
+
 If the \(g_i\) are nonlinear, we can use a linearization at the last available iteration
 \(\xi_{i-1}\) to get the \emph{extended Kalman filter}:
 \begin{gather*}
@@ -663,4 +721,12 @@ The iteration scheme stays the same, but we have to adapt the model parts to
   \tilde{z}_i &= \tilde{g}_i(z_i, \xi_{i-1}), \\
   C_i &= - \T{\nabla g_i(\xi_{i-1})}.
 \end{align*}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Accelerated Gradient Methods}
+
+\summary{Lower Bound for Quadratic Optimization}
+
+
 \end{document}
