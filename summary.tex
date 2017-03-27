@@ -601,4 +601,30 @@ Neglecting the second-order part in the Hessian, this reduces to a form equivale
 method, but saving the computation of the Hessian (intuitively, \(\nabla^2 g \approx (\nabla g)^2\)).
 
 
+\summary{Incremental Gradient Methods} Usually, a least squares problem is a model fitting problem,
+where \(g_i(x) = z_i - h(y_i, x)\), for a model function \(h\) with parameters \(x\), samples
+\(y_i\), and targets and \(z_i\).  Thus, we can see each \(g_i\) as a data block (or minibatch, in
+terms of machine learning terminology), and \(g = (g_1, \ldots, g_m)\) as the data set (or whole
+batch, resp. epoch).
+
+If the data set is large, the Gauss-Newton iterations are costly (because the matrix to be inverted
+becomes large).  Sometimes, for example in real-time applications, the data samples also are not
+provided in advance, but only incrementally.  Therefore, we can use the following scheme to
+calculate updates based on single samples:
+\begin{align*}
+  \kth{\xi}_0 &= \kth{x} \\
+  \kth{\xi}_i &= \kth{\xi}_{i-1} - \kth{\alpha} \nabla g_i(\kth{\xi}_{i-1}) g_i(\kth{\xi}_{i-1}) \\
+  \kth[k+1]{x} &= \kth{\xi}_m.
+\end{align*}
+This amounts to
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} - \kth{\alpha} \sum_i \nabla g_i(\kth{\xi}_{i-1}) g_i(\kth{\xi}_{i-1}),
+\end{equation*}
+where we base the update on the intermediate \(\kth{\xi}_i\) instead of using the full gradient
+\begin{equation*}
+  \nabla f(\kth{x}) = \sum_i \nabla g_i(\kth{x}) g_i(\kth{x}).
+\end{equation*}
+This converges very fast in the first iterations, but needs further restictions on the step size to
+ensure global convergence.
+
 \end{document}
