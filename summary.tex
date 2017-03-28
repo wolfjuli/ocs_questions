@@ -416,7 +416,6 @@ Let \(f: \RR^n \to \RR\) be Lipschitz continuous with Lipschitz constant \(L\). 
 \begin{equation*}
   f(x + y) \leq f(x) + \T{\nabla f(x)}y + \frac{L}{2}\enVert{y}^2.
 \end{equation*}
-
 Derivation: let \(g(t) = f(x + ty)\) for \(t \in [0, 1]\).
 \begin{align*}
   f(x + y) - f(x) &= g(1) - g(0) \\
@@ -430,7 +429,8 @@ Derivation: let \(g(t) = f(x + ty)\) for \(t \in [0, 1]\).
                   &= \T{\nabla f(x)} y + \frac{L}{2}\enVert[1]{y}^2,
 \end{align*}
 where (1) is an application of the Cauchy-Schwarz theorem
-(\(\langle x, y \rangle \leq \enVert{x} \cdot \enVert{y}\)), and (2) from Lipschitz continuity.
+(\(\langle x, y \rangle \leq \enVert{x} \cdot \enVert{y}\)), and (2) follows from Lipschitz
+continuity.
 
 
 \summary{Interpretation of Descent Lemma}\label{s:descent_lemma_interpretation}
@@ -566,7 +566,8 @@ A second order method, which is one of the fastest gradient methods.  We generat
 where we assume that the direction \((\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}\) is
 defined and a descent direction.
 
-This has three problems when we are far from a local minimum:
+Close to a local minimum, \(\kth{\alpha} = 1\) will work well. However, when we are far from a local
+minimum, we run into problems:
 \begin{enumerate}
 \item The Hessian can be singular~-- we what are reasonable approximations in this case?
 \item The Hessian is convex~-- it attracts local maxima as well as minima.  Thus, we must choose the
@@ -582,15 +583,15 @@ convergence rate.
 By Taylor approximation: Given a point \(\kth{x}\), we can approximate a function
 \(f \in \mathcal{C}^2\) locally as
 \begin{equation*}
-  f^k(x) = f(\kth{x}) + \T{\nabla f(\kth{x})}(x - \kth{x})
+  \kth{f}(x) = f(\kth{x}) + \T{\nabla f(\kth{x})}(x - \kth{x})
   + \frac{1}{2} \T{(x - \kth{x})} \nabla^2 f(\kth{x})(x - \kth{x}).
 \end{equation*}
-Compare this to the Descent Lemma (Summary~\ref{s:descent_lemma_interpretation})~-- there,
+Compare this to the descent lemma (Summary~\ref{s:descent_lemma_interpretation})~-- there,
 \(\nabla^2 f\) is approximated by \(L\), with some transformation of the metric.
 
 We can analytically minimize this approximation, which gives the stated update rule:
 \begin{align*}
-  \nabla f^k(x) = \nabla f(\kth{x}) + \nabla^2 f(\kth{x})(x - \kth{x}) &\overset{!}{=} 0 \\
+  \nabla \kth{f}(x) = \nabla f(\kth{x}) + \nabla^2 f(\kth{x})(x - \kth{x}) &\overset{!}{=} 0 \\
   \nabla^2 f(\kth{x})(x - \kth{x}) &= -\nabla f(\kth{x}) \\
   (x - \kth{x}) &= -(\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}) \\
   x = \kth[k+1]{x} &= \kth{x} - (\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}).
@@ -607,6 +608,34 @@ the form
 \end{equation*}
 A method converging to a stationary point results from setting \(g(x) = \nabla f(x)\), implying a
 symmetric matrix \(\T{\nabla g(x)} = \nabla^2 f(x)\).
+
+
+\summary{Scale Invariance}
+
+Newton's method has the property that it is invariant under affine cooridinate changes; ie., if we
+exchange \(x = Sy\) for an invertible \(S\), the generated steps will remain the same.  First,
+observe that
+\begin{align*}
+  \nabla_y f(Sy) &= \T{S} \nabla f(Sy), \\
+  \nabla_y^2 f(Sy) &= \T{S} \nabla^2 f(Sy) S.
+\end{align*}
+Now, the local Taylor expansion becomes
+\begin{align*}
+  \kth{f}(Sy) &= f(S\kth{y}) + \T{(\T{S} \nabla f(Sy))}(y - \kth{y}) \\
+  &\qquad + \frac{1}{2} \T{(y - \kth{y})} \nabla^2 f(S\kth{y})(y - \kth{y}),
+\end{align*}
+which we can minimize at \(\kth[k+1]{y}\) to get the update rule:
+\begin{align*}
+  \nabla \kth{f}(\kth[k+1]{y}) &= \T{S} \nabla f(S\kth{y}) + \T{S} \nabla^2
+                                 f(S\kth{y})S(\kth[k+1]{y}
+                                 - \kth{y}) \overset{!}{=} 0 \\
+  \Rightarrow\quad \kth[k+1]{y} &= \kth{y} - \left( \T{S}\nabla f(S\kth{y})S \right)^{-1} \T{S}
+                                  \nabla f(S\kth{y}) \\
+                               &= \kth{y} - S^{-1} \nabla^2 f(S\kth{y})^{-1} (\T{S})^{-1}
+                                 \T{S} \nabla f(S\kth{y}) \\
+  \Rightarrow\quad S\kth[k+1]{y} &= S\kth{y} - \nabla^2 f(S\kth{y})^{-1} \nabla f(S\kth{y})
+\end{align*}
+\todo{this seems weird...}
 
 
 \summary{Local convergence}
