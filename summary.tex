@@ -45,55 +45,39 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent First of all, the \href{http://web.mit.edu/6.252/www/LectureNotes/}{material} by the
-course of Dimitri P. Bertsekas cover pretty much the same material. What a coincidence.
+course of Dimitri P. Bertsekas cover pretty much the same as this. What a coincidence.
 
-\section{Introduction}
+\section{Mathematical Preliminaries}
 
-\summary{General Form}
 
-A general minimization problem has the form
+\summary{Basic Math}
+
+Always remember these:
+\begin{gather*}
+  \nabla_x \frac{1}{2} \T{x}Qx + \T{c}x = Qx + c, \\
+  \nabla_x \frac{1}{2} \enVert[1]{Ax - b} = \T{A}(Ax - b).
+\end{gather*}
+Futhermore, it is useful to know that
 \begin{equation*}
-  \min_{x} f(x) \quad \text{s.t. } x \in X,
+  A = \begin{pmatrix}
+    a & b \\
+    c & d
+  \end{pmatrix} \Rightarrow A^{-1} = \frac{1}{\det A}
+  \begin{pmatrix}
+    d & -b \\
+    -c & a
+  \end{pmatrix},
 \end{equation*}
-for a \emph{constraint set} \(X \subseteq \RR^n\) (often given by some \emph{constraint functions}
-and an \emph{objective function} \(f: X \to \RR\).  We want to find an optimal value or
-\emph{minimizer} \(x^* \in X\) such that
+for
 \begin{equation*}
-  f(x^*) \leq f(x), \quad \forall x \in X.
+  \det A = ab - cd \neq 0.
 \end{equation*}
-
-
-\summary{Types of Optimization Problems}
-
-\begin{enumerate}
-\item
-  \begin{enumerate}
-  \item Discrete: \(X\) is a discrete set, also called \emph{interger programming}.
-  \item Continuous: \(X\) is continuous (ie. uncountable)
-  \end{enumerate}
-\item
-  \begin{enumerate}
-  \item Linear: Objective functions and constraints are all linear:
-    \begin{equation*}
-      \min_x \T{c} x, \quad\text{s.t. } Ax \leq b,\; x \geq 0.
-    \end{equation*}
-    Constraints describe a polyhedron.  Efficiently solvable.
-  \item Quadratic: Objective function is quadratic, constraints linear:
-    \begin{equation*}
-      \min_x \frac{1}{2}\T{x} Q x + \T{c} x, \quad\text{s.t. } Ax \leq b,\; Ex = d.
-    \end{equation*}
-    If \(Q\) is positive semidefinite, the objective is convex and the problem is polynomially
-    solvable.
-  \item Nonlinear: no further constraints.
-  \end{enumerate}
-\item
-  \begin{enumerate}
-  \item Unconstrained: Optimal solution searched in full \(\RR^n\). Easier to characterize, and
-    usually to solve.
-  \item Constrained: Optimal solution in an admissible region, usually more difficult to
-    setup/characterize.
-  \end{enumerate}
-\end{enumerate}
+Taylor expansion around \(x_0\):
+\begin{equation*}
+  f(x) = f(x_0) + \T{\nabla f(x_0)}(x - x_0) + \frac{1}{2} \T{(x - x_0)}\nabla^2 f(x_0)(x - x_0)
+  + o(\,\enVert{x - x_0}^2).
+\end{equation*}
+% calclulating eigenvalues by hand: http://math.harvard.edu/archive/21b_fall_04/exhibits/2dmatrices/index.html
 
 
 \summary{Definiteness}
@@ -138,20 +122,61 @@ and the second-order condition
 
 \summary{Level Sets}
 
-For an objective function \(f: X \to \RR\), and \(c \in \RR\), the sets
+For a function \(f: X \to \RR\), and \(c \in \RR\), the sets
 \begin{equation*}
   S_c(f) = \{x \in X: f(x) = c\}
 \end{equation*}
 are called \emph{level sets} of \(f\). They can be convex even if \(f\) is not!
 
 
-\summary{Basic Derivatives}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction to Optimization}
 
-Always remember these:
-\begin{gather*}
-  \nabla_x \frac{1}{2} \T{x}Qx + \T{c}x = Qx + c, \\
-  \nabla_x \frac{1}{2} \enVert[1]{Ax - b} = \T{A}(Ax - b).
-\end{gather*}
+\summary{General Form of Optimization Problems}
+
+A general minimization problem has the form
+\begin{equation*}
+  \min_{x} f(x) \quad \text{s.t. } x \in X,
+\end{equation*}
+for a \emph{constraint set} \(X \subseteq \RR^n\) (often given by some \emph{constraint functions}
+and an \emph{objective function} \(f: X \to \RR\).  We want to find an optimal value or
+\emph{minimizer} \(x^* \in X\) such that
+\begin{equation*}
+  f(x^*) \leq f(x), \quad \forall x \in X.
+\end{equation*}
+
+
+\summary{Types of Optimization Problems}
+
+\begin{enumerate}
+\item
+  \begin{enumerate}
+  \item Discrete: \(X\) is a discrete set, also called \emph{interger programming}.
+  \item Continuous: \(X\) is continuous (ie. uncountable)
+  \end{enumerate}
+\item
+  \begin{enumerate}
+  \item Linear: Objective functions and constraints are all linear:
+    \begin{equation*}
+      \min_x \T{c} x, \quad\text{s.t. } Ax \leq b,\; x \geq 0.
+    \end{equation*}
+    Constraints describe a polyhedron.  Efficiently solvable.
+  \item Quadratic: Objective function is quadratic, constraints linear:
+    \begin{equation*}
+      \min_x \frac{1}{2}\T{x} Q x + \T{c} x, \quad\text{s.t. } Ax \leq b,\; Ex = d.
+    \end{equation*}
+    If \(Q\) is positive semidefinite, the objective is convex and the problem is polynomially
+    solvable.
+  \item Nonlinear: no further constraints.
+  \end{enumerate}
+\item
+  \begin{enumerate}
+  \item Unconstrained: Optimal solution searched in full \(\RR^n\). Easier to characterize, and
+    usually to solve.
+  \item Constrained: Optimal solution in an admissible region, usually more difficult to
+    setup/characterize.
+  \end{enumerate}
+\end{enumerate}
 
 
 \summary{Local and Global Minima}
