@@ -203,12 +203,13 @@ Since \(x^*\) is a local minimum, \(f(x^* + \Delta x) - f(x^*) \geq 0\), and we 
 \begin{equation*}
   f(x^*) + \T{\nabla f(x^*)} \Delta x - f(x^*) = \T{\nabla f(x^*)} \Delta x \geq 0.
 \end{equation*}
-Since wlog. we can choose \(\Delta x\) to have the opposite sign, it holds also that
+Since we can also choose \(\Delta x\) to have the opposite sign, it holds that
 \begin{equation*}
   \T{\nabla f(x^*)} \Delta x \leq 0,
 \end{equation*}
 so \(\T{\nabla f(x^*)} \Delta x = 0\), which, since \(\Delta x\) is arbitrary, implies that
-\(\nabla f(x^*) = 0\).
+\(\nabla f(x^*) = 0\), which is the neccessary condition. A point which has this property is called
+a \emph{stationary point}.  In ``normal'' cases, it is either a local optimum or a saddle point.
 
 
 \summary{Second Order Neccessary Condition for Optimality}
@@ -221,10 +222,9 @@ By second order Taylor expansion, we get
     &=  \frac{1}{2} \T{\Delta x} \nabla^2 f(x^*) \Delta x + o(\lVert \Delta x \rVert^2).
 \end{align*}
 From this follows that \(\T{\Delta x} \nabla^2 f(x^*) \Delta x \geq 0\).  Since \(\Delta x\) is
-arbitrary, this means that \(\nabla^2 f(x^*)\) must be positive semidefinite.
-
-A point which has this property is called a \emph{stationary point}.  In ``normal'' cases, it is
-either a local optimum or a saddle point.
+arbitrary, this means that \(\nabla^2 f(x^*)\) must be positive semidefinite.  The interpretation of
+this is that a the function must be convex in some neighbourhood for for a point to be ``at least as
+good as its neighbours''; if it is strictly convex, we get the following:
 
 
 \summary{Sufficient Condition for Optimality}
@@ -233,7 +233,7 @@ If for a point \(x^*\) we have
 \begin{equation*}
   \T{\nabla f(x^*)} = 0 \text{ and } \nabla^2 f(x^*) \succ 0,
 \end{equation*}
-(no ``semi-''!), then \(x^*\) is a strict unconstrained local minimum of f.
+(no ``semi-''!), then \(x^*\) is a strict unconstrained local minimum of f.  
 
 
 \summary{Minima of Convex Functions}
@@ -391,11 +391,11 @@ A continuously differentiable function \(f: \RR^n \to \RR\) is called \emph{Lips
 if there is value \(L \geq 0\), called \emph{Lipschitz constant}, such that for all \(x, y \in
 \RR^n\) and \(t \in [0, 1]\):
 \begin{equation*}
-  \enVert{\nabla f(x + ty) - \nabla f(x)} \leq Lt \enVert{y},
+  \enVert{\nabla f(x + ty) - \nabla f(x)} \leq Lt \enVert[1]{y},
 \end{equation*}
 or more generally
 \begin{equation*}
-  \enVert{f(x) - f(y)} \leq L \envert{x - y}
+  \enVert{f(x) - f(y)} \leq L \enVert[1]{x - y}
 \end{equation*}
 for some norm.
 
@@ -773,6 +773,12 @@ The iteration scheme stays the same, but the model parts must be adapted to
 \section{Accelerated Gradient Methods}
 
 \summary{Lower Bound for Quadratic Optimization}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Constraint Optimization over Convex Sets}
+
+\summary{Basic Setup}
 
 
 \end{document}
