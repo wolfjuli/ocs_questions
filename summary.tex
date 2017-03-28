@@ -22,6 +22,7 @@
 \newcommand{\kth}[2][k]{#2^{(#1)}}
 \DeclareMathOperator{\diag}{diag}
 \DeclareMathOperator*{\argmin}{arg min}
+\DeclareMathOperator{\Span}{span}
 
 \newcounter{summary}[section]
 \newcommand{\summary}[1]{%
@@ -773,6 +774,24 @@ The iteration scheme stays the same, but the model parts must be adapted to
 \section{Accelerated Gradient Methods}
 
 \summary{Lower Bound for Quadratic Optimization}
+
+For a quadratic minimization problem
+\begin{equation*}
+  \min_x f(x) = \frac{1}{2} \T{x} Q x - \T{b}x,
+\end{equation*}
+we can give lower bounds for first-order gradient methods of the form
+\begin{equation*}
+  \kth[k+1]{x} \in \kth[0]{x} + \Span \{\nabla f(\kth[0]), \ldots, \nabla f(\kth{x})\}.
+\end{equation*}
+If \(Q \succ 0\), then
+\begin{equation*}
+  \enVert[1]{\kth{x} - x^*}
+  \geq \left( \frac{\sqrt{L/I} - 1}{\sqrt{L/I} + 1} \right)^k \enVert[1]{\kth[0]{x} - x^*},
+\end{equation*}
+where \(L\) and \(I\) are the smallest and larges eigenvalue of \(Q\).  If \(Q \succeq 0\), then
+\begin{equation*}
+  f(\kth{x}) - f(x^*) \geq \frac{3L \enVert[1]{\kth[0]{x} - x^*}}{32 (n+1)^2}.
+\end{equation*}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
