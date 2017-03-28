@@ -612,30 +612,30 @@ symmetric matrix \(\T{\nabla g(x)} = \nabla^2 f(x)\).
 
 \summary{Scale Invariance}
 
-Newton's method has the property that it is invariant under affine cooridinate changes; ie., if we
-exchange \(x = Sy\) for an invertible \(S\), the generated steps will remain the same.  First,
-observe that
+Newton's method has the property that it is invariant under affine coordinate changes; ie., if we
+exchange \(x = Sy\) for an invertible \(S\), the generated steps will remain the same.  Proof:
+First, observe that
 \begin{align*}
   \nabla_y f(Sy) &= \T{S} \nabla f(Sy), \\
   \nabla_y^2 f(Sy) &= \T{S} \nabla^2 f(Sy) S.
 \end{align*}
-Now, the local Taylor expansion becomes
+Now, the second-order approximation around \(S\kth{y}\) becomes
 \begin{align*}
   \kth{f}(Sy) &= f(S\kth{y}) + \T{(\T{S} \nabla f(Sy))}(y - \kth{y}) \\
-  &\qquad + \frac{1}{2} \T{(y - \kth{y})} \nabla^2 f(S\kth{y})(y - \kth{y}),
+  &\qquad + \frac{1}{2} \T{(y - \kth{y})} \nabla^2 f(S\kth{y}) (y - \kth{y}),
 \end{align*}
-which we can minimize at \(\kth[k+1]{y}\) to get the update rule:
+which we can minimize at \(\kth[k+1]{y}\) to get the update rule, like above:
 \begin{align*}
-  \nabla \kth{f}(\kth[k+1]{y}) &= \T{S} \nabla f(S\kth{y}) + \T{S} \nabla^2
+  & &\nabla \kth{f}(\kth[k+1]{y}) &= \T{S} \nabla f(S\kth{y}) + \T{S} \nabla^2
                                  f(S\kth{y})S(\kth[k+1]{y}
                                  - \kth{y}) \overset{!}{=} 0 \\
-  \Rightarrow\quad \kth[k+1]{y} &= \kth{y} - \left( \T{S}\nabla f(S\kth{y})S \right)^{-1} \T{S}
+  &\Rightarrow & \kth[k+1]{y} &= \kth{y} - \left( \T{S}\nabla^2 f(S\kth{y})S \right)^{-1} \T{S}
                                   \nabla f(S\kth{y}) \\
-                               &= \kth{y} - S^{-1} \nabla^2 f(S\kth{y})^{-1} (\T{S})^{-1}
+  &\phantom{\Rightarrow} & &= \kth{y} - S^{-1} \nabla^2 f(S\kth{y})^{-1} (\T{S})^{-1}
                                  \T{S} \nabla f(S\kth{y}) \\
-  \Rightarrow\quad S\kth[k+1]{y} &= S\kth{y} - \nabla^2 f(S\kth{y})^{-1} \nabla f(S\kth{y})
+  &\Rightarrow & S\kth[k+1]{y} &= S\kth{y} - \nabla^2 f(S\kth{y})^{-1} \nabla f(S\kth{y}) \\
+  &\Leftrightarrow & \kth[k+1]{x} &= \kth{x} - \nabla^2 f(\kth{x})^{-1} \nabla f(\kth{x})
 \end{align*}
-\todo{this seems weird...}
 
 
 \summary{Local convergence}
@@ -693,15 +693,13 @@ To get a step method, we replace \(g(x)\) by a local approximation around \(\kth
 \end{equation*}
 Then we have a quadratic problem:
 \begin{align*}
-  \kth[k+1]{x} &\in \argmin_{x \in \RR^n} \frac{1}{2} \enVert[1]{\tilde{g}(x, \kth{x})}^2 \\
-               &= \argmin_{x \in \RR^n} \frac{1}{2} \enVert[1]{g(\kth{x}) + \T{\nabla g(\kth{x})}(x -
-                 \kth{x})}^2
-\end{align*}
-\begin{align*}
-  \Rightarrow\hspace{1.125cm} 0 &\overset{!}{=} \frac{1}{2} \Big(\enVert[1]{g(\kth{x})}^2
+  & &\kth[k+1]{x} &\in \argmin_{x \in \RR^n} \frac{1}{2} \enVert[1]{\tilde{g}(x, \kth{x})}^2 \\
+  & & &= \argmin_{x \in \RR^n} \frac{1}{2} \enVert[1]{g(\kth{x}) + \T{\nabla g(\kth{x})}(x -
+        \kth{x})}^2 \\
+  &\Rightarrow &0 &\overset{!}{=} \frac{1}{2} \Big(\enVert[1]{g(\kth{x})}^2
                                   + 2\T{(x - \kth{x})} \nabla g(\kth{x}) g(\kth{x}) \\
-  &\qquad  + \T{(x - \kth{x})} \nabla g(\kth{x}) \T{\nabla g(\kth{x})} g(\kth{x}) \Big) \\
-  \Rightarrow\quad \kth[k+1]{x} &= \kth{x} - \left(\nabla g(\kth{x}) \T{\nabla
+  & & &\quad+ \T{(x - \kth{x})} \nabla g(\kth{x}) \T{\nabla g(\kth{x})} g(\kth{x}) \Big) \\
+  &\Rightarrow &\kth[k+1]{x} &= \kth{x} - \left(\nabla g(\kth{x}) \T{\nabla
                                   g(\kth{x})}\right)^{-1}
                                   \nabla g(\kth{x}) g(\kth{x}),
 \end{align*}
