@@ -469,27 +469,27 @@ We first calculate the optimal step size \(\kth{\bar{\alpha}} = \min_{\kth{\alph
 Then, for general \(\kth{\alpha}\) with
 \(\epsilon \leq \kth{\alpha} \leq (2 - \epsilon)\kth{\bar{\alpha}}\), we have
 \begin{align*}
-  f(\kth{x} + \kth{\alpha}\kth{d}) - f(\kth{x})
-  &\leq \kth{\alpha} \left( \frac{1}{2} L \enVert[1]{\kth{d}}^2
+  &f(\kth{x} + \kth{\alpha}\kth{d}) - f(\kth{x}) \\
+  &\qquad \leq \kth{\alpha} \left( \frac{1}{2} L \enVert[1]{\kth{d}}^2
     - \envert[1]{\T{\nabla f(\kth{x})} \kth{d}} \right) \\
-  &\leq \kth{\alpha} \left( \frac{1}{2} (2 - \epsilon)\; \frac{\envert[1]{\T{\nabla
+  &\qquad \leq \kth{\alpha} \left( \frac{1}{2} (2 - \epsilon)\; \frac{\envert[1]{\T{\nabla
     f(\kth{x})} \kth{d}}}{(\kth{\alpha})^2 L \enVert[1]{\kth{d}}^2} L \enVert[1]{\kth{d}}^2
     - \envert[1]{\T{\nabla f(\kth{x})} \kth{d}} \right) \\
-  &= \kth{\alpha} \left( \envert[1]{\T{\nabla f(\kth{x})} \kth{d}}
+  &\qquad = \kth{\alpha} \left( \envert[1]{\T{\nabla f(\kth{x})} \kth{d}}
     - \frac{\epsilon}{2} \envert[1]{\T{\nabla f(\kth{x})} \kth{d}}
     - \envert[1]{\T{\nabla f(\kth{x})} \kth{d}} \right) \\
-  &= \kth{\alpha} \underbrace{\left( -\frac{\epsilon}{2}\envert[1]{\T{\nabla f(\kth{x})} \kth{d}}
+  &\qquad = \kth{\alpha} \underbrace{\left( -\frac{\epsilon}{2}\envert[1]{\T{\nabla f(\kth{x})} \kth{d}}
     \right)}_{\leq 0};
 \end{align*}
 and by the reverse,
 \begin{align*}
-  f(\kth{x} + \kth{\alpha}\kth{d}) - f(\kth{x})
+  f(\kth{x}) - f(\kth{x} - \kth{\alpha}\kth{d})
   &\geq \kth{\alpha} \left(\frac{\epsilon}{2}\envert[1]{\T{\nabla f(\kth{x})} \kth{d}} \right) \\
   &\geq \frac{\epsilon^2}{2}\envert[1]{\T{\nabla f(\kth{x})} \kth{d}},
 \end{align*}
 where the last step results from the assumption about \(\kth{\alpha}\).  Thus,
-\(f(\kth{x}) \geq f(\kth[k+1]{x}) \geq \cdots \); in each step, the function is decreased by at
-least \(\frac{\epsilon^2}{2}\envert[1]{\T{\nabla f(\kth{x})} \kth{d}}\).
+\(f(\kth{x}) \geq f(\kth[k+1]{x}) \geq \cdots \); in each step, the function is decreased by an
+amount of at least \(\frac{\epsilon^2}{2}\envert[1]{\T{\nabla f(\kth{x})} \kth{d}}\).
 
 Convergence to a stationary point follows by contradiction: assume a subsequence
 \(\{\kth{x}\}_{k \in \mathcal{K}}\) converged to a point \(\bar{x}\) which is non-stationary (ie.,
