@@ -944,6 +944,33 @@ Here, we can't anymore say anything about convergence.  It might be neccessary t
 the procedure with \(\kth{\beta} = 0\).
 
 
+\summary{Heavy Ball Method}
+
+In machine learning terminology, this is the same as using a \emph{momentum term}.  We use a
+multi-step iteration scheme
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} - \kth{\alpha} \nabla f(\kth{x}) + \kth{\beta}(\kth{x} - \kth[k-1]{x}).
+\end{equation*}
+
+The idea behind this comes from the physical system of a ``heavy ball'' with friction: we descretize
+the differential equation (for a given \(f\)):
+\begin{equation*}
+  \ddot{x}(t) + \gamma\dot{x}(t) + \nabla f(\x(t)) = 0
+\end{equation*}
+using finite differences:
+\begin{align*}
+  \ddot{x}(t) &\approx \frac{\kth[k+1]{x} - 2\kth{x} + \kth[k-1]{x}}{h^2}, \\
+  \dot{x}(t) &\approx \frac{\kth[k+1]{x} - \kth{x}]{h}, \\
+  \nabla f(x(t)) &\approx \nabla f(\kth{x}).
+\end{align*}
+Rearranging these terms results in exactly this form, where \(\alpha\) and \(\beta\) are to be
+chosen. If \(f\) is a quadratic problem, we can solve for them analytically:
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} - \kth{\alpha} (\underbrace{Q\kth{x} - b}_{\kth{r}})
+  + \kth{\beta}(\underbrace{\kth{x} - \kth[k-1]{x}}_{\kth{p}}).
+\end{equation*}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Constraint Optimization over Convex Sets}
 
