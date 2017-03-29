@@ -23,6 +23,7 @@
 \DeclareMathOperator{\diag}{diag}
 \DeclareMathOperator*{\argmin}{arg min}
 \DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\proj}{proj}
 
 \newcounter{summary}[section]
 \newcommand{\summary}[1]{%
@@ -820,6 +821,34 @@ where \(L\) and \(I\) are the smallest and larges eigenvalue of \(Q\).  If \(Q \
   f(\kth{x}) - f(x^*) \geq \frac{3L \enVert[1]{\kth[0]{x} - x^*}}{32 (n+1)^2}.
 \end{equation*}
 
+
+\summary{\(Q\)-Conjucgacy}
+
+Given a positive definite matrix \(Q\), a set of nonzero vectors \(\kth[0]{d}, \ldots, \kth[k-1]{d}\) are
+called \emph{\(Q\)-conjugate} if for all \(i \neq j\)
+\begin{equation*}
+  \T{(\kth[i]{d})} Q \kth[j]{d} = 0.
+\end{equation*}
+We can interpret this as orthogonality in the metric given by \(Q\), which induces an inner product
+\(\langle \cdot \rangle_Q\).  Since the \(\kth[i]{d}\) are linearly independent in the \(Q\)-metric,
+they are also linearly independent in the normal metric.
+
+Given a set of linearly independent vectors \(\kth[0]{\xi}, \ldots, \kth{\xi}\), we can construct a
+set of mutually \(Q\)-conjugate vectors \(\kth[0]{d}, \ldots, \kth{d}\) spanning the same space by
+the \emph{Gram-Schmitd procedure}.  Therefore, we first define the projection operator (in the
+\(Q\)-metric):
+\begin{equation*}
+  \proj_d(\xi) = \frac{\langle d, \xi \rangle_Q}{\langle d, d \rangle_Q} d
+  = \frac{\T{d} Q \xi}{\T{d} Q d} d.
+\end{equation*}
+Then we can iteratively orthogonalize the \(\kth[i]{\xi}\) by removing all projections on the already
+orthogonalized ones:
+\begin{align*}
+  \kth[0]{d} &= \kth[0]{\xi} \\
+  \kth[i+1]{d} &= \kth[i+1]{\xi} - \sum_{m=0}^i \proj_{\kth[i]{d}}(\kth[i]{\xi}) \\
+             &= \kth[i+1]{\xi} - \sum_{m=0}^i
+               \frac{\T{(\kth[i]{d})} Q \kth[i]{\xi}}{\T{(\kth[i]{d})} Q \kth[i]{d}} \kth[i]{d}.
+\end{align*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Constraint Optimization over Convex Sets}
