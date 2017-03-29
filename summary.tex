@@ -191,7 +191,7 @@ neighbourhood; i.e., there is an \(\epsilon > 0\) such that
 \begin{equation*}
   f(x^*) \leq f(x) \quad \forall x \text{ with } \lVert x^* - x \rVert \leq \epsilon.
 \end{equation*}
-For \emph{constrained} minima, we just require additionally that \(x \in X \subset \RR^n\).
+For \emph{constrained} minima, we just require additionally that \(x^* \in X \subset \RR^n\).
 
 
 \summary{First Order Neccessary Condition for Optimality}
@@ -204,7 +204,7 @@ Since \(x^*\) is a local minimum, \(f(x^* + \Delta x) - f(x^*) \geq 0\), and we 
 \begin{equation*}
   f(x^*) + \T{\nabla f(x^*)} \Delta x - f(x^*) = \T{\nabla f(x^*)} \Delta x \geq 0.
 \end{equation*}
-Since we can also choose \(\Delta x\) to have the opposite sign, it holds that
+Since we can equally choose \(\Delta x\) to have the opposite sign, it holds also that
 \begin{equation*}
   \T{\nabla f(x^*)} \Delta x \leq 0,
 \end{equation*}
@@ -682,7 +682,7 @@ for a continuously differentiable function \(g\) with components \(g_i\), which 
 nonlinear.  This is equivalent to solving the problem \(g(x) = 0\).
 
 Usually, a least squares problem is a model fitting problem, where \(g_i(x) = z_i - h(y_i, x)\), for
-a model function \(h\) with parameters \(x\), samples \(y_i\), and targets and \(z_i\).
+a model function \(h\) with parameters \(x\), samples \(y_i\), and targets~\(z_i\).
 
 
 \summary{Gauss-Newton Method}\label{s:gauss_newton_method}
