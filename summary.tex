@@ -835,7 +835,7 @@ they are also linearly independent in the normal metric.
 
 Given a set of linearly independent vectors \(\kth[0]{\xi}, \ldots, \kth{\xi}\), we can construct a
 set of mutually \(Q\)-conjugate vectors \(\kth[0]{d}, \ldots, \kth{d}\) spanning the same space by
-the \emph{Gram-Schmitd procedure}.  Therefore, we first define the projection operator (in the
+the \emph{Gram-Schmidt procedure}.  Therefore, we first define the projection operator (in the
 \(Q\)-metric):
 \begin{equation*}
   \proj_d(\xi) = \frac{\langle d, \xi \rangle_Q}{\langle d, d \rangle_Q} d
@@ -845,10 +845,70 @@ Then we can iteratively orthogonalize the \(\kth[i]{\xi}\) by removing all proje
 orthogonalized ones:
 \begin{align*}
   \kth[0]{d} &= \kth[0]{\xi} \\
-  \kth[i+1]{d} &= \kth[i+1]{\xi} - \sum_{m=0}^i \proj_{\kth[i]{d}}(\kth[i]{\xi}) \\
-             &= \kth[i+1]{\xi} - \sum_{m=0}^i
-               \frac{\T{(\kth[i]{d})} Q \kth[i]{\xi}}{\T{(\kth[i]{d})} Q \kth[i]{d}} \kth[i]{d}.
+  \kth[k]{d} &= \kth[k]{\xi} - \sum_{j=0}^{k-1} \proj_{\kth[j]{d}}(\kth[k]{\xi}) \\
+             &= \kth[k]{\xi} - \sum_{j=0}^{k-1}
+               \frac{\T{(\kth[j]{d})} Q \kth[k]{\xi}}{\T{(\kth[j]{d})} Q \kth[j]{d}} \kth[j]{d}.
 \end{align*}
+
+
+\summary{Conjugate Direction Methods}
+
+These methods accelerate the slow convergence of gradient methods, while still avoiding the overhead
+of second-order methods, like Newton's.  They work for \emph{quadratic problems} of the form
+\begin{equation*}
+  \min_{x \in \RR^n} f(x) = \frac{1}{2} \T{x}Qx - \T{b}x.
+\end{equation*}
+Originally, they were developed for symmetric and positive definite \(Q\), but they also work for
+solving linear systems of the form \(Qx = b\), where \(Q\) is not neccessarily symmetric, but just
+invertible.
+
+For a given set of \(Q\)-conjugate descent directions \(\kth[0]{d}, \ldots, \kth{d}\), the conjugate
+direction method minimizing a quadratic function \(f: \RR^n \to \RR\) is given by the gradient
+method
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} - \kth{\alpha}\kth{d},
+\end{equation*}
+where \(\kth{\alpha}\) is obtained by line minimization and \(\kth[0]{x}\) is arbitrary.
+
+This method generates steps which minimize the function over a sequence of expanding linear
+submanifolds \(\kth{M}\) of the domain of \(f\):
+\begin{equation*}
+  \kth[k+1]{x} = \argmin_{x \in \kth{M}} f(x),
+\end{equation*}
+where
+\begin{equation*}
+  \kth{M} = \kth[0]{x} + \Span (\kth[0]{d}, \ldots, \kth{d}).
+\end{equation*}
+Since by construction, the \(\kth[i]{d}\) span the same space as the \(\kth[i]{x}\), \(\kth[n]{x}\)
+minimizes the function over its whole domain; hence, the method terminates after at most \(n\)
+steps.
+
+
+\summary{Conjugate Gradient Method}
+
+The conjugate gradient method is the most important conjugate direction method.  It is obtained by
+simply applying the Gram-Schmidt procedure on the gradient vectors at the successive steps: we set
+\(\kth[i]{\xi} = -\kth[i]{g}\) for
+\begin{equation*}
+  \kth{g} = \nabla f(\kth{x}) = Q \kth{x} - b,
+\end{equation*}
+and calculate the descent directions \(\kth[i]{d}\) as stated above:
+\begin{align*}
+  \kth[0]{d} &= -\kth[0]{g}, \\
+  \kth[k]{d} &= -\kth[k]{g} + \sum_{j=0}^{k-1}
+               \frac{\T{(\kth[k]{g})} Q \kth[j]{d}}{\T{(\kth[j]{d})} Q \kth[j]{d}} \kth[j]{d}.
+\end{align*}
+
+Since all but one of the coefficients are zero, the sum can be simplified to
+\begin{equation*}
+  \kth{d} &= -\kth{g} + \kth{\beta}\kth[k-1]{d},
+\end{equation*}
+where \(\kth{\beta}\) is given by
+\begin{equation*}
+  \kth{\beta} = \frac{\T{(\kth{g})}\kth{g}}{\T{(\kth[k-]{g})}\kth[k-1]{g}}
+\end{equation*}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Constraint Optimization over Convex Sets}
