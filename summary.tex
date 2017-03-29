@@ -889,7 +889,12 @@ steps.
 
 \summary{Conjugate Gradient Method}
 
-The conjugate gradient method is the most important conjugate direction method.  It is obtained by
+The conjugate gradient method (CG) is the most important conjugate direction method.  The step
+scheme is
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} + \kth{\alpha}\kth{d},
+\end{equation*}
+where \(\kth{\alpha}\) is chosen by line minimization, and the descent directions are obtained by
 simply applying the Gram-Schmidt procedure on the gradient vectors at the successive steps: we set
 \(\kth[i]{\xi} = -\kth[i]{g}\) for
 \begin{equation*}
@@ -921,6 +926,23 @@ and if \(0 \preceq Q \preceq L\) is positive semidefinite, then
 \begin{equation*}
   f(\kth{x}) - f(x^*) \leq \frac{L \enVert[1]{\kth[0]{x} - x^*}^2}{2 (2k + 1)^2}.
 \end{equation*}
+
+
+\summary{Application of CG to Nonlinear Problems}
+
+For general minimization problems, we can adapt the idea of the above method as follows:
+\(\kth{\alpha}\) is still chosen by line minimization, but we generate the descent directions via
+\begin{equation*}
+  \kth{d} = -\nabla f(\kth{x}) + \kth{\beta}\kth[k-1]{d},
+\end{equation*}
+where \(\kth{\beta}\) is computed as
+\begin{equation*}
+  \kth{\beta} = \frac{\T{\nabla f(\kth{x})}(\nabla f(\kth{x}) - \nabla f(\kth[k-1]{x})}{
+    \T{\nabla f(\kth[k-1]{x})} \nabla f(\kth[k-1]{x})}.
+\end{equation*}
+Here, we can't anymore say anything about convergence.  It might be neccessary to sometimes restart
+the procedure with \(\kth{\beta} = 0\).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Constraint Optimization over Convex Sets}
