@@ -95,6 +95,9 @@ written as \(Q \succeq 0\) and
   are positive.
 \end{enumerate}
 
+The notation can also be used for general inequalities between quadratic forms: \(a \preceq Q
+\preceq b \Leftrightarrow \forall x: a \leq \T{x}Qx \leq b\), etc.
+
 
 \summary{Convexity}
 
@@ -853,14 +856,14 @@ orthogonalized ones:
 
 \summary{Conjugate Direction Methods}
 
-These methods accelerate the slow convergence of gradient methods, while still avoiding the overhead
-of second-order methods, like Newton's.  They work for \emph{quadratic problems} of the form
+For \emph{quadratic problems} of the form
 \begin{equation*}
-  \min_{x \in \RR^n} f(x) = \frac{1}{2} \T{x}Qx - \T{b}x.
+  \min_{x \in \RR^n} f(x) = \frac{1}{2} \T{x}Qx - \T{b}x,
 \end{equation*}
-Originally, they were developed for symmetric and positive definite \(Q\), but they also work for
-solving linear systems of the form \(Qx = b\), where \(Q\) is not neccessarily symmetric, but just
-invertible.
+these methods accelerate the slow convergence of gradient methods, while still avoiding the overhead
+of second-order methods, like Newton's.  Originally, they were developed for symmetric and positive
+definite \(Q\), but they also work for solving linear systems of the form \(Qx = b\), where \(Q\) is
+not neccessarily symmetric, but just invertible.
 
 For a given set of \(Q\)-conjugate descent directions \(\kth[0]{d}, \ldots, \kth{d}\), the conjugate
 direction method minimizing a quadratic function \(f: \RR^n \to \RR\) is given by the gradient
@@ -898,17 +901,26 @@ and calculate the descent directions \(\kth[i]{d}\) as stated above:
   \kth[k]{d} &= -\kth[k]{g} + \sum_{j=0}^{k-1}
                \frac{\T{(\kth[k]{g})} Q \kth[j]{d}}{\T{(\kth[j]{d})} Q \kth[j]{d}} \kth[j]{d}.
 \end{align*}
-
 Since all but one of the coefficients are zero, the sum can be simplified to
 \begin{equation*}
-  \kth{d} &= -\kth{g} + \kth{\beta}\kth[k-1]{d},
+  \kth{d} = -\kth{g} + \kth{\beta}\kth[k-1]{d},
 \end{equation*}
 where \(\kth{\beta}\) is given by
 \begin{equation*}
-  \kth{\beta} = \frac{\T{(\kth{g})}\kth{g}}{\T{(\kth[k-]{g})}\kth[k-1]{g}}
+  \kth{\beta} = \frac{\T{(\kth{g})}\kth{g}}{\T{(\kth[k-1]{g})}\kth[k-1]{g}}.
 \end{equation*}
 
-
+This method terminates with an optimal solution after at most \(n\) steps (as argued above), and is
+the optimal first order method for quadratic problems: If \(0 \preceq I \preceq Q \preceq L\) is positive
+definite, then
+\begin{equation*}
+  \enVert[1]{\kth{x} - x^*} \leq 2\sqrt{L/I} \left( \frac{\sqrt{L/I}-1}{\sqrt{L/I}+1} \right)
+  \enVert[1]{\kth[0]{x} - x^*},
+\end{equation*}
+and if \(0 \preceq Q \preceq L\) is positive semidefinite, then
+\begin{equation*}
+  f(\kth{x}) - f(x^*) \leq \frac{L \enVert[1]{\kth[0]{x} - x^*}^2}{2 (2k + 1)^2}.
+\end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Constraint Optimization over Convex Sets}
