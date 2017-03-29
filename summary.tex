@@ -812,7 +812,7 @@ For a quadratic minimization problem
 \end{equation*}
 we can give lower bounds for first-order gradient methods of the form
 \begin{equation*}
-  \kth[k+1]{x} \in \kth[0]{x} + \Span \{\nabla f(\kth[0]), \ldots, \nabla f(\kth{x})\}.
+  \kth[k+1]{x} \in \kth[0]{x} + \Span \{\nabla f(\kth[0]{x}), \ldots, \nabla f(\kth{x})\}.
 \end{equation*}
 If \(Q \succ 0\), then
 \begin{equation*}
@@ -963,8 +963,8 @@ using finite differences:
   \dot{x}(t) &\approx \frac{\kth[k+1]{x} - \kth{x}}{h}, \\
   \nabla f(x(t)) &\approx \nabla f(\kth{x}).
 \end{align*}
-Rearranging these terms results in exactly this form, where \(\alpha\) and \(\beta\) are to be
-chosen. If \(f\) is a quadratic problem, we can solve for them analytically:
+We can arrange these terms to get the above form, where \(\alpha\) and \(\beta\) are to be chosen.
+If \(f\) is a quadratic problem, we can solve for them analytically: let
 \begin{equation*}
   \kth[k+1]{x} = \kth{x} - \kth{\alpha} (\underbrace{Q\kth{x} - b}_{\kth{r}})
   + \kth{\beta}(\underbrace{\kth{x} - \kth[k-1]{x}}_{\kth{p}}).
