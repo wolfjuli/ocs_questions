@@ -72,9 +72,9 @@ Futhermore, it is useful to know that
 \end{equation*}
 for
 \begin{equation*}
-  \det A = ab - cd \neq 0.
+  \det A = ab - cd \neq 0,
 \end{equation*}
-Taylor expansion around \(x_0\):
+as well as the Taylor expansion around \(x_0\):
 \begin{equation*}
   f(x) = f(x_0) + \T{\nabla f(x_0)}(x - x_0) + \frac{1}{2} \T{(x - x_0)}\nabla^2 f(x_0)(x - x_0)
   + o(\,\enVert{x - x_0}^2).
@@ -99,7 +99,7 @@ The notation can also be used for general inequalities between quadratic forms: 
 \preceq b \Leftrightarrow \forall x: a \leq \T{x}Qx \leq b\), etc.
 
 
-\summary{Convexity}
+\summary{Convex Sets}\label{s:convex_sets}
 
 A set \(X\) is convex, if for all \(x, y \in X\) and \(\alpha \in [0,1]\):
 \begin{equation*}
@@ -108,9 +108,9 @@ A set \(X\) is convex, if for all \(x, y \in X\) and \(\alpha \in [0,1]\):
 This means that \(X\) contains all convex combinations of points from it.
 
 
-\summary{Convex Functions}
+\summary{Convex Functions}\label{s:convex_functions}
 
-If \(X\) is a convex set, then \(f: X \to \RR\) is called convex if for all \(x, y \in X\) and
+If \(X\) is a convex set, then \(f: X \to \RR\) is called \emph{convex} if for all \(x, y \in X\) and
 \(\alpha \in [0,1]\):
 \begin{equation*}
   f(\alpha x + (1 - \alpha) y) \leq \alpha f(x) + (1 - \alpha) f(y).
@@ -123,6 +123,51 @@ and the second-order condition
 \begin{equation*}
   \nabla^2 f(x) \succeq 0 \quad \forall x \in X.
 \end{equation*}
+We speak about \emph{strict convexity} when the inequalities are replaced by strict ones.
+
+A function is \emph{\(\mu\)-strongly
+  convex}\footnote{\url{https://en.wikipedia.org/wiki/Convex_function\#Strongly_convex_functions}} if
+for all \(x, y \in X\) and \(\alpha \in [0,1]\):
+\begin{equation*}
+  f(\alpha x + (1 - \alpha) y) \leq \alpha f(x) + (1 - \alpha) f(y)
+  - \frac{\mu}{2} \alpha (1 - \alpha) \enVert[1]{x - y}^2,
+\end{equation*}
+or equivalently for differentiable functions:
+\begin{equation*}
+  f(x) \geq f(y) + \T{\nabla f(y)}(x - y) + \frac{\mu}{2}\enVert[1]{x - y}^2
+  \quad \forall x, y \in X,
+\end{equation*}
+and twice differentiable functions:
+\begin{equation*}
+  \nabla^2 f(x) \succeq \mu \quad \forall x \in X.
+\end{equation*}
+The latter is equivalent to requiring that the minimum eigenvalue of \(\nabla^2 f(x)\) is at least
+\(\mu\) for all \(x\).  This definition approaches the definition for strict convexity as
+\(m \to 0\), and is identical to the definition of a convex function when \(m = 0\).  On
+\(X = \RR\), \(f\) is \(\mu\)-strongly convex if \(f''(x) \geq \mu > 0\) for all \(x\).
+
+
+\summary{Lipschitz continuity}
+
+A continuously differentiable function \(f: \RR^n \to \RR\) is called \emph{Lipschitz continuous},
+if there is value \(L \geq 0\), called \emph{Lipschitz constant}, such that for all \(x, y \in
+\RR^n\) and \(t \in [0, 1]\):
+\begin{equation*}
+  \enVert{\nabla f(x + ty) - \nabla f(x)} \leq Lt \enVert[1]{y},
+\end{equation*}
+or more generally
+\begin{equation*}
+  \enVert{f(x) - f(y)} \leq L \enVert[1]{x - y}
+\end{equation*}
+for some norm.
+
+Intuitively, a Lipschitz continuous function is limited in how fast it can change: there exists a
+Lipschitz constant such that, for every pair of points on the graph of this function, the absolute
+value of the slope of the line connecting them is not greater than this
+constant.\footnote{\url{https://en.wikipedia.org/wiki/Lipschitz_continuity}}
+
+A function \(\RR \to \RR\) is Lipschitz continuous with \(L = \sup_x |g'(x)|\) if and only if it has
+a bounded first derivative.
 
 
 \summary{Level Sets}
@@ -388,29 +433,6 @@ This is, for example, satisfied for \(\kth{d} = -\kth{D}\nabla f(\kth{x})\), whe
 and more orthogonal to the gradient; a counterexample would be a sequence which oscillates in the
 limit, due to a badly chosen step size (there, all finite directions are descent directions, but
 they get ``worse'' in the limit).
-
-
-\summary{Lipschitz continuity}
-
-A continuously differentiable function \(f: \RR^n \to \RR\) is called \emph{Lipschitz continuous},
-if there is value \(L \geq 0\), called \emph{Lipschitz constant}, such that for all \(x, y \in
-\RR^n\) and \(t \in [0, 1]\):
-\begin{equation*}
-  \enVert{\nabla f(x + ty) - \nabla f(x)} \leq Lt \enVert[1]{y},
-\end{equation*}
-or more generally
-\begin{equation*}
-  \enVert{f(x) - f(y)} \leq L \enVert[1]{x - y}
-\end{equation*}
-for some norm.
-
-Intuitively, a Lipschitz continuous function is limited in how fast it can change: there exists a
-Lipschitz constant such that, for every pair of points on the graph of this function, the absolute
-value of the slope of the line connecting them is not greater than this
-constant.\footnote{\url{https://en.wikipedia.org/wiki/Lipschitz_continuity}}
-
-A function \(\RR \to \RR\) is Lipschitz continuous with \(L = \sup_x |g'(x)|\) if and only if it has
-a bounded first derivative.
 
 
 \summary{Descent Lemma}\label{s:descent_lemma}
@@ -1010,8 +1032,44 @@ then for every \(\epsilon > 0\) there is a \(c > 0\) such that for all \(k\)
   \leq c(\sqrt{b} + \epsilon)^k \enVert[1]{\T{(\kth[k]{x} - x^*, \kth[k-1]{x} - x^*)}}
 \end{equation*}
 \todo{what does this norm mean???}
-By this, the heavy ball method is optimal for smooth and strictly convex functions (\(\mu > 0\)),
+By this, the heavy ball method is optimal for smooth and strongly convex functions (\(\mu > 0\)),
 although it does not work so well if \(\mu = 0\).
+
+
+\summary{Nesterov's Method}
+
+As seen above, the heavy ball method works well for strongly convex and twice continuously
+differentiable functions, but in general cases, it is hard to set the parameters to get good
+convergence rates.  Nesterov's algorithm is a very similar method, which however requires the
+objective function just to be continuously differentiable, and yields an optimal convergence rate
+\(\mathcal{O}(1/k^2)\) also for smooth problems.
+
+For the algorithm, let \(f \in \mathcal{C}^1\) with L-Lipschitz continuous gradient.  Set
+\(\kth[-1]{x} = \kth[0]{x} = \kth[0]{y}\) arbitrary, \(\kth[0]{t} = 0\), and \(\alpha = 1/L\). Then:
+\begin{align*}
+  \kth[k+1]{t} &= \frac{1 + \sqrt{1 + 4(\kth{t})^2}}{2}, \\
+  \kth{\beta} &= \frac{\kth{t} - 1}{\kth[k+1]{t}}, \\
+  \kth{y} &= \kth{x} + \kth{\beta}(\kth{x} - \kth[k-1]{x}), \\
+  \kth[k+1]{x} &= \kth{y} - \alpha\nabla f(\kth{y}).
+\end{align*}
+In essence, this is the same approach as in the heavy ball/momentum method, just that the gradient
+is evaluated at the extrapolated point \(\kth{y}\) (which is ``where the ball would have rolled
+to''), instead of \(\kth{x}\) itself.  Futhermore, the parameter \(\kth{\beta}\)
+(``overrelaxation'') is chosen in a different, dynamic way, which however does not depend on the
+steps an converges to \(1\).
+
+It holds that
+\begin{equation*}
+  f(\kth{x}) - f(x^*) \leq \frac{2L\enVert[1]{\kth[0]{x} - x^*}^2}{(k + 1)^2},
+\end{equation*}
+so the method is optimal.  If the function is \(\mu > 0\)-strongly convex, then the overrelaxation
+parameter can be set to the constant
+\begin{equation*}
+  \beta = \frac{\sqrt{L} - \sqrt{\mu}}{\sqrt{L} + \sqrt{\mu}},
+\end{equation*}
+which leads to optimal linear convergence.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Constraint Optimization over Convex Sets}
