@@ -147,7 +147,7 @@ The latter is equivalent to requiring that the minimum eigenvalue of \(\nabla^2 
 \(X = \RR\), \(f\) is \(\mu\)-strongly convex if \(f''(x) \geq \mu > 0\) for all \(x\).
 
 
-\summary{Lipschitz continuity}
+\summary{Lipschitz continuity}\label{s:lipschitz_continuity}
 
 A continuously differentiable function \(f: \RR^n \to \RR\) is called \emph{Lipschitz continuous},
 if there is value \(L \geq 0\), called \emph{Lipschitz constant}, such that for all \(x, y \in
@@ -456,7 +456,7 @@ Derivation: let \(g(t) = f(x + ty)\) for \(t \in [0, 1]\).
 \end{align*}
 where (1) is an application of the Cauchy-Schwarz theorem
 (\(\langle x, y \rangle \leq \enVert{x} \cdot \enVert{y}\)), and (2) follows from Lipschitz
-continuity.
+continuity (Summary~\ref{s:lipschitz_continuity}).
 
 
 \summary{Interpretation of Descent Lemma}\label{s:descent_lemma_interpretation}
@@ -860,8 +860,8 @@ they are also linearly independent in the normal metric.
 
 Given a set of linearly independent vectors \(\kth[0]{\xi}, \ldots, \kth{\xi}\), we can construct a
 set of mutually \(Q\)-conjugate vectors \(\kth[0]{d}, \ldots, \kth{d}\) spanning the same space by
-the \emph{Gram-Schmidt procedure}.  Therefore, we first define the projection operator (in the
-\(Q\)-metric):
+the \emph{Gram-Schmidt procedure}.  Therefore, we first define the projection operator onto a vector
+\(d\) (in the \(Q\)-metric):
 \begin{equation*}
   \proj_d(\xi) = \frac{\langle d, \xi \rangle_Q}{\langle d, d \rangle_Q} d
   = \frac{\T{d} Q \xi}{\T{d} Q d} d.
@@ -1044,7 +1044,7 @@ convergence rates.  Nesterov's algorithm is a very similar method, which however
 objective function just to be continuously differentiable, and yields an optimal convergence rate
 \(\mathcal{O}(1/k^2)\) also for smooth problems.
 
-For the algorithm, let \(f \in \mathcal{C}^1\) with L-Lipschitz continuous gradient.  Set
+For the algorithm, let \(f \in \mathcal{C}^1\) with \(L\)-Lipschitz continuous gradient.  Set
 \(\kth[-1]{x} = \kth[0]{x} = \kth[0]{y}\) arbitrary, \(\kth[0]{t} = 0\), and \(\alpha = 1/L\). Then:
 \begin{align*}
   \kth[k+1]{t} &= \frac{1 + \sqrt{1 + 4(\kth{t})^2}}{2}, \\
@@ -1076,6 +1076,79 @@ which leads to optimal linear convergence.
 
 \summary{Basic Setup}
 
-Bla.
+Here we consider problems of the form
+\begin{equation*}
+  \min_{x} f(x) \quad \text{s.t. } x \in X,
+\end{equation*}
+for a \(X \subset \RR^n\) is nonempty, closed, and convex.  Usually, \(X\) is described by
+inequality or equality constraints (eg., \(\enVert[1]{x - c}_2 \leq 1\), or \(x \geq 0\)).  When
+\(f\) is continuously differentiable, the algorithms considered are based on gradient methods for
+unconstrained minimization, but it will be harder to find fast methods.
+
+The definitions of local and global minima stay essentially the same as above, with the difference
+that we require \(x\) to be \emph{feasible}, ie., \(x \in X\).
+
+
+\summary{Conditions of Optimality}
+
+In the unconstrained case, we have observed that a local minimum is characterized by the fact that
+the cost function is increasing in every direction:
+\begin{equation*}
+  \T{\nabla f(x^*)}(x - x^*) \geq 0, \quad\forall x \in \RR^n.
+\end{equation*}
+This leads to the conclusion that \(\nabla f(x^*) = 0\). In the constrained case, we need to
+consider the neccessary condition
+\begin{equation*}
+  \T{\nabla f(x^*)}(x - x^*) \geq 0, \quad\forall x \in X;
+\end{equation*}
+ie., the gradient \emph{in all feasible directions} must be less than \(0\).  If \(f\) is convex
+over \(X\), then this condition is also sufficient.
+
+For illustration, see Figure~\ref{fig:non_convex}: if a local minimum is at the boundary of \(X\)
+(which will be the most interesting case, otherwise the problem is not much different from an
+unconstrained one), we only need to consider directions (other points) inside the boundary, which
+for a convex set implies that the gradient makes an an angle of \(90^\circ\) or less with the
+feasible directions.  In the non-convex case, this condition can fail.
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{non_convex.png}
+\caption{Illustraion of the neccessary condition for constraint local minima and when it
+  fails.\label{fig:non_convex}}
+\end{figure}
+
+
+\summary{Projection on a Convex Set}
+
+This operation is a subproblem of many constraint optimization algorithms.  Let \(z \in \RR^n\).  We
+call
+\begin{equation*}
+  \proj_X(z) = \min_{x \in X}\, \enVert[1]{x - z}^2 \quad\text{s.t. } x \in X
+\end{equation*}
+the projection of \(z\) onto X; it is the point in \(X\) which is closest to \(z\).
+
+
+\summary{Projection Theorem}
+
+For a nonempty, closed \(X \subseteq \RR^n\), there is for every \(z \in \RR^n\) a unique
+\(x^* = \proj_X(z)\); this follows from the strong convexity of the projection operator.
+
+Furthermore, given \(z\), \(x^* = \proj_X(z)\) if and only if
+\begin{equation*}
+  \T{(z - x^*)}(x - x^*) \leq 0, \quad\forall x \in X;
+\end{equation*}
+if \(X\) is a sub-vectorspace of \(\RR^n\), this reduces to 
+\begin{equation*}
+  \T{(z - x^*)}x \leq 0, \quad\forall x \in X.
+\end{equation*}
+The second condition follows from specializing the optimality condition to the projection: for
+\(f(x) = \frac{1}{2} \enVert{x - z}^2\), we have \(\nabla f(x) = x - z\).  The optimility condition
+for this is
+\begin{alignat*}{2}
+  &\quad & \T{\nabla f(x^*)}(x - x^*) &\geq 0 \\
+  &\Leftrightarrow & \T{(x - z)}(x - x^*) &\geq 0 \\
+  &\Leftrightarrow & \T{(z - x)}(x - x^*) &\leq 0.
+\end{alignat*}
+The third condition follows from the fact that for all \(x \in X\), both \(x^* + x\) and \(x^* - x\)
+are in \(X\).
 
 \end{document}
