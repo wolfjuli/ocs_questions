@@ -369,6 +369,21 @@ which contradicts the assumption, so \(x^*\) must also be a global minimum.
 Furthermore, the neccessary condition for minima, \(\nabla f(x^*) = 0\), for convex functions
 becomes a sufficient condition.\todo{why this?}
 
+\optionalsummary{Existence of Minimizers}
+
+A crucial condition for the general existence of minimizers is the following: a function
+\(f: X \subset \RR^N \to \RR \cup \{\infty\}\) is \emph{lower semicontinuous}, if for all sequences
+\({x_k} \in X\) converging to \(x \in X\) we have that
+\begin{equation*}
+  f(x) \leq \liminf_{k \to \infty} f(x_k).
+\end{equation*}
+If \(f\) is such, we can prove by the Heine-Borel theorem that if \(X\) is closed and bounded, f has a global
+minimizer.
+
+If \(X\) is not bounded, we cannot use a compactness argument, but need an additional condition:
+\(f\) is called \emph{coercive} if for every sequence \({x_k} \in X\) with \(\lVert x_k \rVert \to
+\infty\), \(f(x_k) \to \infty\).  Now, if \(f\) is lower semicontinuous and coercive, and \(X\) is
+closed and non-empty, then \(f\) also has a global minimizer.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Gradient Methods}
