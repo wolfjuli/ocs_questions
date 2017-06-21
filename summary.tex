@@ -24,10 +24,15 @@
 \DeclareMathOperator*{\argmin}{arg min}
 \DeclareMathOperator{\Span}{span}
 \DeclareMathOperator{\proj}{proj}
+\DeclareMathOperator{\card}{card}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\rank}{rank}
 
 \newcounter{summary}[section]
 \newcommand{\summary}[1]{%
   \paragraph{\arabic{section}.\arabic{summary}\enspace #1.}\refstepcounter{summary}}
+\newcommand{\optionalsummary}[1]{%
+  \paragraph{\arabic{section}.\arabic{summary}*\enspace #1.}\refstepcounter{summary}}
 \renewcommand{\thesummary}{\thesection .\arabic{summary}}
 
 \usepackage{tocloft}
@@ -98,6 +103,71 @@ written as \(Q \succeq 0\) and
 The notation can also be used for general inequalities between quadratic forms: \(a \preceq Q
 \preceq b \Leftrightarrow \forall x: a \leq \T{x}Qx \leq b\), etc.
 
+\optionalsummary{Norms}
+
+As usual, we have the \(\ell_p\)-norms for \(x \in \RR^N\):
+\begin{equation*}
+  \lVert x \rVert_p = \left( \sum_{1 \leq i \leq N} |x_i|^p \right).
+\end{equation*}
+
+Special cases of this are the \(Euclidean norm\) (\(p = 2\)) and the \(Manhatton norm\) (\(p = 1\)):
+\begin{equation*}
+  \lVert x \lVert_2 = \sqrt{\T{x} x} \quad \text{and} \quad \lVert x \lVert_1 = \sum_{1 \leq i \leq
+    N} |x_i|.
+\end{equation*}
+The Manhattan norm is used mostly in regularization terms to achieve sparse values.  In the limit,
+there are the \(\ell_\infty\)- or \(maximum-norm\) and the \(\ell_0\)-quasinorm:
+\begin{equation*}
+  \lVert x \lVert_\infty = \max_i \{|x_i|\} \quad
+\text{and} \quad \lVert x \lVert_\infty = \card \{i \mid x_i \neq 0\}.
+\end{equation*}
+The \(\ell_0\)-norm counts the number of nonzero entries in a vector, and is the strongest possible
+sparsity constraint.  It usually is replaced by the \(\ell_1\)-norm in practical applications.
+
+For matrices, we can consider so-called \(operator norms\).  An operator \(A: X \to Y\) is called
+bounded by a number \(C\) if for all \(x \in X\)
+\begin{equation*}
+  \lVert Ax \rVert_Y \leq C \lVert x \rVert_X.
+\end{equation*}
+The operator norm is the smallest bound of it:
+\begin{equation*}
+  \lVert A \rVert_{X,Y} = \sup_x \frac{\lVert Ax \rVert_Y}{\lVert x \rVert_X}
+  = \sup_{\lVert x \rVert_X \leq 1} \lVert Ax \rVert_Y.
+\end{equation*}
+If \(A\) can be described by a matrix, we can use \(p\)-norms again and write \(\lVert A
+\rVert_{p,q}\).
+
+Based on the operator norm, we can form the \(dual norm\) of a norm \(\lVert \cdot \rVert\):
+\begin{equation*}
+  \lVert y \rVert_{*} = \sup_{\lVert x \rVert \leq 1} \T{y} x,
+\end{equation*}
+which is the operator norm of \(y\) when treated as a dual vector.  If \(\lVert \cdot \rVert\) is an
+\(\ell_p\)-norm, then the dual is the \(\ell_q\)-norm with \(\frac{1}{q} + \frac{1}{p} = 1\).
+
+A further family of matrix norms are the \emph{Schatten \(p\)-norms}.  For a matrix \(A \in
+\RR^{M \times N}\) with rank \(R\), consider the singular value decomposition
+\begin{equation*}
+  A = U \Sigma \T{V},
+\end{equation*}
+where \(U, V\) are orthogonal and \(\Sigma = \diag(\sigma_1, \ldots, \sigma_R)\).  It holds that
+\(\sigma_i(A) = \sqrt{\lambda_i(A \T{A})}\).  Then
+\begin{equation*}
+  \lVert A \rVert_{S_p} = \left( \sum_{1 \leq i \leq N} \sigma_i(A)^p \right).
+\end{equation*}
+This norm is based solely on the eigenvalues; it measures the stretching of the matrix (described by
+\(\Sigma\)), while ignoring the rotation part.  Special cases here are the \emph{nuclear norm} (\(p = 1\))
+\begin{equation*}
+  \lVert A \rVert_{*} = \sum_{1 \leq i \leq R} \sigma_i(A),
+\end{equation*}
+the \emph{Frobenius norm} (\(p = 2\))
+\begin{equation*}
+  \lVert A \rVert_{F} = \sqrt{\sum_{1 \leq i \leq R} \sigma_i(A)} = \sqrt{\tr(A\T{A})} = \sqrt{\sum_{ij} a_{ij}^2}
+\end{equation*}
+as well as the limit cases of the \emph{spectral norm} and the rank:
+\begin{equation*}
+  \lVert A \rVert_{\infty} = \max\{\sigma_1, \ldots, \sigma_R\} \quad \text{and} \quad
+  \lVert A \rVert_{0} = \rank(A).
+\end{equation*}
 
 \summary{Convex Sets}\label{s:convex_sets}
 
@@ -201,7 +271,7 @@ and an \emph{objective function} \(f: X \to \RR\).  We want to find an optimal v
 \begin{enumerate}
 \item
   \begin{enumerate}
-  \item Discrete: \(X\) is a discrete set, also called \emph{interger programming}.
+  \item Discrete: \(X\) is a discrete set, also called \emph{integer programming}.
   \item Continuous: \(X\) is continuous (ie. uncountable)
   \end{enumerate}
 \item
