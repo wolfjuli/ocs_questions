@@ -88,7 +88,8 @@ as well as the Taylor expansion around \(x_0\):
   f(x) = f(x_0) + \T{\nabla f(x_0)}(x - x_0) + \frac{1}{2} \T{(x - x_0)}\nabla^2 f(x_0)(x - x_0)
   + o(\,\enVert{x - x_0}^2).
 \end{equation*}
-% calclulating eigenvalues by hand: http://math.harvard.edu/archive/21b_fall_04/exhibits/2dmatrices/index.html
+% calclulating eigenvalues by hand:
+% http://math.harvard.edu/archive/21b_fall_04/exhibits/2dmatrices/index.html
 
 
 \summary{Definiteness}
@@ -120,16 +121,16 @@ Special cases of this are the \emph{Euclidean norm} (\(p = 2\)) and the \emph{Ma
     N} |x_i|.
 \end{equation*}
 The Manhattan norm is used mostly in regularization terms to achieve sparse values.  In the limit,
-there are the \(\ell_\infty\)- or \emph{maximum-norm} and the \(\ell_0\)-quasinorm:
+there are the \(\ell_\infty\)- or \emph{maximum norm} and the \(\ell_0\)-quasinorm:
 \begin{equation*}
   \lVert x \lVert_\infty = \max_i \{|x_i|\} \quad
-\text{and} \quad \lVert x \lVert_\infty = \card \{i \mid x_i \neq 0\}.
+\text{and} \quad \lVert x \lVert_0 = \card \{i \mid x_i \neq 0\}.
 \end{equation*}
 The \(\ell_0\)-norm counts the number of nonzero entries in a vector, and is the strongest possible
 sparsity constraint.  It usually is replaced by the \(\ell_1\)-norm in practical applications.
 
-For matrices, we can consider so-called \(operator norms\).  An operator \(A: X \to Y\) is called
-bounded by a number \(C\) if for all \(x \in X\)
+For matrices, we can consider so-called \emph{operator norms}.  An operator \(A: X \to Y\) between
+normed spaces is called bounded by a number \(C\) if for all \(x \in X\)
 \begin{equation*}
   \lVert Ax \rVert_Y \leq C \lVert x \rVert_X.
 \end{equation*}
@@ -141,7 +142,7 @@ The operator norm is the smallest bound of it:
 If \(A\) can be described by a matrix, we can use \(p\)-norms again and write \(\lVert A
 \rVert_{p,q}\).
 
-Based on the operator norm, we can form the \(dual norm\) of a norm \(\lVert \cdot \rVert\):
+Based on the operator norm, we can form the \emph{dual norm} of a norm \(\lVert \cdot \rVert\):
 \begin{equation*}
   \lVert y \rVert_{*} = \sup_{\lVert x \rVert \leq 1} \T{y} x,
 \end{equation*}
@@ -184,8 +185,8 @@ This means that \(X\) contains all convex combinations of points from it.
 
 \summary{Convex Functions}\label{s:convex_functions}
 
-If \(X\) is a convex set, then \(f: X \to \RR\) is called \emph{convex} if for all \(x, y \in X\) and
-\(\alpha \in [0,1]\):
+If \(X\) is a convex set in some vector space, then \(f: X \to \RR\) is called \emph{convex} if for
+all \(x, y \in X\) and \(\alpha \in [0,1]\):
 \begin{equation*}
   f(\alpha x + (1 - \alpha) y) \leq \alpha f(x) + (1 - \alpha) f(y).
 \end{equation*}
@@ -218,31 +219,30 @@ and twice differentiable functions:
 \end{equation*}
 The latter is equivalent to requiring that the minimum eigenvalue of \(\nabla^2 f(x)\) is at least
 \(\mu\) for all \(x\).  This definition approaches the definition for strict convexity as
-\(m \to 0\), and is identical to the definition of a convex function when \(m = 0\).  On
+\(\mu \to 0\), and is identical to the definition of a convex function when \(\mu = 0\).  On
 \(X = \RR\), \(f\) is \(\mu\)-strongly convex if \(f''(x) \geq \mu > 0\) for all \(x\).
 
 
 \summary{Lipschitz continuity}\label{s:lipschitz_continuity}
 
 A continuously differentiable function \(f: \RR^n \to \RR\) is called \emph{Lipschitz continuous},
-if there is value \(L \geq 0\), called \emph{Lipschitz constant}, such that for all \(x, y \in
-\RR^n\) and \(t \in [0, 1]\):
+if there is value \(L \geq 0\), called \emph{Lipschitz constant}, such that for all
+\(x, y \in \RR^n\)
 \begin{equation*}
-  \enVert{\nabla f(x + ty) - \nabla f(x)} \leq Lt \enVert[1]{y},
+  \enVert{f(x) - f(y)} \leq L \enVert[1]{x - y}.
 \end{equation*}
-or more generally
+for some norm.  If \(f\) is differentiable, this is equivalent to
 \begin{equation*}
-  \enVert{f(x) - f(y)} \leq L \enVert[1]{x - y}
+  \enVert{\nabla f(x + ty) - \nabla f(x)} \leq Lt \enVert[1]{y} \quad \forall t \in [0, 1].
 \end{equation*}
-for some norm.
 
 Intuitively, a Lipschitz continuous function is limited in how fast it can change: there exists a
 Lipschitz constant such that, for every pair of points on the graph of this function, the absolute
 value of the slope of the line connecting them is not greater than this
 constant.\footnote{\url{https://en.wikipedia.org/wiki/Lipschitz_continuity}}
 
-A function \(\RR \to \RR\) is Lipschitz continuous with \(L = \sup_x |g'(x)|\) if and only if it has
-a bounded first derivative.
+A differnentiable function \(\RR \to \RR\) is Lipschitz continuous with \(L = \sup_x |g'(x)|\) if
+and only if it has a bounded first derivative.
 
 
 \summary{Level Sets}
@@ -359,7 +359,9 @@ If for a point \(x^*\) we have
 \begin{equation*}
   \nabla f(x^*) = 0 \text{ and } \nabla^2 f(x^*) \succ 0,
 \end{equation*}
-(no ``semi-''!), then \(x^*\) is a strict unconstrained local minimum of \(f\).  
+(no ``semi-''!), then \(x^*\) is a strict unconstrained local minimum of \(f\).  (The reason for
+this is that in this case, \(f\) is locally strictly convex, and thus a stationary point is
+neccessaryly an optimum.)
 
 
 \summary{Minima of Convex Functions}
@@ -383,8 +385,8 @@ A crucial condition for the general existence of minimizers is the following: a 
 \begin{equation*}
   f(x) \leq \liminf_{k \to \infty} f(x_k).
 \end{equation*}
-If \(f\) is such, we can prove by the Heine-Borel theorem that if \(X\) is closed and bounded, f has a global
-minimizer.
+If \(f\) is such, we can prove by the Heine-Borel theorem that if \(X\) is closed and bounded, \(f\)
+has a global minimizer.
 
 If \(X\) is not bounded, we cannot use a compactness argument, but need an additional condition:
 \(f\) is called \emph{coercive} if for every sequence \({x_k} \in X\) with \(\lVert x_k \rVert \to
@@ -567,8 +569,8 @@ Convergent step size methods relate to this fact.
 
 The upper bound of provided by the descent lemma is a global upper bound on the second-order error
 of the Taylor expansion.  In this way, it is exactly dual to \(\mu\)-strong convexity
-(\ref{s:mu-strong_convexity}) in the differential formulation, which provides the analog lower
-bound.
+(Summary~\ref{s:mu-strong_convexity}) in the differential formulation, which provides the analog
+lower bound.
 
 
 \summary{Convergence with Constant Step Size}
@@ -792,7 +794,7 @@ region\footnote{\url{https://en.wikipedia.org/wiki/Trust_region}}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Least Squares Optimization and Model Fitting}
+\section{Least Squares Optimization \& Model Fitting}
 
 \summary{General Form}
 
@@ -1158,7 +1160,7 @@ It holds that
 \begin{equation*}
   f(\kth{x}) - f(x^*) \leq \frac{2L\enVert[1]{\kth[0]{x} - x^*}^2}{(k + 1)^2},
 \end{equation*}
-so the method is optimal.  If the function is \(\mu > 0\)-strongly convex, then the overrelaxation
+so the method is optimal.  If the function is \((\mu > 0)\)-strongly convex, then the overrelaxation
 parameter can be set to the constant
 \begin{equation*}
   \beta = \frac{\sqrt{L} - \sqrt{\mu}}{\sqrt{L} + \sqrt{\mu}},
@@ -1252,6 +1254,8 @@ are in \(X\).
 
 
 \summary{Feasible Direction Methods}
+
+% \pd{f}{{\kth{d}}}(\kth{x})
 
 Definition, alternative definition, step sizes, convergence
 
