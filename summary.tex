@@ -3,43 +3,12 @@
 \usepackage[english]{babel}
 \usepackage{hyperref}
 
-\usepackage{graphicx}
-\usepackage{float}
-\graphicspath{{figures/}}
+\input{common_defs.tex}
 
-\usepackage{todonotes}
-\let\oldtodo\todo
-\renewcommand{\todo}[1]{\oldtodo[noline]{#1}}
-
-\usepackage{amsmath}
-\usepackage{amssymb}
-% \usepackage{amsthm}
-\usepackage{commath}
-\newcommand{\RR}{\mathbb{R}}
-\newcommand{\NN}{\mathbb{N}}
-\newcommand{\ZZ}{\mathbb{Z}}
-\newcommand{\T}[1]{#1^{\top}}
-\newcommand{\kth}[2][k]{#2^{(#1)}}
-\DeclareMathOperator{\diag}{diag}
-\DeclareMathOperator*{\argmin}{arg min}
-\DeclareMathOperator{\Span}{span}
-\DeclareMathOperator{\proj}{proj}
-\DeclareMathOperator{\card}{card}
-\DeclareMathOperator{\tr}{tr}
-\DeclareMathOperator{\rank}{rank}
-
-\newcounter{summary}[section]
-\newcommand{\summary}[1]{%
-  \paragraph{\arabic{section}.\arabic{summary}\enspace #1.}\refstepcounter{summary}}
-\newcommand{\optionalsummary}[1]{%
-  \paragraph{\arabic{section}.\arabic{summary}*\enspace #1.}\refstepcounter{summary}}
-\renewcommand{\thesummary}{\thesection .\arabic{summary}}
-
+% toc customization
 \usepackage{tocloft}
 \setcounter{tocdepth}{4}
 \cftsetindents{paragraph}{0ex}{5ex}
-
-\hyphenation{Lip-schitz}
 
 \title{Summary of OCS Slides}
 \author{Philipp Gabler}
@@ -49,6 +18,7 @@
 
 \tableofcontents
 \newpage
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent First of all, the \href{http://web.mit.edu/6.252/www/LectureNotes/}{material} by the
@@ -129,8 +99,8 @@ there are the \(\ell_\infty\)- or \emph{maximum norm} and the \(\ell_0\)-quasino
 The \(\ell_0\)-norm counts the number of nonzero entries in a vector, and is the strongest possible
 sparsity constraint.  It usually is replaced by the \(\ell_1\)-norm in practical applications.
 
-For matrices, we can consider so-called \emph{operator norms}.  An operator \(A: X \to Y\) between
-normed spaces is called bounded by a number \(C\) if for all \(x \in X\)
+For matrices in \(\RR^{m \times n}\), we can consider so-called \emph{operator norms}.  An operator
+\(A: X \to Y\) between normed spaces is called bounded by a number \(C\) if for all \(x \in X\)
 \begin{equation*}
   \lVert Ax \rVert_Y \leq C \lVert x \rVert_X.
 \end{equation*}
@@ -154,10 +124,11 @@ A further family of matrix norms are the \emph{Schatten \(p\)-norms}.  For a mat
 \begin{equation*}
   A = U \Sigma \T{V},
 \end{equation*}
-where \(U, V\) are orthogonal and \(\Sigma = \diag(\sigma_1, \ldots, \sigma_R)\).  It holds that
+where \(U, V\) are orthogonal and
+\(\Sigma = \diag(\sigma_1, \ldots, \sigma_R, 0, \ldots, 0) \in \RR^{m \times n}\).  It holds that
 \(\sigma_i(A) = \sqrt{\lambda_i(A \T{A})}\).  Then
 \begin{equation*}
-  \lVert A \rVert_{S_p} = \left( \sum_{1 \leq i \leq N} \sigma_i(A)^p \right).
+  \lVert A \rVert_{S_p} = \left( \sum_{1 \leq i \leq R} \sigma_i(A)^p \right).
 \end{equation*}
 This norm is based solely on the eigenvalues; it measures the stretching of the matrix (described by
 \(\Sigma\)), while ignoring the rotation part.  Special cases here are the \emph{nuclear norm} (\(p = 1\))
@@ -166,7 +137,8 @@ This norm is based solely on the eigenvalues; it measures the stretching of the 
 \end{equation*}
 the \emph{Frobenius norm} (\(p = 2\))
 \begin{equation*}
-  \lVert A \rVert_{F} = \sqrt{\sum_{1 \leq i \leq R} \sigma_i(A)} = \sqrt{\tr(A\T{A})} = \sqrt{\sum_{ij} a_{ij}^2}
+  \lVert A \rVert_{F} = \sqrt{\sum_{1 \leq i \leq R} \sigma_i^2(A)}
+    = \sqrt{\tr(A\T{A})} = \sqrt{\sum_{ij} a_{ij}^2}
 \end{equation*}
 as well as the limit cases of the \emph{spectral norm} and the rank:
 \begin{equation*}
@@ -205,9 +177,10 @@ and the second-order condition
 \end{equation*}
 We speak about \emph{strict convexity} when the inequalities are replaced by strict ones.
 
-\label{s:mu-strong_convexity} A function is \emph{\(\mu\)-strongly
+\summary{Strong Convexity}\label{s:strong_convexity}
+A function \(f: X \to \RR\) is \emph{\(\mu\)-strongly
   convex}\footnote{\url{https://en.wikipedia.org/wiki/Convex_function\#Strongly_convex_functions}}
-if for all \(x, y \in X\) and \(\alpha \in [0,1]\):
+(for \(\mu > 0\)) if for all \(x, y \in X\) and \(\alpha \in [0,1]\):
 \begin{equation*}
   f(\alpha x + (1 - \alpha) y) \leq \alpha f(x) + (1 - \alpha) f(y)
   - \frac{\mu}{2} \alpha (1 - \alpha) \enVert[1]{x - y}^2,
@@ -225,6 +198,20 @@ The latter is equivalent to requiring that the minimum eigenvalue of \(\nabla^2 
 \(\mu\) for all \(x\).  This definition approaches the definition for strict convexity as
 \(\mu \to 0\), and is identical to the definition of a convex function when \(\mu = 0\).  On
 \(X = \RR\), \(f\) is \(\mu\)-strongly convex if \(f''(x) \geq \mu > 0\) for all \(x\).
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{strong_convexity}
+  \caption{Illustration of the lower bound provided by strong
+    convexity.\label{fig:strong_convexity}}
+\end{figure}
+
+Strong convexity means that the function can be bounded from below by a quadratic function: if
+\(\nabla f(x^*) = 0\), then
+\begin{equation*}
+  f(x) \geq f(x^*) + \frac{\mu}{2} \enVert{x - x^*}^2;
+\end{equation*}
+see Figure~\ref{fig:strong_convexity}.
 
 
 \summary{Lipschitz continuity}\label{s:lipschitz_continuity}
@@ -245,9 +232,30 @@ Lipschitz constant such that, for every pair of points on the graph of this func
 value of the slope of the line connecting them is not greater than this
 constant.\footnote{\url{https://en.wikipedia.org/wiki/Lipschitz_continuity}}
 
-A differnentiable function \(\RR \to \RR\) is Lipschitz continuous with \(L = \sup_x |g'(x)|\) if
+A differentiable function \(\RR \to \RR\) is Lipschitz continuous with \(L = \sup_x |g'(x)|\) if
 and only if it has a bounded first derivative.
 
+% \optionalsummary{Lipschitz-continuous gradients and strong convexity}
+
+% Let us denote the following classes of functions:
+% \begin{itemize}
+% \item \(\Lip{L}{n}{k}\): convex \(n\) times continuously differentiable functions with \(L\)-Lipschitz
+%   continuous \(k\)-th derivative,
+% \item \(\strong{\mu}{n}\): \(n\) times continuously differentiable \(\mu\)-strongly
+% convex functions, and
+% \item \(\Strong{L}{\mu}{n}{k}\) \(n\) times continuously differentiable
+%   \(\mu\)-strongly convex functions with \(L\)-Lipschitz continuous \(k\)-th derivative.
+% \end{itemize}
+
+% Of special interest are the classes \(\Lipl\) of convex functions with Lipschitz-continuous gradient
+% and \(\strongm\) of \(\mu\)-strongly convex functions. There are a couple of remarkable symmetries
+% between properties of them.
+
+% A convex and twice differentiable function is Lipschitz continuous if
+% \begin{equation*}
+%   \nabla^2 f(x) \preceq L,
+% \end{equation*}
+% % where
 
 \summary{Level Sets}
 
@@ -486,8 +494,9 @@ until we find one for which the decrease in the objective is sufficiently large 
 Figure~\ref{fig:armijo}).
 
 \begin{figure}[h]
-\includegraphics[width=\textwidth]{armijo.png}
-\caption{Graphical interpretation of Armijo rule.\label{fig:armijo}}
+  \centering
+  \includegraphics[width=\textwidth]{armijo.png}
+  \caption{Graphical interpretation of Armijo rule.\label{fig:armijo}}
 \end{figure}
 
 
@@ -573,7 +582,7 @@ Convergent step size methods relate to this fact.
 
 The upper bound of provided by the descent lemma is a global upper bound on the second-order error
 of the Taylor expansion.  In this way, it is exactly dual to \(\mu\)-strong convexity
-(Summary~\ref{s:mu-strong_convexity}) in the differential formulation, which provides the analog
+(Summary~\ref{s:strong_convexity}) in the differential formulation, which provides the analog
 lower bound.
 
 
@@ -1213,9 +1222,10 @@ for a convex set implies that the gradient makes an an angle of \(90^\circ\) or 
 feasible directions.  In the non-convex case, this condition can fail.
 
 \begin{figure}[h]
-\includegraphics[width=\textwidth]{non_convex.png}
-\caption{Illustraion of the neccessary condition for constraint local minima and when it
-  fails.\label{fig:non_convex}}
+  \centering
+  \includegraphics[width=\textwidth]{non_convex.png}
+  \caption{Illustraion of the neccessary condition for constraint local minima and when it
+    fails.\label{fig:non_convex}}
 \end{figure}
 
 
