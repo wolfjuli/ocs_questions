@@ -158,6 +158,13 @@ If \(C_1\) and \(C_2\) are convex sets, then also \(C_1 \cap C_2\) and \(C_1 + C
 are.  Examples of convex sets are convex hulls, planes, halfspaces, polyhedra, norm balls, and
 cones. 
 
+\summary{Level Sets}
+
+For a function \(f: X \to \RR\), and \(c \in \RR\), the sets
+\begin{equation*}
+  S_c(f) = \{x \in X: f(x) = c\}
+\end{equation*}
+are called \emph{level sets} of \(f\). They can be convex even if \(f\) is not!
 
 \summary{Convex Functions}\label{s:convex_functions}
 
@@ -178,6 +185,7 @@ and the second-order condition
 We speak about \emph{strict convexity} when the inequalities are replaced by strict ones.
 
 \summary{Strong Convexity}\label{s:strong_convexity}
+
 A function \(f: X \to \RR\) is \emph{\(\mu\)-strongly
   convex}\footnote{\url{https://en.wikipedia.org/wiki/Convex_function\#Strongly_convex_functions}}
 (for \(\mu > 0\)) if for all \(x, y \in X\) and \(\alpha \in [0,1]\):
@@ -235,36 +243,63 @@ constant.\footnote{\url{https://en.wikipedia.org/wiki/Lipschitz_continuity}}
 A differentiable function \(\RR \to \RR\) is Lipschitz continuous with \(L = \sup_x |g'(x)|\) if
 and only if it has a bounded first derivative.
 
-% \optionalsummary{Lipschitz-continuous gradients and strong convexity}
+\optionalsummary{Lipschitz-continuous gradients and strong convexity}
 
-% Let us denote the following classes of functions:
-% \begin{itemize}
-% \item \(\Lip{L}{n}{k}\): convex \(n\) times continuously differentiable functions with \(L\)-Lipschitz
-%   continuous \(k\)-th derivative,
-% \item \(\strong{\mu}{n}\): \(n\) times continuously differentiable \(\mu\)-strongly
-% convex functions, and
-% \item \(\Strong{L}{\mu}{n}{k}\) \(n\) times continuously differentiable
-%   \(\mu\)-strongly convex functions with \(L\)-Lipschitz continuous \(k\)-th derivative.
-% \end{itemize}
+Let us denote the following classes of functions:
+\begin{itemize}
+\item \(\Lip{L}{n}{k}\): convex \(n\) times continuously differentiable functions with \(L\)-Lipschitz
+  continuous \(k\)-th derivative,
+\item \(\strong{\mu}{n}\): \(n\) times continuously differentiable \(\mu\)-strongly
+convex functions, and
+\item \(\Strong{L}{\mu}{n}{k}\): \(n\) times continuously differentiable
+  \(\mu\)-strongly convex functions with \(L\)-Lipschitz continuous \(k\)-th derivative.
+\end{itemize}
+(Where \(\Strong{L}{0}{n}{k} = \Lip{L}{n}{k}\), obviously.)
 
-% Of special interest are the classes \(\Lipl\) of convex functions with Lipschitz-continuous gradient
-% and \(\strongm\) of \(\mu\)-strongly convex functions. There are a couple of remarkable symmetries
-% between properties of them.
-
-% A convex and twice differentiable function is Lipschitz continuous if
-% \begin{equation*}
-%   \nabla^2 f(x) \preceq L,
-% \end{equation*}
-% % where
-
-\summary{Level Sets}
-
-For a function \(f: X \to \RR\), and \(c \in \RR\), the sets
+First, there is a genenal second-order characterization for \(f \in \Strong{\mu}{L}{2}{1}\):
 \begin{equation*}
-  S_c(f) = \{x \in X: f(x) = c\}
+  \mu \preceq \nabla^2 f(x) \preceq L.
 \end{equation*}
-are called \emph{level sets} of \(f\). They can be convex even if \(f\) is not!
 
+Then, we have a range of properties of the classes of convex functions with Lipschitz-continuous
+gradient and of \(\mu\)-strongly convex differentiable functions, which are the ones we usually deal
+with in first-order gradient methods. There are a couple of remarkable symmetries between properties
+of them, listed below; in each case except the last, the whole statement holds for
+\(f \in \Strong{\mu}{L}{1}{1}\), but both sides hold individually in \(\smash{\strongm}\) and
+\(\smash{\Lipl}\), respectively.
+
+\begin{enumerate}
+\item Differences in gradients are bounded by differences in arguments:
+  \begin{equation*}
+    \mu \enVert{x - y}^2 \leq \iprod{\nabla f(x) - \nabla f(y)}{x - y} \leq L \enVert{x - y}^2
+  \end{equation*}
+
+\item The descent lemma (Summary~\ref{s:descent_lemma}) and its converse, which bound the first
+  order approximation around a point:
+  \begin{align*}
+    f(y) &\geq f(x) + \iprod{\nabla f(x)}{x - y} + \frac{\mu}{2}\enVert{x - y}^2 \\
+    f(y) &\leq f(x) + \iprod{\nabla f(x)}{x - y} + \frac{L}{2}\enVert{x - y}^2
+  \end{align*}
+  
+\item Their ``inverses'', bounding the first order approximation by the gradients:
+  \begin{align*}
+    f(y) &\geq f(x) + \iprod{\nabla f(x)}{x - y} + \frac{1}{2L}\enVert{\nabla f(x) - \nabla f(y)}^2 \\
+    f(y) &\leq f(x) + \iprod{\nabla f(x)}{x - y} + \frac{1}{2\mu}\enVert{\nabla f(x) - \nabla f(y)}^2
+  \end{align*}
+  
+\item A bound on the difference between gradients (the left inequality is known as
+  \emph{co-coercivity}):
+  \begin{equation*}
+    \frac{1}{L} \enVert{\nabla f(x) - \nabla f(y)}^2 \leq \iprod{\nabla f(x) - \nabla f(y)}{x - y}
+    \leq  \frac{1}{\mu} \enVert{\nabla f(x) - \nabla f(y)}^2
+  \end{equation*}
+
+\item Finally, we have a combination of bounds with \(L\) and \(\mu\):
+  \begin{equation*}
+    \iprod{\nabla f(x) - \nabla f(y)}{x - y} \geq \frac{\mu L}{\mu + L}\enVert{x - y}^2 +
+    \frac{1}{\mu + L} \enVert{\nabla f(x) - \nabla f(y)}^2
+  \end{equation*}
+\end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction to Optimization}
