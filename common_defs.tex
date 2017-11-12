@@ -43,9 +43,21 @@
 \newcommand{\optionalsummary}[1]{%
   \paragraph{\arabic{section}.\arabic{summary}*\enspace #1.}\refstepcounter{summary}}
 \renewcommand{\thesummary}{\thesection .\arabic{summary}}
+
+\newtheoremstyle{slplain}% name
+  {.5\baselineskip\@plus.2\baselineskip\@minus.2\baselineskip}% Space above
+  {0pt}% Space below
+  {\itshape}% Body font
+  {}%Indent amount (empty = no indent, \parindent = para indent)
+  {\bfseries}%  Thm head font
+  {.}%       Punctuation after thm head
+  { }%      Space after thm head: " " = normal interword space;
+        %       \newline = linebreak
+  {}%       Thm head spec
+\theoremstyle{slplain}
 \newtheorem{question}{Question}
 
-
+\usepackage{parskip}
 
 
 
