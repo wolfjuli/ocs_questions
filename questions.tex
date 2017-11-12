@@ -113,7 +113,7 @@ this contradicts the assumption, therefore \(x^*\) must be optimal.
 
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{loc_glob_min.png}
-  \caption{Local/Global minimas\label{fig:min}}
+  \caption{Local/global minima.\label{fig:min}}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -154,7 +154,7 @@ fourth case is a saddle surface.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.6\textwidth]{cond_quad_q.png}
-  \caption{Different scenarios for Q\label{fig:cond_quad}}
+  \caption{Different scenarios for \(Q\).\label{fig:cond_quad}}
 \end{figure}
 
 
@@ -176,22 +176,22 @@ fourth case is a saddle surface.
   \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{desc_dir.png}
-    \caption{Simple descent direction\label{fig:desc_dir}}
+    \caption{Illustration of a descent direction.\label{fig:desc_dir}}
   \end{figure}
 \item General form of gradient method:
   \begin{enumerate}
-  \item Choose an initial vector \(x^0 \in \RR^n\)
+  \item Choose an initial vector \(\kth[0]{x} \in \RR^n\)
   \item Choose a descent direction \(\kth{d}\) that satisfies \(\T{\nabla f(\kth{x})} \kth{d} < 0\)
   \item Choose a positive step size \(\kth{\alpha}\)
   \item Compute the new vector as
   \begin{equation*}
-    x^{k+1} = x^k + \alpha^k d^k
+    \kth[k+1]{x} = \kth{x} + \kth{\alpha} \kth{d}
   \end{equation*}
   \item Set \(k = k + 1\) and goto 2, until some termination criterion is fulfilled
 \end{enumerate}
 \item We have
   \begin{equation*}
-    \T{\nabla f(\kth{x})} \kth{d} = -\T{\nabla f(\kth{x})} \kth{D} \nabla f(x_k) < 0,
+    \T{\nabla f(\kth{x})} \kth{d} = -\T{\nabla f(\kth{x})} \kth{D} \nabla f(\kth{x}) < 0,
   \end{equation*}
   by direct application of the definition of positive definiteness.
 
@@ -203,34 +203,47 @@ fourth case is a saddle surface.
   \(\kth{D}\) and discuss their numerical performance. What is the Armijo step size selection
   rule? Draw an example explaining the set of acceptable step sizes.
 \end{question}
-$d^k = -D^k \nabla f (x^k )$
+Possible descent scalings:
 \begin{itemize}
-\item Identity: $D^k = I$, = Gradient descent, zig zagging problem, very bad on Rosenbrock Fct
-\item Hessian: $D^k = \nabla^2 f(x^k)$, = Newtons method, very fast convergence, very good on
-  rosenbrock, unstable in despite of initial values (may diverge or find local maxima instead of
-  minima), con: calculation of inverse of hessian - very expensive in large networks
-\item Diagonal Hessian (approximation of Newton): $d_i^k \approx \left(
-    \frac{\partial^2  f (x^k)}{(\partial x_i)^2}
-  \right)^{-1}$, very bad performance on Rosenbrock, 
-\item Gauss Newton method: Too complicated to remember, replace $D^k$ with non linear least square
-  problem, even better performance on rosenbrock then newton, con: again calculation of inverse, but
-  not of hessian
-\item \textbf{Step size} $\alpha$: 
-  \begin{itemize}
-  \item \textbf{Minimization rule:} choose $\alpha$ such that $f(x + \alpha d)$ is minimized along
-    $d$. Hard if $f$ is complicated
-  \item \textbf{Limited minimization rule:} iterative: start small and increase size of $\alpha$
-    until $f(x)$ is bigger then before, then choose the previous. Easy to implement
-  \item \textbf{Armijo rule:} it is not sufficient that $f(x^{k+1}) < f(x^k)$, thus, the step sizes
-    $\beta^ms$ for $m = 0,1,...$ are chosen such that the energy decrease is sufficiently large
-    (dependent on derivation of $f(x)$, formula too complicated), or graphical:
-    \begin{figure}[H]
-      \includegraphics[width=\textwidth]{armijo.png}
-      \caption{Graphical representation of the idea of Armijo\label{fig:desc_dir}}
-    \end{figure}
-    
-  \end{itemize}
+\item \(\kth{D} = I\): steepest descent, slow convergence if the level lines are elongated (leads to
+  zig-zagging).
+\item \(\kth{D} = \nabla^2 f(\kth{x})\): Newton's method, very fast convergence near minima.  Unstable in
+  wrt. initial values (may diverge). Requires recalculation of inverse of Hessian in every step~--
+  very expensive in large dimensions.
+\item \(\kth{d} = \del[1]{\pd[2]{f(\kth{x})}{(x_i)}}^2\): diagonal scaling, an approximation of
+  Newton's method, but usually not worth it (scales only in diagonal directions).
+\item \(\kth{d} = \del[1]{\nabla g(\kth{x}) \T{\nabla g(\kth{x})}}^{-1}\): Gauss-Newton method, for
+  least squares problems with design function \(g\). Good performance; again calculation of inverse,
+  but not of the Hessian.
 \end{itemize}
+
+Armijo rule: it is not sufficient to simply ensure that \(f(\kth[k+1]{x}) < f(\kth{x})\). To apply
+it, we fix scalars \(s\), \(0 < \beta < 1\), and \(0 < \sigma < 1\), and set
+\(\kth{\alpha} = \beta^{m_k} s\), where we choose \(m_k\) as the first nonnegative integer for which
+\begin{equation*}
+  f(\kth{x} + \beta^{m_k} s \kth{d}) - f(\kth{x}) \leq \sigma \beta^{m_k} s \nabla \T{f(\kth{x})} \kth{d}.
+\end{equation*}
+Thus, the step sizes are chosen such that the energy decrease is sufficiently large~-- see
+Figure~\ref{fig:armijo}.
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{armijo.png}
+  \caption{Graphical representation of the idea of the Armijo rule.\label{fig:armijo}}
+\end{figure}
+
+% \item \textbf{Step size} $\alpha$: 
+  % \begin{itemize}
+  % \item \textbf{Minimization rule:} choose $\alpha$ such that $f(x + \alpha d)$ is minimized along
+    % $d$. Hard if $f$ is complicated
+  % \item \textbf{Limited minimization rule:} iterative: start small and increase size of $\alpha$
+    % until $f(x)$ is bigger then before, then choose the previous. Easy to implement
+  % \item \textbf{Armijo rule:} it is not sufficient that $f(x^{k+1}) < f(x^k)$, thus, the step sizes
+    % $\beta^ms$ for $m = 0,1,...$ are chosen such that the energy decrease is sufficiently large
+    % (dependent on derivation of $f(x)$, formula too complicated), or graphical:
+    % \begin{figure}[H]
+      % \includegraphics[width=\textwidth]{armijo.png}
+      % \caption{Graphical representation of the idea of the Armijo rule.\label{fig:desc_dir}}
+    % \end{figure}
+  % \end{itemize}
 
 \section{Convergence}
 
