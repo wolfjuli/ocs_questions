@@ -164,22 +164,37 @@ fourth case is a saddle surface.
 \begin{question}
   What is a descent direction? Draw a simple example explaining the properties of a descent
   direction. Give the general form of a gradient method and show that
-  \(\kth{d} = -\kth{D} \nabla f(x_k)\) with \(\kth{d}\) symmetric and positive definite is a descent
+  \(\kth{d} = -\kth{D} \nabla f(x_k)\) with \(\kth{D}\) symmetric and positive definite is a descent
   direction.
 \end{question}
 \begin{itemize}
-\item Descent direction: angle of step and derivation direction $< 90^\circ$
-\item General form of gradient method: \\
-  1. Choose an initial vector $x ^0 \in \mathbb{R}^n$\\
-  2. Choose a descent direction $d^k$ that satisfies $\nabla f (x^k)'  d^k < 0$\\
-  3. Choose a positive step size $\alpha^k$\\
-  4. Compute the new vector as\\
-  $x^{k+1} = x^k + \alpha^k d^k$\\
-  5. Set $k = k + 1$ and goto 2
+\item \(\kth{d}\) is a descent direction if
+  \begin{equation*}
+    \pd{f}{{\kth{d}}}(\kth{x}) = \T{\nabla f(\kth{x})} \kth{d} < 0
+  \end{equation*}
+  Interpretation: \(\kth{d}\) goes more downhill than uphill; see Figure~\ref{fig:desc_dir}.
   \begin{figure}[H]
-    \includegraphics[width=\textwidth]{desc_dir.png}
+    \centering
+    \includegraphics[width=0.5\textwidth]{desc_dir.png}
     \caption{Simple descent direction\label{fig:desc_dir}}
   \end{figure}
+\item General form of gradient method:
+  \begin{enumerate}
+  \item Choose an initial vector \(x^0 \in \RR^n\)
+  \item Choose a descent direction \(\kth{d}\) that satisfies \(\T{\nabla f(\kth{x})} \kth{d} < 0\)
+  \item Choose a positive step size \(\kth{\alpha}\)
+  \item Compute the new vector as
+  \begin{equation*}
+    x^{k+1} = x^k + \alpha^k d^k
+  \end{equation*}
+  \item Set \(k = k + 1\) and goto 2, until some termination criterion is fulfilled
+\end{enumerate}
+\item We have
+  \begin{equation*}
+    \T{\nabla f(\kth{x})} \kth{d} = -\T{\nabla f(\kth{x})} \kth{D} \nabla f(x_k) < 0,
+  \end{equation*}
+  by direct application of the definition of positive definiteness.
+
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
