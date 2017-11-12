@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+\usepackage{hyperref}
 
 \input{common_defs}
 
@@ -115,26 +116,49 @@ this contradicts the assumption, therefore \(x^*\) must be optimal.
   \caption{Local/Global minimas\label{fig:min}}
 \end{figure}
 
-\section{Gradient Methods, Optimality}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{question}
   Discuss the optimality conditions for a quadratic optimization problem of the form
-  \[ \min_x \frac{1}{2} \T{x} Q x - \T{b} x.
-  \]
+  \begin{equation*}
+    \min_x \frac{1}{2} \T{x} Q x - \T{b} x.
+  \end{equation*}
   When is this problem convex and what does convexity imply? Give a simple example in 2D showing
   different realizations of \(Q\).
 \end{question}
-\begin{itemize}
-\item If positive and negative Eigenvalues, we can not define convexity
-\item First order necessessary optimality condition: $\nabla f(x^*) = 0$
-\item Second order necessessary optimality condition: $\nabla^2 f(x^*) $ is positive semi definite
 
-  \begin{figure}[H]
-    \includegraphics[width=\textwidth]{cond_quad_q.png}
-    \caption{Different scenarios for Q\label{fig:cond_quad}}
-  \end{figure}	
+Example for \(f: \RR \to \RR\): in this case, \(f(x) = \frac{1}{2}qx^2 + bx\). We have:
+\begin{itemize}
+\item First order necessessary optimality condition: \(\nabla f(x^*) = qx - b = 0\).
+\item Second order necessessary optimality condition: \(\nabla^2 f(x^*) = q \geq 0\).
 \end{itemize}
+Since this is a parabola, we have three cases:
+\begin{enumerate}
+\item \(q > 0\): Unique minimum exists as minimum of upwards parabola.
+\item \(q = 0\): Horizontal line, every point is locally minimal.
+\item \(q < 0\): Downwards parabola, not bounded from below, so no minimum.
+\end{enumerate}
+
+Example for \(f: \RR \to \RR^2\):
+\begin{itemize}
+\item First order necessessary optimality condition: \(\nabla f(x^*) = Qx - b = 0\)
+\item Second order necessessary optimality condition: \(\nabla^2 f(x^*) = Q\) is positive
+  semidefinite.	
+\end{itemize}
+In more concrete form: if \(Q = \diag(\alpha, \beta)\), \(\T{b} = [1, 0]\), then
+\begin{equation*}
+  f(x) = \frac{1}{2} (\alpha x^2 + \beta y^2) + x.
+\end{equation*}
+\(Q\) is positive definite if all eigenvalues, which in this case are \(\alpha\) and \(\beta\),
+are positive.  See Figure~\ref{fig:cond_quad}.  The second case is not bounded from below; the
+fourth case is a saddle surface.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{cond_quad_q.png}
+  \caption{Different scenarios for Q\label{fig:cond_quad}}
+\end{figure}
+
+
+\section{Gradient Methods, Optimality}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{question}
