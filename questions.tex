@@ -20,11 +20,18 @@
 \end{question}
 Draw level lines and arrows
 \begin{itemize}
-\item objective function is the function we want to minimize
-\item constraint set is a set of functions
-\item optimal solution: find $f(x^*) \leq f(x), \forall x \in X$
-\item level set: compareable to level lines of terrain, convex function $=>$ convex level set (but
-  there are non convex fct with convex level sets),
+\item General form:
+  \begin{equation*}
+    \min_{x} f(x) \quad \text{s.t. } x \in X,
+  \end{equation*}
+\item Objective function \(f\), constraint set \(X\).
+\item A solution \(x^*\) is globally optimal if \(f(x^*) \leq f(x), \forall x \in X\) (locally, if
+  this holds in an environment in \(X\) around \(x^*\)).
+\item Level sets: for \(c \in \RR\), the sets
+  \begin{equation*}
+    S_c(f) = \{x \in X: f(x) = c\}
+  \end{equation*}
+  of values with equal outcome.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -33,22 +40,32 @@ Draw level lines and arrows
   give examples. What is the definition of a convex set and a convex function? Give examples for
   convex sets and convex functions.
 \end{question}
+
 \begin{itemize}
-\item \textbf{Linear}: Objective Function and Constraints may only be linear
-  $min\ c^Tx, s.t.\ Ax \leq b, x \geq 0$\\
-  Polynomial solvable
-\item \textbf{Non Linear}: Objective Function and Constriants may  be non linear
-  $min\ \frac{1}{2} x^TQx + c^Tx, s.t.\ Ax \leq b, Ex = d$\\
-  Q symmetrical and pos. definite, polynomial solvable
-\item \textbf{Quadratic}: objective function is quadratic, constraints are linear	
-  $min_{x \in \mathbb{R}}\ f_0(x) \texttt{ (objective)},$\\
-  $s.t.\ f_i(x) \leq i=0..m \texttt{ (contraints)}$\\
-  polynomial time
-\item \textbf{convex set}: 
-  $\alpha x + (1 - \alpha)y \ in X, \forall x, y \in X, \alpha \in [0, 1]$
-\item \textbf{convex fct}:
-  $f(\alpha x + (1 - \alpha)y) \leq \alpha f(x) + (1 - \alpha)f(y) , \forall x, y \in X, \alpha \in
-  [0, 1]$
+\item \textbf{Linear}: objective functions and constraints are all linear:
+  \begin{equation*}
+    \min_x \T{c} x, \quad\text{s.t. } Ax \leq b,\; x \geq 0.
+  \end{equation*}
+\item \textbf{Quadratic}: objective function is quadratic, constraints linear:
+  \begin{equation*}
+    \min_x \frac{1}{2}\T{x} Q x + \T{c} x, \quad\text{s.t. } Ax \leq b,\; Ex = d.
+  \end{equation*}
+  If \(Q\) is positive semidefinite, the objective is convex and the problem is polynomially
+  solvable.
+\item \textbf{Nonlinear}: no further requirements~-- objective function and constraints may be
+  arbitrary.  Usually used if not known whether the problem is convex.  Not much theory available in
+  general form.
+\item \textbf{Convex set}: a set \(X\) is convex, if for all \(x, y \in X\) and \(\alpha \in [0,1]\):
+  \begin{equation*}
+    \alpha x + (1 - \alpha) y \in X.
+  \end{equation*}
+  This means that \(X\) contains all convex combinations of points from it.
+\item \textbf{Convex function}: \(f: X \to \RR\) is convex if for all \(x, y \in X\) and
+  \(\alpha \in [0,1]\):
+  \begin{equation*}
+    f(\alpha x + (1 - \alpha) y) \leq \alpha f(x) + (1 - \alpha) f(y).
+  \end{equation*}
+  This means that no points lie below any tangent.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -58,11 +75,39 @@ Draw level lines and arrows
   optimality? Show that for differentiable convex functions, the first order necessary condition of
   optimality becomes sufficient.
 \end{question}
+
 \begin{itemize}
-\item When hessian is strictly positive, it is a strict global maximum
-\item \textbf{unconst Local minimum:}
-  $f(x^*) \leq f(x), \forall x \texttt{ with } || x - x^* || \leq \varepsilon$
-\item \textbf{unconst global minimum:} $f(x^*) \leq f(x), \forall x \in \mathbb{R}$
+\item A point \(x^*\) is called an global minimum of \(f\) if for all \(x \in X\)
+  \begin{equation*}
+    f(x^*) \leq f(x).
+  \end{equation*}
+\item \(x^*\) is called an local minimum of \(f\) if it is minimal in some neighbourhood; i.e.,
+  there is an \(\epsilon > 0\) such that
+  \begin{equation*}
+    f(x^*) \leq f(x) \quad \forall x \text{ with } \lVert x^* - x \rVert \leq \epsilon.
+  \end{equation*}
+\item First order neccessary condition: If \(f\) is continuously differentiable, then in a small
+  neighbourhood of \(x^*\), we can by Taylor expansion write \(f\) as
+  \begin{equation*}
+    f(x) = f(x^* + \Delta x) = f(x^*) + \T{\nabla f(x^*)} \Delta x + o(\lVert \Delta x \rVert).
+  \end{equation*}
+  Since \(x^*\) is a local minimum, \(f(x^* + \Delta x) - f(x^*) \geq 0\), and we have
+  \begin{equation*}
+    f(x^*) + \T{\nabla f(x^*)} \Delta x - f(x^*) = \T{\nabla f(x^*)} \Delta x \geq 0.
+  \end{equation*}
+  Since we can equally choose \(\Delta x\) to have the opposite sign, it holds also that
+  \begin{equation*}
+    \T{\nabla f(x^*)} \Delta x \leq 0,
+  \end{equation*}
+  so \(\T{\nabla f(x^*)} \Delta x = 0\), which, since \(\Delta x\) is arbitrary, implies that
+  \(\nabla f(x^*) = 0\), which is the neccessary condition.
+\item Second order neccessary condition: \(\nabla^2 f(x^*)\) must be positive semidefinite.
+\item Assume \(\nabla f(x^*) = 0\), but \(x^*\) were not optimal, so there is a \(y^*\) with
+  \(f(y^*) < f(x^*)\).  Then, by convexity of \(f\),
+\begin{equation*}
+  f(y^*) \geq f(x^*) + \iprod{\nabla f(x^*)}{y^* - x^*} = f(x^*);
+\end{equation*}
+this contradicts the assumption, therefore \(x^*\) must be optimal.
 \end{itemize}
 
 \begin{figure}[H]

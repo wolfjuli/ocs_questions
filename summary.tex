@@ -332,7 +332,7 @@ and an \emph{objective function} \(f: X \to \RR\).  We want to find an optimal v
     \begin{equation*}
       \min_x \T{c} x, \quad\text{s.t. } Ax \leq b,\; x \geq 0.
     \end{equation*}
-    Constraints describe a polyhedron.  Efficiently solvable.
+    Constraints describe a polyhedron.  Polynomially solvable.
   \item Quadratic: Objective function is quadratic, constraints linear:
     \begin{equation*}
       \min_x \frac{1}{2}\T{x} Q x + \T{c} x, \quad\text{s.t. } Ax \leq b,\; Ex = d.
@@ -419,10 +419,16 @@ convexity, we have for all \(\alpha \in [0, 1)\):
 \begin{equation*}
   f(\alpha x^* + (1 - \alpha) y^*) < \alpha f(x^*) + (1 - \alpha) f(y^*) < f(x^*),
 \end{equation*}
-which contradicts the assumption, so \(x^*\) must also be a global minimum.
+which contradicts the assumption of \(x^*\) being minimal in a local environment. Therefore \(x^*\)
+must also be a global minimum.
 
 Furthermore, the neccessary condition for minima, \(\nabla f(x^*) = 0\), for convex functions
-becomes a sufficient condition.\todo{why this?}
+becomes a sufficient condition: assume \(\nabla f(x^*) = 0\), but \(x^*\) were not optimal, so there
+is a \(y^*\) with \(f(y^*) < f(x^*)\).  Then, by convexity of \(f\),
+\begin{equation*}
+  f(y^*) \geq f(x^*) + \iprod{\nabla f(x^*)}{y^* - x^*} = f(x^*);
+\end{equation*}
+this contradicts the assumption, therefore \(x^*\) must be optimal.
 
 \optionalsummary{Existence of Minimizers}
 
