@@ -195,7 +195,7 @@ A function \(f: X \to \RR\) is \emph{\(\mu\)-strongly
 \end{equation*}
 or equivalently for differentiable functions:
 \begin{equation*}
-  f(x) \geq f(y) + \T{\nabla f(y)}(x - y) + \frac{\mu}{2}\enVert[1]{x - y}^2
+  f(x) \geq f(y) + \T{\nabla f(y)}(y - x) + \frac{\mu}{2}\enVert[1]{y - x}^2
   \quad \forall x, y \in X,
 \end{equation*}
 and twice differentiable functions:
@@ -224,16 +224,17 @@ see Figure~\ref{fig:strong_convexity}.
 
 \summary{Lipschitz continuity}\label{s:lipschitz_continuity}
 
-A continuously differentiable function \(f: \RR^n \to \RR\) is called \emph{Lipschitz continuous},
-if there is value \(L \geq 0\), called \emph{Lipschitz constant}, such that for all
-\(x, y \in \RR^n\)
+A function \(f: \RR^n \to \RR\) is called \emph{Lipschitz continuous}, if there is value
+\(L \geq 0\), called \emph{Lipschitz constant}, such that for all \(x, y \in \RR^n\)
 \begin{equation*}
   \enVert{f(x) - f(y)} \leq L \enVert[1]{x - y}.
 \end{equation*}
-for some norm.  If \(f\) is differentiable, this is equivalent to
+for some norm.  This is equivalent to
 \begin{equation*}
-  \enVert{\nabla f(x + ty) - \nabla f(x)} \leq Lt \enVert[1]{y} \quad \forall t \in [0, 1].
+  \enVert{f(x + ty) - f(x)} \leq Lt \enVert[1]{y} \quad \forall t \in [0, 1].
 \end{equation*}
+
+Lipschitz continuity implies continuity.
 
 Intuitively, a Lipschitz continuous function is limited in how fast it can change: there exists a
 Lipschitz constant such that, for every pair of points on the graph of this function, the absolute
@@ -277,14 +278,14 @@ of them, listed below; in each case except the last, the whole statement holds f
 \item The descent lemma (Summary~\ref{s:descent_lemma}) and its converse, which bound the first
   order approximation around a point:
   \begin{align*}
-    f(y) &\geq f(x) + \iprod{\nabla f(x)}{x - y} + \frac{\mu}{2}\enVert{x - y}^2 \\
-    f(y) &\leq f(x) + \iprod{\nabla f(x)}{x - y} + \frac{L}{2}\enVert{x - y}^2
+    f(y) &\geq f(x) + \iprod{\nabla f(x)}{y - x} + \frac{\mu}{2}\enVert{y - x}^2 \\
+    f(y) &\leq f(x) + \iprod{\nabla f(x)}{y - x} + \frac{L}{2}\enVert{y - x}^2
   \end{align*}
   
 \item Their ``inverses'', bounding the first order approximation by the gradients:
   \begin{align*}
-    f(y) &\geq f(x) + \iprod{\nabla f(x)}{x - y} + \frac{1}{2L}\enVert{\nabla f(x) - \nabla f(y)}^2 \\
-    f(y) &\leq f(x) + \iprod{\nabla f(x)}{x - y} + \frac{1}{2\mu}\enVert{\nabla f(x) - \nabla f(y)}^2
+    f(y) &\geq f(x) + \iprod{\nabla f(x)}{y - x} + \frac{1}{2L}\enVert{\nabla f(x) - \nabla f(y)}^2 \\
+    f(y) &\leq f(x) + \iprod{\nabla f(x)}{y - x} + \frac{1}{2\mu}\enVert{\nabla f(x) - \nabla f(y)}^2
   \end{align*}
   
 \item A bound on the difference between gradients (the left inequality is known as
@@ -584,32 +585,33 @@ they get ``worse'' in the limit).
 
 \summary{Descent Lemma}\label{s:descent_lemma}
 
-Let \(f: \RR^n \to \RR\) be Lipschitz continuous with Lipschitz constant \(L\).  Then for all
-\(x, y\), we have the following quadratic upper bound on the objective function at \(x\):
+Let \(f: \RR^n \to \RR\) have an \(L\)-Lipschitz continuous gradient.  Then for all \(x, y\), we
+have the following quadratic upper bound on the objective function at \(x\):
 \begin{equation*}
-  f(x + y) \leq f(x) + \T{\nabla f(x)}y + \frac{L}{2}\enVert{y}^2.
+  f(y) \leq f(x) + \iprod{\nabla f(x)}{y - x} + \frac{L}{2}\enVert{y - x}^2,
 \end{equation*}
-Derivation: let \(g(t) = f(x + ty)\) for \(t \in [0, 1]\).
+Proof: let \(g(t) = f(x + t(y - x))\), so that \(g(0) = f(x)\) and \(g(1) = f(y)\). Then
 \begin{align*}
-  f(x + y) - f(x) &= g(1) - g(0) \\
-                  &= \int_0^1 \dod{g}{t}(t) \dif t \\
-                  &= \int_0^1 \T{\nabla f(x + ty)} y \dif t \\
-                  &= \int_0^1 \T{\nabla f(x)} y \dif t
-                    + \int_0^1 \left( \T{\nabla f(x + ty)} - \T{\nabla f(x)} \right) \cdot y \dif t \\
-                  &\overset{(1)}{\leq}  \T{\nabla f(x)} y
-                    + \int_0^1 \enVert[1]{\nabla f(x + ty) - \nabla f(x)}\! \cdot \enVert[1]{y} \dif t \\
-                  &\overset{(2)}{\leq} \T{\nabla f(x)} y + \enVert[1]{y} \int_0^1 Lt\enVert[1]{y} \dif t \\
-                  &= \T{\nabla f(x)} y + \frac{L}{2}\enVert[1]{y}^2,
+  f(y) &= f(x) + f(y) - f(x) \\
+       &= f(x) + g(1) - g(0) \\
+       &= f(x) + \int_0^1 g'(t) \dif t \\
+       &= f(x) + \int_0^1 \T{\nabla f(x + t(y - x))} (y - x) \dif t \\
+       &= f(x) + \int_0^1 \iprod{\nabla f(x)}{y - x} \dif t
+         + \int_0^1 \iprod{\nabla f(x + t(y - x)) - \nabla f(x)}{y - x} \dif t \\
+       &\overset{(1)}{\leq} f(x) + \iprod{\nabla f(x)}{y - x}
+         + \int_0^1 \enVert[1]{\nabla f(x + t(y - x)) - \nabla f(x)}\! \cdot \enVert[1]{y - x} \dif t \\
+       &\overset{(2)}{\leq} f(x) + \iprod{\nabla f(x)}{y - x} + \enVert[1]{y - x} \int_0^1 Lt\enVert[1]{y - x} \dif t \\
+       &= f(x) + \iprod{\nabla f(x)}{y - x} + \frac{L}{2}\enVert[1]{y - x}^2,
 \end{align*}
 where (1) is an application of the Cauchy-Schwarz theorem
 (\(\langle x, y \rangle \leq \enVert{x} \cdot \enVert{y}\)), and (2) follows from Lipschitz
-continuity (Summary~\ref{s:lipschitz_continuity}).
+continuity of the gradient (Summary~\ref{s:lipschitz_continuity}).
 
 
 \summary{Interpretation of Descent Lemma}\label{s:descent_lemma_interpretation}
 
 We can express the lemma in terms of a step sequence \(\{\kth{x}\}\) by substituting
-\(\{x \mapsto \kth{x}, y \mapsto (x - \kth{x})\}\):
+\(\{x \mapsto \kth{x}, y \mapsto x\}\):
 \begin{equation*}
   f(x) \leq f(\kth{x}) + \T{\nabla f(\kth{x})}(x - \kth{x}) + \frac{L}{2}\enVert[1]{x - \kth{x}}^2.
 \end{equation*}
