@@ -43,26 +43,26 @@ Draw level lines and arrows
 \end{question}
 
 \begin{itemize}
-\item \textbf{Linear}: objective functions and constraints are all linear:
+\item Linear: objective functions and constraints are all linear:
   \begin{equation*}
     \min_x \T{c} x, \quad\text{s.t. } Ax \leq b,\; x \geq 0.
   \end{equation*}
-\item \textbf{Quadratic}: objective function is quadratic, constraints linear:
+\item Quadratic: objective function is quadratic, constraints linear:
   \begin{equation*}
     \min_x \frac{1}{2}\T{x} Q x + \T{c} x, \quad\text{s.t. } Ax \leq b,\; Ex = d.
   \end{equation*}
   If \(Q\) is positive semidefinite, the objective is convex and the problem is polynomially
   solvable.
-\item \textbf{Nonlinear}: no further requirements~-- objective function and constraints may be
+\item Nonlinear: no further requirements~-- objective function and constraints may be
   arbitrary.  Usually used if not known whether the problem is convex.  Not much theory available in
   general form.
-\item \textbf{Convex set}: a set \(X\) is convex, if for all \(x, y \in X\) and
+\item Convex set: a set \(X\) is convex, if for all \(x, y \in X\) and
   \(\alpha \in [0,1]\):
   \begin{equation*}
     \alpha x + (1 - \alpha) y \in X.
   \end{equation*}
   This means that \(X\) contains all convex combinations of points from it.
-\item \textbf{Convex function}: \(f: X \to \RR\) is convex if for all \(x, y \in X\) and
+\item Convex function: \(f: X \to \RR\) is convex if for all \(x, y \in X\) and
   \(\alpha \in [0,1]\):
   \begin{equation*}
     f(\alpha x + (1 - \alpha) y) \leq \alpha f(x) + (1 - \alpha) f(y).
@@ -278,16 +278,30 @@ continuity of the gradient
   What is a rate of convergence? Explain linear, superlinear, and sublinear convergence and give
   examples.
 \end{question}
-\begin{itemize}
-\item \textbf{Linear:} $\limsup_{k \rightarrow \infty} \frac{e(x^{k+1})}{e(x^k)}\leq \beta$ (blue line)
-\item \textbf{superlinear:} $\limsup_{k \rightarrow \infty} \frac{e(x^{k+1})}{e(x^k)^p} < \infty$ (red line)
-\item \textbf{sublinear:} $\limsup_{k \rightarrow \infty} \frac{e(x^{k+1})}{e(x^k)} = 1$ (black line)
-\end{itemize}
+
+We measure convergence in terms of asymtotic rates of a step-dependent error function
+\(e: \RR^n \to \RR\) with \(e(x^*) = 0\).  The usual choices are
+\begin{gather*}
+  e(x) = \enVert[1]{x - x^*}, \text{ or } \\
+  e(x) = f(x) - f(x^*)
+\end{gather*}
+
+Classes of convergence rates (see Figure~\ref{fig:convergence}):
+\begin{enumerate}
+\item Sublinear: \(\limsup_{k \to \infty} \frac{e(\kth[k+1]{x})}{e(\kth{x})} = 1\). Example:
+  \(e(\kth{x}) \sim 1/(k + 1)^2\) (black curve; this does not imply that the method does not
+  converge!).
+\item Linear: \(\limsup_{k \to \infty} \frac{e(\kth[k+1]{x})}{e(\kth{x})} \leq \beta \in (0, 1)\).
+  Example: \(e(\kth{x}) \sim 1/2^k\) (blue curve)
+\item Superlinear: \(\limsup_{k \to \infty} \frac{e(\kth[k+1]{x})}{e(\kth{x})} = 0\). Example:
+  \(e(\kth{x}) \sim 1/2^{2^k}\) (red curve).
+\end{enumerate}
 
 \begin{figure}[H]
-  \includegraphics[width=10cm]{convergence.png}
+  \centering
+  \includegraphics[width=0.8\textwidth]{convergence.png}
   \caption{Graphical representation of linear, superinear and sublinear
-    convergence \label{fig:desc_dir}}
+    convergence \label{fig:convergence}}
 \end{figure}
 
 \section{Newton's method}
