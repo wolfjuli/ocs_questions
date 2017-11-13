@@ -56,7 +56,8 @@ Draw level lines and arrows
 \item \textbf{Nonlinear}: no further requirements~-- objective function and constraints may be
   arbitrary.  Usually used if not known whether the problem is convex.  Not much theory available in
   general form.
-\item \textbf{Convex set}: a set \(X\) is convex, if for all \(x, y \in X\) and \(\alpha \in [0,1]\):
+\item \textbf{Convex set}: a set \(X\) is convex, if for all \(x, y \in X\) and
+  \(\alpha \in [0,1]\):
   \begin{equation*}
     \alpha x + (1 - \alpha) y \in X.
   \end{equation*}
@@ -230,20 +231,6 @@ Figure~\ref{fig:armijo}.
   \caption{Graphical representation of the idea of the Armijo rule.\label{fig:armijo}}
 \end{figure}
 
-% \item \textbf{Step size} $\alpha$: 
-  % \begin{itemize}
-  % \item \textbf{Minimization rule:} choose $\alpha$ such that $f(x + \alpha d)$ is minimized along
-    % $d$. Hard if $f$ is complicated
-  % \item \textbf{Limited minimization rule:} iterative: start small and increase size of $\alpha$
-    % until $f(x)$ is bigger then before, then choose the previous. Easy to implement
-  % \item \textbf{Armijo rule:} it is not sufficient that $f(x^{k+1}) < f(x^k)$, thus, the step sizes
-    % $\beta^ms$ for $m = 0,1,...$ are chosen such that the energy decrease is sufficiently large
-    % (dependent on derivation of $f(x)$, formula too complicated), or graphical:
-    % \begin{figure}[H]
-      % \includegraphics[width=\textwidth]{armijo.png}
-      % \caption{Graphical representation of the idea of the Armijo rule.\label{fig:desc_dir}}
-    % \end{figure}
-  % \end{itemize}
 
 \section{Convergence}
 
@@ -252,15 +239,39 @@ Figure~\ref{fig:armijo}.
   What is a Lipschitz continuous gradient, and what is the descent lemma?  Give the proof of the
   descent lemma.
 \end{question}
-\begin{itemize}
 
-\item there exists a definite real number such that, for every pair of points on the graph of this
-  function, the absolute value of the slope of the line connecting them is not greater than this
-  real number
-  
-\item (There is something missing here)
-  
-\end{itemize}
+A differentiable function \(f: \RR^n \to \RR\) has Lipschitz continuous gradient if there is
+a Lipschitz constant \(L \geq 0\), such that for all \(x, y \in \RR^n\)
+\begin{equation*}
+  \enVert{\nabla f(x) - \nabla f(y)} \leq L \enVert[1]{x - y},
+\end{equation*}
+or equivalently
+\begin{equation*}
+  \enVert{\nabla f(x + ty) - \nabla f(x)} \leq Lt \enVert[1]{y} \quad \forall t \in [0, 1]
+\end{equation*}
+for some norm.
+
+Let \(f: \RR^n \to \RR\) have an \(L\)-Lipschitz continuous gradient.  Then for all \(x, y\), we
+have the following quadratic upper bound on the objective function at \(x\):
+\begin{equation*}
+  f(y) \leq f(x) + \iprod{\nabla f(x)}{y - x} + \frac{L}{2}\enVert{y - x}^2,
+\end{equation*}
+Proof: let \(g(t) = f(x + t(y - x))\), so that \(g(0) = f(x)\) and \(g(1) = f(y)\). Then
+\begin{align*}
+  f(y) &= f(x) + f(y) - f(x) \\
+       &= f(x) + g(1) - g(0) \\
+       &= f(x) + \int_0^1 g'(t) \dif t \\
+       &= f(x) + \int_0^1 \T{\nabla f(x + t(y - x))} (y - x) \dif t \\
+       &= f(x) + \int_0^1 \iprod{\nabla f(x)}{y - x} \dif t
+         + \int_0^1 \iprod{\nabla f(x + t(y - x)) - \nabla f(x)}{y - x} \dif t \\
+       &\overset{(1)}{\leq} f(x) + \iprod{\nabla f(x)}{y - x}
+         + \int_0^1 \enVert[1]{\nabla f(x + t(y - x)) - \nabla f(x)}\! \cdot \enVert[1]{y - x} \dif t \\
+       &\overset{(2)}{\leq} f(x) + \iprod{\nabla f(x)}{y - x} + \enVert[1]{y - x} \int_0^1 Lt\enVert[1]{y - x} \dif t \\
+       &= f(x) + \iprod{\nabla f(x)}{y - x} + \frac{L}{2}\enVert[1]{y - x}^2,
+\end{align*}
+where (1) is an application of the Cauchy-Schwarz theorem
+(\(\langle x, y \rangle \leq \enVert{x} \cdot \enVert{y}\)), and (2) follows from Lipschitz
+continuity of the gradient
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{question}
