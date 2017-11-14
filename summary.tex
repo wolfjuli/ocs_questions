@@ -793,7 +793,7 @@ symmetric matrix \(\T{\nabla g(x)} = \nabla^2 f(x)\).
 \summary{Scale Invariance}
 
 Newton's method has the property that it is invariant under affine coordinate changes; ie., if we
-exchange \(x = Sy\) for an invertible \(S\), the generated steps will remain the same.  Proof:
+exchange \(x = Sy\) for a nonsingular \(S\), the generated steps will remain the same.  Proof:
 First, observe that
 \begin{align*}
   \nabla_y f(Sy) &= \T{S} \nabla f(Sy), \\
@@ -814,7 +814,7 @@ which we can minimize at \(\kth[k+1]{y}\) to get the update rule, like above:
   &\phantom{\Rightarrow} & &= \kth{y} - S^{-1} \nabla^2 f(S\kth{y})^{-1} (\T{S})^{-1}
                                  \T{S} \nabla f(S\kth{y}) \\
   &\Rightarrow & S\kth[k+1]{y} &= S\kth{y} - \nabla^2 f(S\kth{y})^{-1} \nabla f(S\kth{y}) \\
-  &\Leftrightarrow & \kth[k+1]{x} &= \kth{x} - \nabla^2 f(\kth{x})^{-1} \nabla f(\kth{x})
+  &\Leftrightarrow & \kth[k+1]{x} &= \kth{x} - \nabla^2 f(\kth{x})^{-1} \nabla f(\kth{x}).
 \end{align*}
 
 

@@ -312,10 +312,49 @@ Classes of convergence rates (see Figure~\ref{fig:convergence}):
   approximation of the objective function. Show that Newton’s method is invariant with respect to an
   affine change of the coordinate system.
 \end{question}
-\begin{itemize}
-\item $\tilde{g}(x, x^k) = g(x^k) + \nabla g(x^k)'(x - x^k)$
-\item is affine: because the derivation of the function is independent to a move of constants?!?!?
-\end{itemize}
+
+Newton's method is base on the sequence
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} - \kth{\alpha}\left( \nabla^2 f(\kth{x}) \right)^{-1} \nabla f(\kth{x}).
+\end{equation*}
+
+By Taylor approximation, given a point \(\kth{x}\), we can approximate a function
+\(f \in \mathcal{C}^2\) locally as
+\begin{equation*}
+  \kth{f}(x) = f(\kth{x}) + \T{\nabla f(\kth{x})}(x - \kth{x})
+  + \frac{1}{2} \T{(x - \kth{x})} \nabla^2 f(\kth{x})(x - \kth{x}).
+\end{equation*}
+We can analytically minimize this approximation, which gives the stated update rule:
+\begin{align*}
+  \nabla \kth{f}(x) = \nabla f(\kth{x}) + \nabla^2 f(\kth{x})(x - \kth{x}) &\overset{!}{=} 0 \\
+  \nabla^2 f(\kth{x})(x - \kth{x}) &= -\nabla f(\kth{x}) \\
+  (x - \kth{x}) &= -(\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}) \\
+  x = \kth[k+1]{x} &= \kth{x} - (\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}).
+\end{align*}
+
+Scale invariance: if we exchange \(x = Sy\) for a nonsingular \(S\), the generated steps will remain
+the same.  First, observe that
+\begin{align*}
+  \nabla_y f(Sy) &= \T{S} \nabla f(Sy), \\
+  \nabla_y^2 f(Sy) &= \T{S} \nabla^2 f(Sy) S.
+\end{align*}
+Now, the second-order approximation around \(S\kth{y}\) becomes
+\begin{align*}
+  \kth{f}(Sy) &= f(S\kth{y}) + \T{(\T{S} \nabla f(Sy))}(y - \kth{y}) \\
+  &\qquad + \frac{1}{2} \T{(y - \kth{y})} \nabla^2 f(S\kth{y}) (y - \kth{y}),
+\end{align*}
+which we can minimize at \(\kth[k+1]{y}\) to get the update rule, like above:
+\begin{align*}
+  & &\nabla \kth{f}(\kth[k+1]{y}) &= \T{S} \nabla f(S\kth{y}) + \T{S} \nabla^2
+                                 f(S\kth{y})S(\kth[k+1]{y}
+                                 - \kth{y}) \overset{!}{=} 0 \\
+  &\Rightarrow & \kth[k+1]{y} &= \kth{y} - \left( \T{S}\nabla^2 f(S\kth{y})S \right)^{-1} \T{S}
+                                  \nabla f(S\kth{y}) \\
+  &\phantom{\Rightarrow} & &= \kth{y} - S^{-1} \nabla^2 f(S\kth{y})^{-1} (\T{S})^{-1}
+                                 \T{S} \nabla f(S\kth{y}) \\
+  &\Rightarrow & S\kth[k+1]{y} &= S\kth{y} - \nabla^2 f(S\kth{y})^{-1} \nabla f(S\kth{y}) \\
+  &\Leftrightarrow & \kth[k+1]{x} &= \kth{x} - \nabla^2 f(\kth{x})^{-1} \nabla f(\kth{x}).
+\end{align*}
 
 \section{Least squares problems}
 
