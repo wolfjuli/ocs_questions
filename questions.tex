@@ -360,27 +360,46 @@ which we can minimize at \(\kth[k+1]{y}\) to get the update rule, like above:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{question}
-  What are linear (and nonlinear) least squares problems? Give an example.  What is the Gauss-Newton
+  What are linear (and nonlinear) least squares problems?  Give an example.  What is the Gauss-Newton
   method, and what is its relation to Newton’s method?
 \end{question}
-\textbf{Linear}:
-\begin{itemize}
-\item pointcloud, best fitting by polynomial equations
-\item Solve least square problem to find optimal parameters
-\item $\frac{1}{2}|| Ax - z ||^2$
-\end{itemize} 
-\textbf{Non-Linear:}
-\begin{itemize}
-\item Measure distance to beacons to get our own unkown location
-\item non linear least squares problem
-\item $min_x \frac{1}{2} \sum_{i = 1^m} (d_i - \sqrt{(x_i - p_1^i)^2 + (x_2 - p_2^i)^2})^2$
-\end{itemize} 
-\textbf{Gauss-Newton}:
-\begin{itemize}
-\item Uses $(\nabla g(x^k)\nabla g(x^k)')^{-1}$ instead of hessian
-\item Approximates Current point with parabola and minimizes this subproblem (as plain Newton)
-\end{itemize}
-(check this shit out)
+
+We want to minimize
+\begin{equation*}
+  f(x) = \frac{1}{2} \enVert[1]{g(x)}^2 = \frac{1}{2} \sum_i \enVert[1]{g_i(x)}^2,
+\end{equation*}
+for a continuously differentiable function \(g\) with components \(g_i\), which can be linear or
+nonlinear.  This is equivalent to solving the problem \(g(x) = 0\), a possibly overdetermined
+system.
+
+Often, a least squares problem is a model fitting problem, where
+\begin{equation*}
+  g_i(\theta) = h(x_i, \theta) - \hat{y}_i
+\end{equation*}
+is the loss for a single sample for a model function \(h\) with parameters \(\theta\), samples
+\(x_i\), and targets~\(\hat{y}_i\).  If we take, e.g., a linear predictor, we would have the form
+\(g_i(\theta) = \T{\theta} x_i - \hat{y}_i\), which we can put together in matrix form as
+\(g(\theta) = Ax - y\) with the so-called model matrix \(A\).
+
+To derive the Gauss-Newton method, we replace \(g\) by a local approximation around \(\kth{x}\):
+\begin{equation*}
+  \tilde{g}(x, \kth{x}) = g(\kth{x}) + \T{\nabla g(\kth{x})}(x - \kth{x}).
+\end{equation*}
+This leads to a step method of the form
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} - \left(\nabla g(\kth{x}) \T{\nabla g(\kth{x})}\right)^{-1} \T{\nabla g(\kth{x})} g(\kth{x}),
+\end{equation*}
+assuming that \((\nabla g(\kth{x}) \T{\nabla g(\kth{x})}\) is invertible.
+
+To compare with Newton's method, look at the derivatives
+\begin{align*}
+  \nabla f(x) &= \T{\nabla g(x)} g(x), \\
+  \nabla^2 f(x) &= \nabla g(x) \T{\nabla g(x)} + \sum_i \nabla^2 g_i(x) g_i(x).
+\end{align*}
+Neglecting the second-order part in the Hessian, this reduces to a form equivalent to Newton's
+method, but saving the computation of the full Hessian (intuitively,
+\(\nabla^2 g \approx (\nabla g)^2\)).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{question}

@@ -854,36 +854,59 @@ region\footnote{\url{https://en.wikipedia.org/wiki/Trust_region}}.
 
 \summary{General Form}
 
-We want to minimize a function
+We want to minimize
 \begin{equation*}
-  f(x) = \frac{1}{2} \enVert[1]{g(x)}^2 = \frac{1}{2} \sum_i \enVert[1]{g_i(x)}^2,
+  f(x) = \frac{1}{2} \enVert[1]{g(x)}^2 = \frac{1}{2} \sum_i g_i(x)^2,
 \end{equation*}
 for a continuously differentiable function \(g\) with components \(g_i\), which can be linear or
-nonlinear.  This is equivalent to solving the problem \(g(x) = 0\).
+nonlinear.  This is equivalent to solving the problem \(g(x) = 0\), a possibly overdetermined
+system.
 
-Usually, a least squares problem is a model fitting problem, where \(g_i(x) = z_i - h(y_i, x)\), for
-a model function \(h\) with parameters \(x\), samples \(y_i\), and targets~\(z_i\).
+Often, a least squares problem is a model fitting problem, where
+\begin{equation*}
+  g_i(\theta) = h(x_i, \theta) - \hat{y}_i
+\end{equation*}
+is the loss for a single sample for a model function \(h\) with parameters \(\theta\), samples
+\(x_i\), and targets~\(\hat{y}_i\).
 
 
 \summary{Gauss-Newton Method}\label{s:gauss_newton_method}
 
 To get a step method, we replace \(g(x)\) by a local approximation around \(\kth{x}\):
 \begin{equation*}
-  \tilde{g}(x, \kth{x}) = g(\kth{x}) + \T{\nabla g(\kth{x})}(x - \kth{x}).
+  \tilde{g}(x, \kth{x}) = g(\kth{x}) + \T{\nabla g(\kth{x})}(x - \kth{x}),
 \end{equation*}
-Then we have a quadratic problem:
+which yields
 \begin{align*}
-  & &\kth[k+1]{x} &\in \argmin_{x \in \RR^n} \frac{1}{2} \enVert[1]{\tilde{g}(x, \kth{x})}^2 \\
-  & & &= \argmin_{x \in \RR^n} \frac{1}{2} \enVert[1]{g(\kth{x}) + \T{\nabla g(\kth{x})}(x -
-        \kth{x})}^2 \\
-  &\Rightarrow &0 &\overset{!}{=} \frac{1}{2} \Big(\enVert[1]{g(\kth{x})}^2
-                                  + 2\T{(x - \kth{x})} \nabla g(\kth{x}) g(\kth{x}) \\
-  & & &\quad+ \T{(x - \kth{x})} \nabla g(\kth{x}) \T{\nabla g(\kth{x})} g(\kth{x}) \Big) \\
-  &\Rightarrow &\kth[k+1]{x} &= \kth{x} - \left(\nabla g(\kth{x}) \T{\nabla
-                                  g(\kth{x})}\right)^{-1}
-                                  \nabla g(\kth{x}) g(\kth{x}),
+  \tilde{f}(x, \kth{x})
+    &= \frac{1}{2} \enVert{\tilde{g}(x, \kth{x})}^2 \\
+    &= \frac{1}{2} \T{\tilde{g}(x, \kth{x})}\tilde{g}(x, \kth{x}) \\
+    &= \frac{1}{2} \left( \T{g(\kth{x})} + \T{(x - \kth{x})}\nabla g(\kth{x}) \right)
+      \left( g(\kth{x}) + \T{\nabla g(\kth{x})}(x - \kth{x}) \right) \\
+    &= \frac{1}{2} \Big( \T{g(\kth{x})}g(\kth{x}) \\
+    &\qquad + \T{g(\kth{x})}\T{\nabla g(\kth{x})}(x - \kth{x}) + \T{(x - \kth{x})}\nabla
+      g(\kth{x})g(\kth{x}) \\
+    &\qquad + \T{(x - \kth{x})}\nabla g(\kth{x})\T{\nabla g(\kth{x})}(x - \kth{x}) \Big) \\
+    &= \frac{1}{2} \enVert[1]{g(\kth{x})}^2 + 2\T{(x - \kth{x})} \nabla g(\kth{x})g(\kth{x}) \\
+    &\qquad + \T{(x - \kth{x})} \nabla g(\kth{x})\T{\nabla g(\kth{x})}(x - \kth{x}).
 \end{align*}
-assuming that \((\nabla g(\kth{x}) \T{\nabla g(\kth{x})}\) is invertible.
+(Note that \(\nabla g\), as the Jacobian, is a matrix!)  Then we can turn this into a quadratic
+problem, yielding the next step as the minimum of the approximation
+\begin{equation*}
+  \kth[k+1]{x} \in \argmin_{x \in \RR^n} \tilde{f}(x, \kth{x}),
+\end{equation*}
+which we can solve as
+\begin{align*}
+  & & 0 &\overset{!}{=} \nabla_{\kth[k+1]{x}} f(\kth[k+1]{x}, \kth{x}) \\
+  & & &= \T{\nabla g(\kth{x})} g(\kth{x})
+        + \nabla g(\kth{x})\T{\nabla g(\kth{x})} (\kth[k+1]{x} - \kth{x}) \\
+  % && &\qquad+ \T{(\kth[k+1]{x} - \kth{x})} \nabla g(\kth{x}) \T{\nabla g(\kth{x})} g(\kth{x}) \Big) \\
+  &\Rightarrow  & \kth[k+1]{x} &= \kth{x} - \left(\nabla g(\kth{x}) \T{\nabla
+                 g(\kth{x})}\right)^{-1}
+                 \T{\nabla g(\kth{x})} g(\kth{x}),
+\end{align*}
+assuming that \(\nabla g(\kth{x}) \T{\nabla g(\kth{x})}\) is invertible.  If \(g\) is linear, this
+method reduces to the Moore-Penrose pseudoinverse and solves the problem in one step.
 
 
 \summary{Levenberg-Marquardt Method}\label{s:levenberg_method}
