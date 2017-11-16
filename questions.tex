@@ -406,12 +406,27 @@ method, but saving the computation of the full Hessian (intuitively,
   What is a Kalman filter? How does it relate to an optimization problem?  What is an extended
   Kalman filter?
 \end{question}
-\begin{itemize}
-\item incremental of gauss newton - incremental growing least squares estimate
-\item example watertank: many measurements with noise - a very good and fast convergence to correct
-  level is reached
-\item extended Kalman Filter: input data behaves according to a function
-\end{itemize}
+
+If a least-squares model (ie. the functions \(g_i\)) is linear, one Gauss-Newton iteration would be
+enough to find the optimal solution (this amounts to the analytical solution using the Moore-Penrose
+pseudoinverse).  However, we can develop an incremental method for this, avoiding the matrix
+inversion, and instead using one sample at a time.
+
+Concretely, for \(g_i(x) = z_i - C_i x_i\), we have a step method
+\begin{align*}
+  \xi_i &= \xi_{i-1} + H_i^{-1}\T{C_i}(z_i - C_i \xi_{i-1}), \quad\text{with} \\
+  H_i &= \lambda H_{i-1} + \T{C_i}C_i, \\
+  H_0 &= 0,\quad \xi_0 \text{ arbitrary}.
+\end{align*}
+(here \(H_i\) and \(C_i\) are relatively small, compared to \(\nabla g(\kth{x})\).)
+
+If the \(g_i\) are nonlinear, we can use a linearization at the last available iteration
+\(\xi_{i-1}\) to get the extended Kalman filter.  The iteration scheme stays the same, but the model
+parts must be adapted to
+\begin{align*}
+  \tilde{z}_i &= g_i(\xi_{i-1}) + \T{\nabla g_i(\xi_{i-1})}(z_i - \xi_{i-1}), \\
+  C_i &= - \T{\nabla g_i(\xi_{i-1})}.
+\end{align*}
 
 \section{Accelerated gradient methods}
 

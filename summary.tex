@@ -970,7 +970,7 @@ inversion.  This method is called \emph{Kalman filter}.
 Suppose \(g_i(x) = z_i - C_i x_i\), with \(z_i \in \RR^r\) and \(C_i \in \RR^{r \times n}\) (the
 model parameters).  We are interested in a method for finding
 \begin{equation*}
-  \xi_i \in \argmin_x \sum_{j=1}^{i} \lambda^{i-j} \enVert[1]{z_j - C_j x}.
+  \xi_i \in \argmin_x \sum_{j=1}^{i} \lambda^{i-j} \enVert[1]{z_j - C_j x}^2.
 \end{equation*}
 The optimal solution is then \(x^* = \xi_m\).  For \(\lambda = 1\), this is the least squares fit;
 for \(\lambda < 1\), we ``decay'' the importance of ``older'' samples.  The sequence of \(\xi_i\)
@@ -980,7 +980,7 @@ can be generated iteratively by
   H_i &= \lambda H_{i-1} + \T{C_i}C_i, \\
   H_0 &= 0,\quad \xi_0 \text{ arbitrary}.
 \end{align*}
-(\(H_i\) and \(C_i\) are relatively small, compared to \(\nabla f(\kth{x})\).)
+(here \(H_i\) and \(C_i\) are relatively small, compared to \(\nabla g(\kth{x})\).)
 
 Example: for a linear model \(x(t) = l + ft\), with parameters \(f, l\), we use \(C = [1, t]\).
 
