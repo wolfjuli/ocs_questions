@@ -484,19 +484,26 @@ we can solve using CG.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{question}
-  Explain the difference between the heavy-ball algorithm and Nesterov’s algorithm. What are the
+  Explain the difference between the heavy-ball algorithm and Nesterov’s algorithm.  What are the
   rates of convergence of those algorithms on strongly convex problems?
 \end{question}
 \begin{itemize}
-\item Heavy-ball: Idea is like in physics: a ball uses its momentum it gained beforehand to overcome
-  small increases or flat areas of its way
-\item Problem: function needs to be strongly $\mu > 0$ convex and twice continously differentiable
-\item Nesterov overcomes the twice diff. and the $\mu > 0$ problem by a dynamic choice of
-  overrelaxation param $\beta^k = \frac{t_k - 1}{t_k + 1} \rightarrow 1$, gradient is evaluated at
-  extrapolated point
-\item Both algorithms are optimal
-\item HB is optimal like the $Q$ positive semidefinite optimality, Nesterov also yields linear
-  convergence rate on strongly convex sets
+\item Heavy-ball: idea is like in physics: a ball uses its momentum it gained beforehand to overcome
+  small increases or flat areas of its way:
+  \begin{equation*}
+    \kth[k+1]{x} = \kth{x} - \kth{\alpha} \nabla f(\kth{x}) + \kth{\beta}(\kth{x} - \kth[k-1]{x}).
+  \end{equation*}
+\item Nesterov: instead of calculating the gradient at the current point, use a gradient step based
+  at the point extrapolated from the momentum:
+  \begin{align*}
+    \kth{y} &= \kth{x} + \kth{\beta}(\kth{x} - \kth[k-1]{x}), \\
+    \kth[k+1]{x} &= \kth{y} - \alpha\nabla f(\kth{y}).
+  \end{align*}
+\item The heavy-ball-method is only optimal for strongly convex functions, since otherwise the step
+  size parameters cannot be chosen correctly.  Nesterov overcomes this
+  difficulty by a dynamic choice of \(\kth{\beta}\).
+\item Both algorithms are optimal for strongly convex functions; Nesterov is also optimal for
+  general smooth convex functions.
 \end{itemize}
 
 \section{Contrained optimization}
