@@ -435,30 +435,52 @@ parts must be adapted to
   What is the lower bound of first order methods on quadratic problems?  What is an optimal
   algorithm for quadratic problems?
 \end{question}
-\begin{itemize}
-\item $Q$ positive definite: $\left(\frac{\sqrt{L/I}-1}{\sqrt{L/I} + 1}\right)^n || x^0  - x* ||$
-\item $Q$ positive semidefinite: not motivated to write formula
-\item Best method: conjugate gradient method (by Polyak) see next question
-\end{itemize}
+
+A quadratic minimization problem
+\begin{equation*}
+  \min_x f(x) = \frac{1}{2} \T{x} Q x - \T{b}x,
+\end{equation*}
+is automatically convex for positive semidefinite \(Q\).  The lower bounds for first-order gradient
+methods then depend only on the eigenvalues of \(Q\), since they fix \(L = \lambda_{\text{max}}\)
+and \(\mu = \lambda_{\text{min}}\): if \(Q \succeq 0\) (just positive semidefinite), then
+\begin{equation*}
+  f(\kth{x}) - f(x^*) \geq \frac{3\lambda_{\text{max}} \enVert[1]{\kth[0]{x} - x^*}}{32 (n+1)^2}.
+\end{equation*}
+If \(Q \succ 0\) (positive definite, therefore a strongly convex problem), then
+\begin{equation*}
+  \enVert[1]{\kth{x} - x^*}
+  \geq \left( \frac{\sqrt{\lambda_{\text{max}}/\lambda_{\text{min}}} - 1}{
+      \sqrt{\lambda_{\text{max}}/\lambda_{\text{min}}} + 1} \right)^k \enVert[1]{\kth[0]{x} - x^*}.
+\end{equation*}  
+An optimal first order method for these cases is the conjugate gradient method.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{question}
-  Write down the conjugate gradient (CG) method and specialize the algorithm for solving a least
-  squares problem of the form
+  Write down the conjugate gradient (CG) method and specialize the algorithm for solving a
+  least-squares problem of the form
   \[
-    \min_x \frac{1}{2} \T{x} Q x - \T{b} x.
+    \min_x f(x) = \frac{1}{2} \T{x} Q x - \T{b} x.
   \]
   What is the relation to solving linear system of equations?
 \end{question}
-\begin{itemize}
-\item Motivation: converge faster the GD but avoid Newton overhead
-\item Q-conjugate if: $d^i  Q d^j = 0, \forall i, j \texttt{ with } i \neq j$
-\item Algorithm: Use Gram-Schmidt to find conjugate direction, calculate new search direction (easy
-  as all but one coefficient are zero), choose $\alpha^k$ by minimization method, algorithm
-  terminates after at most n steps.
-\end{itemize}
-(I think this is the algorithm where every single dimension is differenciated and optimized - hence
-the n termination)
+
+We set
+\begin{equation*}
+  \kth{g} = \nabla f(\kth{x}) = Q \kth{x} - b,
+\end{equation*}
+and calculate the descent directions as
+\begin{align*}
+  \kth[0]{d} &= -\kth[0]{g}, \\
+  \kth[k]{d} &= \kth{d} = -\kth{g} + \kth{\beta}\kth[k-1]{d},
+\end{align*}
+where \(\kth{\beta}\) is given by
+\begin{equation*}
+  \kth{\beta} = \frac{\T{(\kth{g})}\kth{g}}{\T{(\kth[k-1]{g})}\kth[k-1]{g}}.
+\end{equation*}
+
+When solving a linear system \(Ax = y\), we are essentially also looking for an \(x\) which
+minimizes the expression \(\enVert{Ax - y}\).  This is a special form of a quadratic problem, which
+we can solve using CG.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{question}
