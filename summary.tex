@@ -246,7 +246,7 @@ and only if it has a bounded first derivative.
 
 \optionalsummary{Lipschitz-continuous gradients and strong convexity}
 
-Let us denote the following classes of functions:
+Let us denote the following classes of \emph{covex} functions:
 \begin{itemize}
 \item \(\Lip{L}{n}{k}\): convex \(n\) times continuously differentiable functions with \(L\)-Lipschitz
   continuous \(k\)-th derivative,
@@ -1003,28 +1003,55 @@ The iteration scheme stays the same, but the model parts must be adapted to
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Accelerated Gradient Methods}
 
-\summary{Lower Bound for Quadratic Optimization}
+\optionalsummary{General Lower Bounds for Convex Functions}
 
-For a quadratic minimization problem
-\begin{equation*}
-  \min_x f(x) = \frac{1}{2} \T{x} Q x - \T{b}x,
-\end{equation*}
-we can give lower bounds for first-order gradient methods of the form
+A general first-order gradient method generates steps of the form
 \begin{equation*}
   \kth[k+1]{x} \in \kth[0]{x} + \Span \{\nabla f(\kth[0]{x}), \ldots, \nabla f(\kth{x})\}.
 \end{equation*}
-If \(Q \succ 0\), then
+We can give the following general lower bounds for convex functions:
+\begin{itemize}
+\item Smooth convex functions: for any \(k\) with \(1 \leq k \leq \frac{1}{2}(n - 1)\), \(L > 0\),
+  and \(\kth[0]{x} \in \RR^n\), there is a function \(f \in \Lip{L}{\infty}{1}\) such that for any
+  first order method we have
+  \begin{enumerate}
+  \item \(\displaystyle \enVert[1]{\kth{x} - x^*} \geq \frac{1}{8} \enVert[1]{\kth[0]{x} - x^*}\)
+  \item \(\displaystyle f(\kth{x}) - f(x^*) \geq \frac{3L \enVert[1]{\kth[0]{x} - x^*}}{32 (n+1)^2}\),
+  \end{enumerate}
+\item Strongly convex functions: for any \(\kth[0]{x} \in \RR^n\), \(\mu > 0\), and \(L > \mu\),
+  there is a function \(f \in \Strong{\mu}{L}{\infty}{1}\) such that for any first order method we
+  have
+  \begin{enumerate}
+  \item \(\displaystyle \enVert[1]{\kth{x} - x^*} \geq
+    \left( \frac{\sqrt{L/\mu} - 1}{\sqrt{L/\mu} + 1} \right)^k \enVert[1]{\kth[0]{x} - x^*}\)
+  \item \(\displaystyle \displaystyle f(\kth{x}) - f(x^*) \geq \frac{\mu}{2}
+    \left( \frac{\sqrt{L/\mu} - 1}{\sqrt{L/\mu} + 1} \right)^{2k} \enVert[1]{\kth[0]{x} - x^*}^2\)
+  \end{enumerate}
+  Here, the value \(L / \mu \geq 1\) is called the \emph{condition number} of the function and often
+  abbreviated as \(Q_f\).
+\end{itemize}
+
+\summary{Lower Bound for Quadratic Optimization}
+
+A quadratic minimization problem
+\begin{equation*}
+  \min_x f(x) = \frac{1}{2} \T{x} Q x - \T{b}x,
+\end{equation*}
+is automatically convex for positive semidefinite \(Q\).  The lower bounds for first-order gradient
+methods then depend only on the eigenvalues of \(Q\), since they fix \(L = \lambda_{\text{max}}\)
+and \(\mu = \lambda_{\text{min}}\): if \(Q \succeq 0\) (just positive semidefinite), then
+\begin{equation*}
+  f(\kth{x}) - f(x^*) \geq \frac{3\lambda_{\text{max}} \enVert[1]{\kth[0]{x} - x^*}}{32 (n+1)^2}.
+\end{equation*}
+If \(Q \succ 0\) (positive definite, therefore a strongly convex problem), then
 \begin{equation*}
   \enVert[1]{\kth{x} - x^*}
-  \geq \left( \frac{\sqrt{L/I} - 1}{\sqrt{L/I} + 1} \right)^k \enVert[1]{\kth[0]{x} - x^*},
-\end{equation*}
-where \(L\) and \(I\) are the smallest and larges eigenvalue of \(Q\).  If \(Q \succeq 0\), then
-\begin{equation*}
-  f(\kth{x}) - f(x^*) \geq \frac{3L \enVert[1]{\kth[0]{x} - x^*}}{32 (n+1)^2}.
-\end{equation*}
+  \geq \left( \frac{\sqrt{\lambda_{\text{max}}/\lambda_{\text{min}}} - 1}{
+      \sqrt{\lambda_{\text{max}}/\lambda_{\text{min}}} + 1} \right)^k \enVert[1]{\kth[0]{x} - x^*}.
+\end{equation*}  
 
 
-\summary{\(Q\)-Conjucgacy}
+\summary{\(Q\)-Conjugacy}
 
 Given a positive definite matrix \(Q\), a set of nonzero vectors \(\kth[0]{d}, \ldots, \kth[k-1]{d}\) are
 called \emph{\(Q\)-conjugate} if for all \(i \neq j\)
@@ -1083,7 +1110,7 @@ where
 \end{equation*}
 Since by construction, the \(\kth[i]{d}\) span the same space as the \(\kth[i]{x}\), \(\kth[n]{x}\)
 minimizes the function over its whole domain; hence, the method terminates after at most \(n\)
-steps.
+steps (in theory, assuming exact arithmetic).
 
 
 \summary{Conjugate Gradient Method}
