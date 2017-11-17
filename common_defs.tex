@@ -44,6 +44,10 @@
   \paragraph{\arabic{section}.\arabic{summary}*\texorpdfstring{\enspace}{ } #1.}\refstepcounter{summary}}
 \renewcommand{\thesummary}{\thesection .\arabic{summary}}
 
+% todo: fix pdf bookmarks/make this a proper sectioning command
+% \pdfbookmark[3]{#1}{subsec:\thesummary}%
+% https://tex.stackexchange.com/questions/3881/formatting-a-paragraph-to-look-like-a-section
+
 % fix (= remove) space below theorem environment, since we abuse it for question formatting
 \newtheoremstyle{slplain}% name
   {.5\baselineskip\@plus.2\baselineskip\@minus.2\baselineskip}% Space above
