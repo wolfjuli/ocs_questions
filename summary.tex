@@ -1145,18 +1145,18 @@ where \(\kth{\beta}\) is given by
 \end{equation*}
 
 This method terminates with an optimal solution after at most \(n\) steps (as argued above), and is
-the optimal first order method for quadratic problems: if \(0 \preceq \mu \preceq Q \preceq L\) is
-positive definite, then we have a strongly convex problem and
+the optimal first order method for quadratic problems, for which we have the easy characterization
+\(L = \lambda_{\text{max}}(Q)\) and \(\mu = \lambda_{\text{min}}(Q)\): if \(Q\) is positive
+definite, and \(0 \preceq \mu \preceq Q \preceq L\), then we have a strongly convex problem with
 \begin{equation*}
-  \enVert[1]{\kth{x} - x^*} \leq 2\sqrt{L/\mu} \left( \frac{\sqrt{L/\mu}-1}{\sqrt{L/\mu}+1} \right)
-  \enVert[1]{\kth[0]{x} - x^*},
+  \enVert[1]{\kth{x} - x^*} \leq 2\sqrt{L/\mu} \left( \frac{\sqrt{L/\mu}-1}{\sqrt{L/\mu}+1} \right)^k
+  \enVert[1]{\kth[0]{x} - x^*}.
 \end{equation*}
-and if \(0 \preceq Q \preceq L\) is positive semidefinite, we have a smooth problem with
+If \(Q\) is just positive semidefinite with \(0 \preceq Q \preceq L\), we have a smooth problem with
 \begin{equation*}
   f(\kth{x}) - f(x^*) \leq \frac{L \enVert[1]{\kth[0]{x} - x^*}^2}{2 (2k + 1)^2}.
 \end{equation*}
-Furthermore, in this case, we have the easy characterization \(L = \lambda_{\text{max}}(Q)\) and
-\(\mu = \lambda_{\text{min}}(Q)\).
+
 
 \summary{Application of CG to Nonlinear Problems}\label{s:conjugate-gradient-nonlinear}
 
