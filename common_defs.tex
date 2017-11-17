@@ -39,11 +39,12 @@
 % layout/sectioning
 \newcounter{summary}[section]
 \newcommand{\summary}[1]{%
-  \paragraph{\arabic{section}.\arabic{summary}\enspace #1.}\refstepcounter{summary}}
+  \paragraph{\arabic{section}.\arabic{summary}\texorpdfstring{\enspace}{ } #1.}\refstepcounter{summary}}
 \newcommand{\optionalsummary}[1]{%
-  \paragraph{\arabic{section}.\arabic{summary}*\enspace #1.}\refstepcounter{summary}}
+  \paragraph{\arabic{section}.\arabic{summary}*\texorpdfstring{\enspace}{ } #1.}\refstepcounter{summary}}
 \renewcommand{\thesummary}{\thesection .\arabic{summary}}
 
+% fix (= remove) space below theorem environment, since we abuse it for question formatting
 \newtheoremstyle{slplain}% name
   {.5\baselineskip\@plus.2\baselineskip\@minus.2\baselineskip}% Space above
   {0pt}% Space below
@@ -58,10 +59,3 @@
 \newtheorem{question}{Question}
 
 \usepackage{parskip}
-
-
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: "summary"
-%%% End:
