@@ -31,7 +31,7 @@ on convex optimization.
 \section{Mathematical Preliminaries}
 
 
-\summary{Basic Math}
+\summary{Basic Math}\label{s:basics}
 
 Always remember these:
 \begin{gather*}
@@ -62,7 +62,7 @@ as well as the Taylor expansion around \(x_0\):
 % http://math.harvard.edu/archive/21b_fall_04/exhibits/2dmatrices/index.html
 
 
-\summary{Definiteness}
+\summary{Definiteness}\label{s:definiteness}
 
 A symmetric matrix \(Q\) is called \emph{positive semidefinite} if \(\T{x} Q x \geq 0\) for all
 \(x\), and \emph{positive definite} if \(\T{x} Q x > 0\) for all \(x \neq 0\).  Sometimes this is
@@ -78,14 +78,15 @@ written as \(Q \succeq 0\) and
 The notation can also be used for general inequalities between quadratic forms: \(a \preceq Q
 \preceq b \Leftrightarrow \forall x: a \leq \T{x}Qx \leq b\), etc.
 
-\optionalsummary{Norms}
+\optionalsummary{Norms}\label{s:norms}
 
 As usual, we have the \(\ell_p\)-norms for \(x \in \RR^N\):
 \begin{equation*}
   \lVert x \rVert_p = \left( \sum_{1 \leq i \leq N} |x_i|^p \right).
 \end{equation*}
 
-Special cases of this are the \emph{Euclidean norm} (\(p = 2\)) and the \emph{Manhatton norm} (\(p = 1\)):
+Special cases of this are the \emph{Euclidean norm} (\(p = 2\)) and the \emph{Manhatton norm}
+(\(p = 1\)):
 \begin{equation*}
   \lVert x \lVert_2 = \sqrt{\T{x} x} \quad \text{and} \quad \lVert x \lVert_1 = \sum_{1 \leq i \leq
     N} |x_i|.
@@ -131,7 +132,8 @@ where \(U, V\) are orthogonal and
   \lVert A \rVert_{S_p} = \left( \sum_{1 \leq i \leq R} \sigma_i(A)^p \right).
 \end{equation*}
 This norm is based solely on the eigenvalues; it measures the stretching of the matrix (described by
-\(\Sigma\)), while ignoring the rotation part.  Special cases here are the \emph{nuclear norm} (\(p = 1\))
+\(\Sigma\)), while ignoring the rotation part.  Special cases here are the \emph{nuclear norm}
+(\(p = 1\))
 \begin{equation*}
   \lVert A \rVert_{*} = \sum_{1 \leq i \leq R} \sigma_i(A),
 \end{equation*}
@@ -158,7 +160,7 @@ If \(C_1\) and \(C_2\) are convex sets, then also \(C_1 \cap C_2\) and \(C_1 + C
 are.  Examples of convex sets are convex hulls, planes, halfspaces, polyhedra, norm balls, and
 cones. 
 
-\summary{Level Sets}
+\summary{Level Sets}\label{s:level-sets}
 
 For a function \(f: X \to \RR\), and \(c \in \RR\), the sets
 \begin{equation*}
@@ -184,7 +186,7 @@ and the second-order condition
 \end{equation*}
 We speak about \emph{strict convexity} when the inequalities are replaced by strict ones.
 
-\summary{Strong Convexity}\label{s:strong_convexity}
+\summary{Strong Convexity}\label{s:strong-convexity}
 
 A function \(f: X \to \RR\) is \emph{\(\mu\)-strongly
   convex}\footnote{\url{https://en.wikipedia.org/wiki/Convex_function\#Strongly_convex_functions}}
@@ -211,7 +213,7 @@ The latter is equivalent to requiring that the minimum eigenvalue of \(\nabla^2 
   \centering
   \includegraphics[width=0.5\textwidth]{strong_convexity}
   \caption{Illustration of the lower bound provided by strong
-    convexity.\label{fig:strong_convexity}}
+    convexity.\label{fig:strong-convexity}}
 \end{figure}
 
 Strong convexity means that the function can be bounded from below by a quadratic function: if
@@ -219,10 +221,10 @@ Strong convexity means that the function can be bounded from below by a quadrati
 \begin{equation*}
   f(x) \geq f(x^*) + \frac{\mu}{2} \enVert{x - x^*}^2;
 \end{equation*}
-see Figure~\ref{fig:strong_convexity}.
+see Figure~\ref{fig:strong-convexity}.
 
 
-\summary{Lipschitz continuity}\label{s:lipschitz_continuity}
+\summary{Lipschitz continuity}\label{s:lipschitz-continuity}
 
 A function \(f: \RR^n \to \RR\) is called \emph{Lipschitz continuous}, if there is value
 \(L \geq 0\), called \emph{Lipschitz constant}, such that for all \(x, y \in \RR^n\)
@@ -245,11 +247,12 @@ A differentiable function \(\RR \to \RR\) is Lipschitz continuous with \(L = \su
 and only if it has a bounded first derivative.
 
 \optionalsummary{Lipschitz-continuous gradients and strong convexity}
+\label{s:lipschitz-strong-convexity}
 
 Let us denote the following classes of \emph{covex} functions:
 \begin{itemize}
-\item \(\Lip{L}{n}{k}\): convex \(n\) times continuously differentiable functions with \(L\)-Lipschitz
-  continuous \(k\)-th derivative,
+\item \(\Lip{L}{n}{k}\): convex \(n\) times continuously differentiable functions with
+  \(L\)-Lipschitz continuous \(k\)-th derivative,
 \item \(\strong{\mu}{n}\): \(n\) times continuously differentiable \(\mu\)-strongly
 convex functions, and
 \item \(\Strong{L}{\mu}{n}{k}\): \(n\) times continuously differentiable
@@ -275,7 +278,7 @@ of them, listed below; in each case except the last, the whole statement holds f
     \mu \enVert{x - y}^2 \leq \iprod{\nabla f(x) - \nabla f(y)}{x - y} \leq L \enVert{x - y}^2
   \end{equation*}
 
-\item The descent lemma (Summary~\ref{s:descent_lemma}) and its converse, which bound the first
+\item The descent lemma (Summary~\ref{s:descent-lemma}) and its converse, which bound the first
   order approximation around a point:
   \begin{align*}
     f(y) &\geq f(x) + \iprod{\nabla f(x)}{y - x} + \frac{\mu}{2}\enVert{y - x}^2 \\
@@ -305,7 +308,7 @@ of them, listed below; in each case except the last, the whole statement holds f
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction to Optimization}
 
-\summary{General Form of Optimization Problems}
+\summary{General Form of Optimization Problems}\label{s:optimization-form}
 
 A general minimization problem has the form
 \begin{equation*}
@@ -319,7 +322,7 @@ and an \emph{objective function} \(f: X \to \RR\).  We want to find an optimal v
 \end{equation*}
 
 
-\summary{Types of Optimization Problems}
+\summary{Types of Optimization Problems}\label{s:optimization-types}
 
 \begin{enumerate}
 \item
@@ -352,7 +355,7 @@ and an \emph{objective function} \(f: X \to \RR\).  We want to find an optimal v
 \end{enumerate}
 
 
-\summary{Local and Global Minima}
+\summary{Local and Global Minima}\label{s:local-global-minima}
 
 A point \(x^*\) is called an \emph{unconstrained global minimum} of \(f\) if for all \(x\)
 \begin{equation*}
@@ -366,7 +369,7 @@ neighbourhood; i.e., there is an \(\epsilon > 0\) such that
 For \emph{constrained} minima, we just require additionally that \(x^* \in X \subset \RR^n\).
 
 
-\summary{First Order Neccessary Condition for Optimality}
+\summary{First Order Neccessary Condition for Optimality}\label{s:first-order-optimality}
 
 If \(f\) is continuously differentiable, then in a small neighbourhood of \(x^*\), we can by Taylor
 expansion write \(f\) as
@@ -386,7 +389,7 @@ so \(\T{\nabla f(x^*)} \Delta x = 0\), which, since \(\Delta x\) is arbitrary, i
 a \emph{stationary point}.  In ``normal'' cases, it is either a local optimum or a saddle point.
 
 
-\summary{Second Order Neccessary Condition for Optimality}
+\summary{Second Order Neccessary Condition for Optimality}\label{s:second-order-optimality}
 
 If \(f\) is twice continuously differentiable, then by second order Taylor expansion, we get
 \begin{align*}
@@ -401,7 +404,7 @@ this is that the function must be convex in some neighbourhood for for a point t
 good as its neighbours''; if it is strictly convex, we get the following:
 
 
-\summary{Sufficient Condition for Optimality}
+\summary{Sufficient Condition for Optimality}\label{s:sufficient-optimality}
 
 If for a point \(x^*\) we have
 \begin{equation*}
@@ -412,7 +415,7 @@ this is that in this case, \(f\) is locally strictly convex, and thus a stationa
 neccessaryly an optimum.)
 
 
-\summary{Minima of Convex Functions}
+\summary{Minima of Convex Functions}\label{s:convex-minima}
 
 For a convex function \(f\), local minima are also global minima: suppose \(x^*\) were a local, but
 not global minimum.  Then there must be some \(y^* \neq x^*\) with \(f(y^*) < f(x^*)\).  But by
@@ -431,11 +434,11 @@ is a \(y^*\) with \(f(y^*) < f(x^*)\).  Then, by convexity of \(f\),
 \end{equation*}
 this contradicts the assumption, therefore \(x^*\) must be optimal.
 
-\optionalsummary{Existence of Minimizers}
+\optionalsummary{Existence of Minimizers}\label{s:minimizers-existence}
 
 A crucial condition for the general existence of minimizers is the following: a function
-\(f: X \subset \RR^N \to \RR \cup \{\infty\}\) is \emph{lower semicontinuous (lsc)}, if for all sequences
-\({x_k} \in X\) converging to \(x \in X\) we have that
+\(f: X \subset \RR^N \to \RR \cup \{\infty\}\) is \emph{lower semicontinuous (lsc)}, if for all
+sequences \({x_k} \in X\) converging to \(x \in X\) we have that
 \begin{equation*}
   f(x) \leq \liminf_{k \to \infty} f(x_k).
 \end{equation*}
@@ -450,7 +453,7 @@ closed and non-empty, then \(f\) also has a global minimizer.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Gradient Methods}
 
-\summary{Basic Idea}\label{s:gradient_methods}
+\summary{Basic Idea}\label{s:gradient-methods}
 
 To find a minimum of \(f\), we construct a sequence \(\kth{x}\) such that for all \(k\),
 \(f(\kth[k+1]{x}) < f(\kth{x})\).  To do that, we choose an initial \(\kth[0]{x}\) and then set
@@ -465,7 +468,7 @@ satisfy
 where \(\pd{f}{{\kth{d}}}\) is the directional derivative in direction \(\kth{d}\).
 
 
-\summary{Matrix-Scaled Gradients}
+\summary{Matrix-Scaled Gradients}\label{s:scaled-gradients}
 
 Given the above form, one can choose \(\kth{d} = -\kth{D} \nabla f(\kth{x})\) for a positive
 definite \(\kth{D}\):
@@ -478,9 +481,9 @@ by the definition of positive definiteness.
 \item Steepest descent: \(\kth{D} = I\). Simple, but slow convergence.
 \item Newton's method: \(\kth{D} = (\nabla^2 f(\kth{x}))^{-1}\).  Fast convergence, but
   \(\nabla^2 f(\kth{x})\) needs to be positive definite to be useful.  Corresponds to local
-  approximation by a quadratic surface (see Summary~\ref{s:newton_method_derivation}).
+  approximation by a quadratic surface (see Summary~\ref{s:newton-method-derivation}).
 \item Levenberg-Marquart method: \(\kth{D} = (\nabla^2 f(\kth{x}) + \lambda I)^{-1}\).  Tries
-to fix problems with Newton's method by regularization (see Summary~\ref{s:levenberg_method}).
+to fix problems with Newton's method by regularization (see Summary~\ref{s:levenberg-method}).
 \item Diagonal scaling: \(\kth{D} = \diag(\kth{d}_1, \ldots, \kth{d}_n)\). E.g. approximating
 Newton's method with
 \begin{equation*}
@@ -489,17 +492,17 @@ Newton's method with
 \item Gauss-Newton method: For a nonlinear least-squares problem
 \(f(x) = \frac{1}{2} \lVert g(x) \rVert^2\), we can choose
 \(\kth{D} = ( \nabla g(\kth{x} \T{\nabla g(\kth{x})})^{-1}\).  This is related to the
-pseudo-inverse (see Summary~\ref{s:gauss_newton_method}.
+pseudo-inverse (see Summary~\ref{s:gauss-newton-method}.
 \end{enumerate}
 
 
-\summary{Step Size Selection}
+\summary{Step Size Selection}\label{s:step-size-selection}
 
 To ensure convergence and performance, \(\kth{\alpha}\) needs to be chosen with care.
 Theoretically, it is not enough set it such that \(f(\kth[k+1]{x}) < f(\kth{x})\); there are
 counterexamples for which this holds, but \(\lim_{k \to \infty} f(\kth{x}) > f(x^*)\), e.g., when
 the step sequence in the limit oscillates between two values on the opposite sides of a ``bowl''
-(cf. Summary~\ref{s:gradient_related_condition}).
+(cf. Summary~\ref{s:gradient-related-condition}).
 
 Some usual approaches to choosing the step size are:
 \begin{enumerate}
@@ -521,7 +524,7 @@ Some usual approaches to choosing the step size are:
 \end{enumerate}
 
 
-\summary{Armijo Rule}
+\summary{Armijo Rule}\label{s:armijo-rule}
 
 This is a special method for step size selection, which has nice theoretical properties (e.g. using
 it, the \(\kth{x}\) always converge to a stationary point).  To apply it, we fix scalars \(s\), \(0 <
@@ -542,7 +545,7 @@ Figure~\ref{fig:armijo}).
 \end{figure}
 
 
-\summary{Termination of Gradient Methods}
+\summary{Termination of Gradient Methods}\label{s:termination}
 
 Gradient methods are not automatically convergent, so we need some stopping criterion.  The standard
 approach is to terminate iteration based on the norm of the gradient:
@@ -564,7 +567,7 @@ gradient actually bounds the distance to a local minimum \(\enVert{x - x^*}\).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Convergence Analysis}
 
-\summary{Gradient Related Condition}\label{s:gradient_related_condition}
+\summary{Gradient Related Condition}\label{s:gradient-related-condition}
 
 A sequence of descent directions \(\{\kth{d}\}\) is called \emph{gradient related} to a step
 sequence \(\{\kth{x}\}\), if for any subsequence \(\{\kth{x}\}_{k \in \mathcal{K}}\) converging to a
@@ -574,7 +577,7 @@ and satisfies
   \limsup_{k \in \mathcal{K} \to \infty} \T{\nabla f(\kth{x})} \kth{d} < 0.
 \end{equation*}
 The interpretation of this is that in the limit, \(\kth{d}\) is still a descent direction (see
-Summary~\ref{s:gradient_methods}).
+Summary~\ref{s:gradient-methods}).
 
 This is, for example, satisfied for \(\kth{d} = -\kth{D}\nabla f(\kth{x})\), when the eigenvalues of
 \(\kth{D}\) are bounded between zero and a positive constant.  It fails if the directions get more
@@ -583,7 +586,7 @@ limit, due to a badly chosen step size (there, all finite directions are descent
 they get ``worse'' in the limit).
 
 
-\summary{Descent Lemma}\label{s:descent_lemma}
+\summary{Descent Lemma}\label{s:descent-lemma}
 
 Let \(f: \RR^n \to \RR\) have an \(L\)-Lipschitz continuous gradient.  Then for all \(x, y\), we
 have the following quadratic upper bound on the objective function at \(x\):
@@ -605,10 +608,10 @@ Proof: let \(g(t) = f(x + t(y - x))\), so that \(g(0) = f(x)\) and \(g(1) = f(y)
 \end{align*}
 where (1) is an application of the Cauchy-Schwarz theorem
 (\(\langle x, y \rangle \leq \enVert{x} \cdot \enVert{y}\)), and (2) follows from Lipschitz
-continuity of the gradient (Summary~\ref{s:lipschitz_continuity}).
+continuity of the gradient (Summary~\ref{s:lipschitz-continuity}).
 
 
-\summary{Interpretation of Descent Lemma}\label{s:descent_lemma_interpretation}
+\summary{Interpretation of Descent Lemma}\label{s:descent-lemma-interpretation}
 
 We can express the lemma in terms of a step sequence \(\{\kth{x}\}\) by substituting
 \(\{x \mapsto \kth{x}, y \mapsto x\}\):
@@ -625,11 +628,11 @@ Convergent step size methods relate to this fact.
 
 The upper bound of provided by the descent lemma is a global upper bound on the second-order error
 of the Taylor expansion.  In this way, it is exactly dual to \(\mu\)-strong convexity
-(Summary~\ref{s:strong_convexity}) in the differential formulation, which provides the analog
+(Summary~\ref{s:strong-convexity}) in the differential formulation, which provides the analog
 lower bound.
 
 
-\summary{Convergence with Constant Step Size}
+\summary{Convergence with Constant Step Size}\label{s:convergence-constant}
 
 Assume \(f\) is Lipschitz continuous, and \(\{\kth{x}\}\) is a sequence generated by a gradient
 method with gradient related \(\kth{d} \neq 0\).  By that we have
@@ -690,11 +693,11 @@ Therefore, every accumulation point \(\bar{x}\) of \(\{\kth{x}\}\) must be stati
 (\(\nabla f(\bar{x}) = 0\)).
 
 
-\summary{Convergence with Armijo Rule}
+\summary{Convergence with Armijo Rule}\label{s:convergence:armijo}
 \todo{TODO}
 
 
-\summary{Convergence Rates}
+\summary{Convergence Rates}\label{s:convergence-rates}
 
 Important for practical problems, to compare different algorithms.  Is usually measured in terms of
 a step-dependent error function \(e: \RR^n \to \RR\) with \(e(x^*) = 0\).  Common choices are
@@ -736,7 +739,7 @@ The latter is equivalent to
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Newton's Method and Variants}
 
-\summary{Basic Idea}
+\summary{Basic Idea}\label{s:newtons-basics}
 
 A second order method, which is one of the fastest gradient methods.  We generate the sequence
 \(\{\kth{x}\}\) based on
@@ -758,7 +761,7 @@ Variants of the method deal with this, to ensure convergence globally while main
 convergence rate.
 
 
-\summary{Derivation of Newton's Method from Taylor Expansion}\label{s:newton_method_derivation}
+\summary{Derivation of Newton's Method from Taylor Expansion}\label{s:newton-method-derivation}
 
 By Taylor approximation: Given a point \(\kth{x}\), we can approximate a function
 \(f \in \mathcal{C}^2\) locally as
@@ -766,7 +769,7 @@ By Taylor approximation: Given a point \(\kth{x}\), we can approximate a functio
   \kth{f}(x) = f(\kth{x}) + \T{\nabla f(\kth{x})}(x - \kth{x})
   + \frac{1}{2} \T{(x - \kth{x})} \nabla^2 f(\kth{x})(x - \kth{x}).
 \end{equation*}
-Compare this to the descent lemma (Summary~\ref{s:descent_lemma_interpretation})~-- there,
+Compare this to the descent lemma (Summary~\ref{s:descent-lemma-interpretation})~-- there,
 \(\nabla^2 f\) is approximated by \(L\), with some transformation of the metric.
 
 We can analytically minimize this approximation, which gives the stated update rule:
@@ -778,7 +781,7 @@ We can analytically minimize this approximation, which gives the stated update r
 \end{align*}
 
 
-\summary{Relation of Newton's Method to Equation Solving}
+\summary{Relation of Newton's Method to Equation Solving}\label{s:newton-equations}
 
 The general for of Newton's method is not used for optimization, but for solving equations of the
 form \(g(x) = 0\), where \(g: \RR^n \to \RR^n \in \mathcal{C}^1\).  For this problem, the method has
@@ -790,7 +793,7 @@ A method converging to a stationary point results from setting \(g(x) = \nabla f
 symmetric matrix \(\T{\nabla g(x)} = \nabla^2 f(x)\).
 
 
-\summary{Scale Invariance}
+\summary{Scale Invariance}\label{s:newton-scale}
 
 Newton's method has the property that it is invariant under affine coordinate changes; ie., if we
 exchange \(x = Sy\) for a nonsingular \(S\), the generated steps will remain the same.  Proof:
@@ -818,7 +821,7 @@ which we can minimize at \(\kth[k+1]{y}\) to get the update rule, like above:
 \end{align*}
 
 
-\summary{Local convergence}
+\summary{Local convergence}\label{s:newton-local-convergence}
 
 For a local optimum \(x^*\) of \(f\), we must have \(\nabla f(x^*) = 0\), or, by the above relation
 to equation solving, \(g(x^*) = 0\).  Now, suppose \(\kth{x} \to x\) and \(\nabla f(x^*)\) is
@@ -834,7 +837,7 @@ multiplying from the left with \((\T{\nabla g(\kth{x})})^{-1}\), this is
 therefore we have superlinear convergence.
 
 
-\summary{Global Convergence by Diagonal Modifications}
+\summary{Global Convergence by Diagonal Modifications}\label{s:newton-global-convergence}
 
 To solve the problems mentioned above, when we are far away from an optimum, we can add a diagonal
 matrix \(\kth{\Delta}\) to the Hessian, such that \(\nabla^2 f(\kth{x}) + \kth{\Delta} \succ 0\).
@@ -852,7 +855,7 @@ region\footnote{\url{https://en.wikipedia.org/wiki/Trust_region}}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Least Squares Optimization \& Model Fitting}
 
-\summary{General Form}
+\summary{General Form}\label{s:least-squares}
 
 We want to minimize
 \begin{equation*}
@@ -870,7 +873,7 @@ is the loss for a single sample for a model function \(h\) with parameters \(\th
 \(x_i\), and targets~\(\hat{y}_i\).
 
 
-\summary{Gauss-Newton Method}\label{s:gauss_newton_method}
+\summary{Gauss-Newton Method}\label{s:gauss-newton-method}
 
 To get a step method, we replace \(g(x)\) by a local approximation around \(\kth{x}\):
 \begin{equation*}
@@ -909,7 +912,7 @@ assuming that \(\nabla g(\kth{x}) \T{\nabla g(\kth{x})}\) is invertible.  If \(g
 method reduces to the Moore-Penrose pseudoinverse and solves the problem in one step.
 
 
-\summary{Levenberg-Marquardt Method}\label{s:levenberg_method}
+\summary{Levenberg-Marquardt Method}\label{s:levenberg-method}
 
 To ensure that \(\nabla g(\kth{x}) \T{\nabla g(\kth{x})}\) is invertible, and the descent direction
 is actually gradient related, one can use a modified iteration scheme
@@ -920,7 +923,7 @@ is actually gradient related, one can use a modified iteration scheme
 where \(\kth{\alpha}\) can be chosen by the Armijo rule, and \(\kth{\delta} > 0\) large enough.
 
 
-\summary{Connection of Gauss-Newton to Newton}
+\summary{Connection of Gauss-Newton to Newton}\label{s:newton-gauss-newton}
 
 The target function of a least squares problem, \(f(x) = \frac{1}{2}\enVert[0]{g(x)}^2\), with
 components \(g_i\), has derivatives
@@ -932,7 +935,7 @@ Neglecting the second-order part in the Hessian, this reduces to a form equivale
 method, but saving the computation of the Hessian (intuitively, \(\nabla^2 g \approx (\nabla g)^2\)).
 
 
-\summary{Incremental Gradient Methods}
+\summary{Incremental Gradient Methods}\label{s:incremental-gradient-methods}
 
 If a least squares problem is a model fitting problem, where \(g_i(x) = z_i - h(y_i, x)\), for
 samples \(y_i\), and targets and \(z_i\), we can see each \(g_i\) as a data block, and
@@ -960,7 +963,7 @@ This converges very fast in the first iterations, but needs further restictions 
 ensure global convergence.
 
 
-\summary{Kalman Filter}
+\summary{Kalman Filter}\label{s:kalman-filter}
 
 If the model (ie. the functions \(g_i\)) is linear, one Gauss-Newton iteration is enough to find the
 least squares estimate (this amounts to the analytical solution using the Moore-Penrose
@@ -985,7 +988,7 @@ can be generated iteratively by
 Example: for a linear model \(x(t) = l + ft\), with parameters \(f, l\), we use \(C = [1, t]\).
 
 
-\summary{Extended Kalman Filter}
+\summary{Extended Kalman Filter}\label{s:extended-kalman-filter}
 
 If the \(g_i\) are nonlinear, we can use a linearization at the last available iteration
 \(\xi_{i-1}\) to get the \emph{extended Kalman filter}:
@@ -1003,7 +1006,7 @@ The iteration scheme stays the same, but the model parts must be adapted to
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Accelerated Gradient Methods}
 
-\optionalsummary{General Lower Bounds for Convex Functions}
+\optionalsummary{General Lower Bounds for Convex Functions}\label{s:convex-lower-bound}
 
 A general first-order gradient method generates steps of the form
 \begin{equation*}
@@ -1051,10 +1054,10 @@ We can give the following general lower bounds for convex functions:
 % \end{equation*}  
 
 
-\summary{\(Q\)-Conjugacy}
+\summary{\texorpdfstring{\(Q\)}{Q}-Conjugacy}\label{s:q-conjugacy}
 
-Given a positive definite matrix \(Q\), a set of nonzero vectors \(\kth[0]{d}, \ldots, \kth[k-1]{d}\) are
-called \emph{\(Q\)-conjugate} if for all \(i \neq j\)
+Given a positive definite matrix \(Q\), a set of nonzero vectors
+\(\kth[0]{d}, \ldots, \kth[k-1]{d}\) are called \emph{\(Q\)-conjugate} if for all \(i \neq j\)
 \begin{equation*}
   \T{(\kth[i]{d})} Q \kth[j]{d} = 0.
 \end{equation*}
@@ -1080,7 +1083,7 @@ orthogonalized ones:
 \end{align*}
 
 
-\summary{Conjugate Direction Methods}
+\summary{Conjugate Direction Methods}\label{s:conjugate-direction-methods}
 
 For \emph{quadratic problems} of the form
 \begin{equation*}
@@ -1113,7 +1116,7 @@ minimizes the function over its whole domain; hence, the method terminates after
 steps (in theory, assuming exact arithmetic).
 
 
-\summary{Conjugate Gradient Method}
+\summary{Conjugate Gradient Method}\label{s:conjugate-gradient-method}
 
 The conjugate gradient method (CG) is the most important conjugate direction method for quadratic
 problems.  The step scheme is
@@ -1155,7 +1158,7 @@ and if \(0 \preceq Q \preceq L\) is positive semidefinite, we have a smooth prob
 Furthermore, in this case, we have the easy characterization \(L = \lambda_{\text{max}}(Q)\) and
 \(\mu = \lambda_{\text{min}}(Q)\).
 
-\summary{Application of CG to Nonlinear Problems}
+\summary{Application of CG to Nonlinear Problems}\label{s:conjugate-gradient-nonlinear}
 
 For general minimization problems, we can adapt the idea of the above method as follows:
 \(\kth{\alpha}\) is still chosen by line minimization, but we generate the descent directions via
@@ -1171,7 +1174,7 @@ Here, we can't anymore say anything about convergence.  It might be neccessary t
 the procedure with \(\kth{\beta} = 0\).
 
 
-\summary{Heavy Ball Method}
+\summary{Heavy Ball Method}\label{s:heavy-ball-method}
 
 In machine learning terminology, this is the same as using a \emph{momentum term}.  We use a
 multi-step iteration scheme
@@ -1245,7 +1248,7 @@ then for every \(\epsilon > 0\) there is a \(c > 0\) such that for all \(k\)
 By this, the heavy ball method is optimal for strongly convex functions (\(\mu > 0\)), but does
 not work well if \(\mu = 0\) (then, we can't choose the parameters in the shown way).
 
-\summary{Nesterov's Method}
+\summary{Nesterov's Method}\label{s:nesterovs-method}
 
 As seen above, the heavy ball method works well for strongly convex differentiable functions, but in
 general cases, it is hard to set the parameters to get good convergence rates.  Nesterov's algorithm
@@ -1294,7 +1297,7 @@ to get a linear rate
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Constraint Optimization over Convex Sets}
 
-\summary{Basic Setup}
+\summary{Basic Setup}\label{s:constrained-optimization-basics}
 
 Here we consider problems of the form
 \begin{equation*}
@@ -1309,7 +1312,7 @@ The definitions of local and global minima stay essentially the same as above, w
 that we require \(x\) to be \emph{feasible}, ie., \(x \in X\).
 
 
-\summary{Conditions of Optimality}
+\summary{Conditions of Optimality}\label{s:constrained-optimality}
 
 In the unconstrained case, we have observed that a local minimum is characterized by the fact that
 the cost function is increasing in every direction:
@@ -1324,7 +1327,7 @@ consider the neccessary condition
 ie., the gradient \emph{in all feasible directions} must be less than \(0\).  If \(f\) is convex
 over \(X\), then this condition is also sufficient.
 
-For illustration, see Figure~\ref{fig:non_convex}: if a local minimum is at the boundary of \(X\)
+For illustration, see Figure~\ref{fig:non-convex}: if a local minimum is at the boundary of \(X\)
 (which will be the most interesting case, otherwise the problem is not much different from an
 unconstrained one), we only need to consider directions (other points) inside the boundary, which
 for a convex set implies that the gradient makes an an angle of \(90^\circ\) or less with the
@@ -1334,11 +1337,11 @@ feasible directions.  In the non-convex case, this condition can fail.
   \centering
   \includegraphics[width=\textwidth]{non_convex.png}
   \caption{Illustraion of the neccessary condition for constraint local minima and when it
-    fails.\label{fig:non_convex}}
+    fails.\label{fig:non-convex}}
 \end{figure}
 
 
-\summary{Projection on a Convex Set}
+\summary{Projection on a Convex Set}\label{s:projection-operator}
 
 This operation is a subproblem of many constraint optimization algorithms.  Let \(z \in \RR^n\).  We
 call
@@ -1348,7 +1351,7 @@ call
 the projection of \(z\) onto X; it is the point in \(X\) which is closest to \(z\).
 
 
-\summary{Projection Theorem}
+\summary{Projection Theorem}\label{s:projection-theorem}
 
 For a nonempty, closed \(X \subseteq \RR^n\), there is for every \(z \in \RR^n\) a unique
 \(x^* = \proj_X(z)\); this follows from the strong convexity of the projection operator.
@@ -1373,34 +1376,35 @@ The third condition follows from the fact that for all \(x \in X\), both \(x^* +
 are in \(X\).
 
 
-\summary{Equality Constrained Quadratic Problems}
+\summary{Quadratic Programming with Equality
+  Constraints}\label{s:equality-constrained-quadratic-problems}
 
 
-\summary{Feasible Direction Methods}
+\summary{Feasible Direction Methods}\label{s:feasible-direction-methods}
 
 % \pd{f}{{\kth{d}}}(\kth{x})
 
 Definition, alternative definition, step sizes, convergence
 
 
-\summary{Conditional Gradient Method}
+\summary{Conditional Gradient Method}\label{s:conditional-gradient-method}
 
 
-\summary{Gradient Projection Method}
+\summary{Gradient Projection Method}\label{s:gradient-projection-method}
 
 + scaled variants
 
 
-\summary{Linear Programming with Equality Constraints}
+\summary{Linear Programming with Equality
+  Constraints}\label{s:equality-constrained-linear-programming}
 
 Intro, as a sequence of quadratic problems
 
 
-\summary{Affine Scaling Method}
+\summary{Affine Scaling Method}\label{s:affine-scaling-method}
 
 
-\summary{Linear Programming with Inequality Constraints}
-
-\ 
+\summary{Linear Programming with Inequality
+  Constraints}\label{s:inequality-constrained-linear-programming}
 
 \end{document}
