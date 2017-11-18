@@ -1346,33 +1346,32 @@ feasible directions.  In the non-convex case, this condition can fail.
 This operation is a subproblem of many constraint optimization algorithms.  Let \(z \in \RR^n\).  We
 call
 \begin{equation*}
-  \proj_X(z) = \min_{x \in X}\, \enVert[1]{x - z}^2 \quad\text{s.t. } x \in X
+  \proj_X(z) = \min_{x \in X}\, \frac{1}{2}\enVert[1]{x - z}^2 \quad\text{s.t. } x \in X
 \end{equation*}
-the projection of \(z\) onto X; it is the point in \(X\) which is closest to \(z\).
+the projection of \(z\) onto X (which is a different thing than the one in
+Summary~\ref{s:q-conjugacy}!).  It is the point in \(X\) which is closest to \(z\).  The projection
+operator for a convex set is a strongly convex function, and therefore has a unique solution.
 
 
 \summary{Projection Theorem}\label{s:projection-theorem}
 
-For a nonempty, closed \(X \subseteq \RR^n\), there is for every \(z \in \RR^n\) a unique
-\(x^* = \proj_X(z)\); this follows from the strong convexity of the projection operator.
-
-Furthermore, given \(z\), \(x^* = \proj_X(z)\) if and only if
+Given some \(z \in \RR^n\), a vector \(x^* = \proj_X(z)\) if and only if
 \begin{equation*}
-  \T{(z - x^*)}(x - x^*) \leq 0, \quad\forall x \in X;
+  \T{(z - x^*)}(x - x^*) \leq 0, \quad\forall x \in X,
 \end{equation*}
-if \(X\) is a sub-vectorspace of \(\RR^n\), this reduces to 
-\begin{equation*}
-  \T{(z - x^*)}x \leq 0, \quad\forall x \in X.
-\end{equation*}
-The second condition follows from specializing the optimality condition to the projection: for
-\(f(x) = \frac{1}{2} \enVert{x - z}^2\), we have \(\nabla f(x) = x - z\).  The optimility condition
-for this is
+since \(f(x) = \frac{1}{2} \enVert{x - z}^2\), we have \(\nabla f(x) = x - z\).  By the (neccessary
+and sufficient) optimality condition we get that
 \begin{alignat*}{2}
   &\quad & \T{\nabla f(x^*)}(x - x^*) &\geq 0 \\
-  &\Leftrightarrow & \T{(x - z)}(x - x^*) &\geq 0 \\
-  &\Leftrightarrow & \T{(z - x)}(x - x^*) &\leq 0.
+  &\Leftrightarrow\quad & \T{(x - z)}(x - x^*) &\geq 0 \\
+  &\Leftrightarrow\quad & \T{(z - x)}(x - x^*) &\leq 0.
 \end{alignat*}
-The third condition follows from the fact that for all \(x \in X\), both \(x^* + x\) and \(x^* - x\)
+
+If \(X\) is a sub-vectorspace of \(\RR^n\), this reduces to 
+\begin{equation*}
+  \T{(z - x^*)}x \leq 0, \quad\forall x \in X,
+\end{equation*}
+since for all \(x \in X\), both \(x^* + x\) and \(x^* - x\)
 are in \(X\).
 
 
