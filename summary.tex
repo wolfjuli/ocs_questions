@@ -1367,7 +1367,7 @@ and sufficient) optimality condition we get that
   &\Leftrightarrow\quad & \T{(z - x)}(x - x^*) &\leq 0.
 \end{alignat*}
 
-If \(X\) is a sub-vectorspace of \(\RR^n\), this reduces to 
+If \(X\) is a linear subspace of \(\RR^n\), this reduces to 
 \begin{equation*}
   \T{(z - x^*)}x \leq 0, \quad\forall x \in X,
 \end{equation*}
@@ -1378,6 +1378,39 @@ are in \(X\).
 \summary{Quadratic Programming with Equality
   Constraints}\label{s:equality-constrained-quadratic-problems}
 
+Consider the general quadratic problem
+\begin{equation*}
+  \min_x f(x) = \frac{1}{2} \T{(x - \bar{x})} H (x - \bar{x}) + \T{c}x, \quad\text{s.t. } Ax = b,
+\end{equation*}
+where \(\bar{x}\) is an interior point (\(A\bar{x} = b\)).  Performing a change of variables
+\begin{equation*}
+  y = \Sqrt{H}(x - \bar{x}) \quad\Leftrightarrow\quad x = \bar{x} + H^{-\frac{1}{2}}y
+\end{equation*}
+(assuming \(\Sqrt{H}\) and \(H^{-\frac{1}{2}}\) exist), we get
+\begin{align*}
+  &\quad \frac{1}{2} \T{\big( \bar{x} + H^{-\frac{1}{2}} - \bar{x} \big)} H
+  \big( \bar{x} + H^{-\frac{1}{2}} - \bar{x} \big) + \T{c}(\bar{x} + H^{-\frac{1}{2}} - \bar{x})
+  \\
+  &= \frac{1}{2} \T{\big(H^{-\frac{1}{2}}y\big)} H \big(H^{-\frac{1}{2}}y\big) +
+    \T{c}H^{-\frac{1}{2}} \\
+  &= \frac{1}{2} \enVert{y}^2 + \T{(H^{-\frac{1}{2}}c)}y, \qquad\text{s.t. } AH^{-\frac{1}{2}}y = 0.
+\end{align*}
+The optimality condition for this problem is
+\begin{equation*}
+  \T{(y^* + H^{-\frac{1}{2}}c)}y = 0, \quad\text{s.t. } AH^{-\frac{1}{2}}y = 0.
+\end{equation*}
+With a Lagrangian ansatz
+\begin{equation*}
+  y^* = -H^{-\frac{1}{2}}c + \T{(AH^{-\frac{1}{2}})}\mu,
+\end{equation*}
+with Lagrange multiplier \(\mu\), we get
+\begin{alignat*}{2}
+  &\quad & AH^{-\frac{1}{2}}y &= 0 \\
+  &\Rightarrow\quad & -AH^{-\frac{1}{2}}c + AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})}\mu &= 0 \\
+  &\Rightarrow\quad & (AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})})^{-1}c &= \mu \\
+  &\Rightarrow\quad & -c + \T{(AH^{-\frac{1}{2}})}(AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})})^{-1}c &= y^* \\
+  &\Rightarrow\quad & -(I + \T{(AH^{-\frac{1}{2}})}(AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})})^{-1})c &= y^* \\
+\end{alignat*}
 
 \summary{Feasible Direction Methods}\label{s:feasible-direction-methods}
 
@@ -1406,4 +1439,19 @@ Intro, as a sequence of quadratic problems
 \summary{Linear Programming with Inequality
   Constraints}\label{s:inequality-constrained-linear-programming}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Lagrange Multiplier Theory}
+
+\summary{Lagrange Theorem for Equality Constrained Problems}
+\label{s:lagrange-equality}
+
+\summary{Derviation of Lagrange Theorem (Penalty Approach)}
+\label{s:lagrange-derivation}
+
+\summary{Lagrangian Function}\label{s:lagrangian-function}
+
+\summary{Inequality Constrained Problems}\label{s:lagrange-inequality}
+
+\summary{Karush-Kuhn-Tucker Optimality Conditions}\label{s:kkt-conditions}
 \end{document}
