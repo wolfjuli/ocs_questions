@@ -924,6 +924,7 @@ where \(\kth{\alpha}\) can be chosen by the Armijo rule, and \(\kth{\delta} > 0\
 
 
 \summary{Connection of Gauss-Newton to Newton}\label{s:newton-gauss-newton}
+% bertsekas 107
 
 The target function of a least squares problem, \(f(x) = \frac{1}{2}\enVert[0]{g(x)}^2\), with
 components \(g_i\), has derivatives
@@ -1369,7 +1370,7 @@ and sufficient) optimality condition we get that
 
 If \(X\) is a linear subspace of \(\RR^n\), this reduces to 
 \begin{equation*}
-  \T{(z - x^*)}x \leq 0, \quad\forall x \in X,
+  \T{(z - x^*)}x = 0, \quad\forall x \in X,
 \end{equation*}
 since for all \(x \in X\), both \(x^* + x\) and \(x^* - x\)
 are in \(X\).
@@ -1377,40 +1378,80 @@ are in \(X\).
 
 \summary{Quadratic Programming with Equality
   Constraints}\label{s:equality-constrained-quadratic-problems}
+% bertsekas 202
 
-Consider the general quadratic problem
+We first consider the simpler problem
+\begin{equation*}
+  \min_x f(x) = \frac{1}{2} \enVert{x}^2 + \T{c}x, \quad\text{s.t. } Ax = 0.
+\end{equation*}
+By adding the constant \(\frac{1}{2} \enVert{c}^2\) to \(f\), which doesn't change the minimum, we
+can write this in the equivalent form
+\begin{equation*}
+  \min_x \frac{1}{2} \enVert{x + c}^2, \quad\text{s.t. } Ax = 0,
+\end{equation*}
+which is in turn equivalent to \(\proj_X (-c)\) onto th e linear space \(X = \{x \mid Ax = 0\}\).  By
+the above theorem, we therefore have the optimality condition
+\begin{equation*}
+  \T{(c + x^*)}x = 0, \quad\text{s.t. } Ax = 0.
+\end{equation*}
+Using the Lagrangian ansatz \(x^* = -c + \T{A}\mu\), we get
+\begin{alignat*}{2}
+  &\quad & Ax^* &= 0 \\
+  &\Rightarrow\quad & - Ac + A\T{A}\mu &= 0 \\
+  &\Rightarrow\quad & (A\T{A})^{-1}Ac &= \mu.
+\end{alignat*}
+Inserting \(\mu\) back, this gives the result
+\begin{equation*}
+  x^* = -c + \T{A}(A\T{A})^{-1}Ac = -(I + \T{A}(A\T{A})^{-1}A)c.
+\end{equation*}
+
+Now to the general quadratic problem
 \begin{equation*}
   \min_x f(x) = \frac{1}{2} \T{(x - \bar{x})} H (x - \bar{x}) + \T{c}x, \quad\text{s.t. } Ax = b,
 \end{equation*}
-where \(\bar{x}\) is an interior point (\(A\bar{x} = b\)).  Performing a change of variables
+where \(H\) is positive definite and symmetric, and \(\bar{x}\) is an interior point
+(\(A\bar{x} = b\)).  Performing a change of variables
 \begin{equation*}
   y = \Sqrt{H}(x - \bar{x}) \quad\Leftrightarrow\quad x = \bar{x} + H^{-\frac{1}{2}}y
 \end{equation*}
-(assuming \(\Sqrt{H}\) and \(H^{-\frac{1}{2}}\) exist), we get
+(where \(\Sqrt{H}\) and \(H^{-\frac{1}{2}}\) exist because of the assumptions), we get
 \begin{align*}
   &\quad \frac{1}{2} \T{\big( \bar{x} + H^{-\frac{1}{2}} - \bar{x} \big)} H
   \big( \bar{x} + H^{-\frac{1}{2}} - \bar{x} \big) + \T{c}(\bar{x} + H^{-\frac{1}{2}} - \bar{x})
   \\
   &= \frac{1}{2} \T{\big(H^{-\frac{1}{2}}y\big)} H \big(H^{-\frac{1}{2}}y\big) +
     \T{c}H^{-\frac{1}{2}} \\
-  &= \frac{1}{2} \enVert{y}^2 + \T{(H^{-\frac{1}{2}}c)}y, \qquad\text{s.t. } AH^{-\frac{1}{2}}y = 0.
+  &= \frac{1}{2} \enVert{y}^2 + \T{(H^{-\frac{1}{2}}c)}y, \qquad\text{s.t. } AH^{-\frac{1}{2}}y = 0,
 \end{align*}
-The optimality condition for this problem is
+which can be solved by the restricted problem stated above, resulting in
 \begin{equation*}
-  \T{(y^* + H^{-\frac{1}{2}}c)}y = 0, \quad\text{s.t. } AH^{-\frac{1}{2}}y = 0.
+  y^* = -(I - H^{-\frac{1}{2}}\T{A} (AH^{-1}\T{A})^{-1} A H^{-\frac{1}{2}}) H^{-\frac{1}{2}}c.
 \end{equation*}
-With a Lagrangian ansatz
+Substituting back, re get the optimal solution
 \begin{equation*}
-  y^* = -H^{-\frac{1}{2}}c + \T{(AH^{-\frac{1}{2}})}\mu,
+  x^* = \bar{x} - H^{-1}(c - \T{A}\lambda),
 \end{equation*}
-with Lagrange multiplier \(\mu\), we get
-\begin{alignat*}{2}
-  &\quad & AH^{-\frac{1}{2}}y &= 0 \\
-  &\Rightarrow\quad & -AH^{-\frac{1}{2}}c + AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})}\mu &= 0 \\
-  &\Rightarrow\quad & (AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})})^{-1}c &= \mu \\
-  &\Rightarrow\quad & -c + \T{(AH^{-\frac{1}{2}})}(AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})})^{-1}c &= y^* \\
-  &\Rightarrow\quad & -(I + \T{(AH^{-\frac{1}{2}})}(AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})})^{-1})c &= y^* \\
-\end{alignat*}
+where
+\begin{equation*}
+  \lambda = (AH^{-1}\T{A})^{-1} A H^{-1}c.
+\end{equation*}
+
+% The optimality condition for this problem is
+% \begin{equation*}
+%   \T{(y^* + H^{-\frac{1}{2}}c)}y = 0, \quad\text{s.t. } AH^{-\frac{1}{2}}y = 0.
+% \end{equation*}
+% With a Lagrangian ansatz
+% \begin{equation*}
+%   y^* = -H^{-\frac{1}{2}}c + \T{(AH^{-\frac{1}{2}})}\mu,
+% \end{equation*}
+% with Lagrange multiplier \(\mu\), we get
+% \begin{alignat*}{2}
+%   &\quad & AH^{-\frac{1}{2}}y &= 0 \\
+%   &\Rightarrow\quad & -AH^{-\frac{1}{2}}c + AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})}\mu &= 0 \\
+%   &\Rightarrow\quad & (AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})})^{-1}c &= \mu \\
+%   &\Rightarrow\quad & -c + \T{(AH^{-\frac{1}{2}})}(AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})})^{-1}c &= y^* \\
+%   &\Rightarrow\quad & -(I + \T{(AH^{-\frac{1}{2}})}(AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})})^{-1})c &= y^* \\
+% \end{alignat*}
 
 \summary{Feasible Direction Methods}\label{s:feasible-direction-methods}
 
