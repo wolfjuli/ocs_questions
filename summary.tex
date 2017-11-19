@@ -1497,11 +1497,63 @@ Most of the rules for unconstrained optimization can be adapted for use in the c
 
 \summary{Conditional Gradient Method}\label{s:conditional-gradient-method}
 
+A straightforward method for generating the point \(\kth{\bar{x}}\) is to find the feasible point
+furthest away from \(\kth{x}\) along the negative gradient direction (see
+Figure~\ref{fig:conditional-gradient-method}:
+\begin{align*}
+  \kth{\bar{x}} &\in \argmin_{x \in X} \T{\nabla f(\kth{x})}(x - \kth{x}), \\
+  \kth[k+1]{x} &= \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}).
+\end{align*}
+This then is a linear subproblem over a convex set, which should be easier to solve (especially in
+the case that \(X\) is a simplex).  This method is also known as \emph{Frank-Wolfe method}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\textwidth]{conditional_gradient_method}
+  \caption{Illustration of finding the feasible direction in at point \(x\) in the conditional
+    gradient method. \(\bar{x}\) is the furthest point in \(X\) that lies in a descent
+    direction.\label{fig:conditional-gradient-method}}
+\end{figure}
 
 \summary{Gradient Projection Method}\label{s:gradient-projection-method}
 
-+ scaled variants
+This method generates a feasible direction method with
+\begin{align*}
+  \kth{\bar{x}} &= \proj_X (\kth{x} - \kth{s} \nabla f(\kth{x})), \\
+  \kth[k+1]{x} &= \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}),
+\end{align*}
+for a step size \(\kth{\alpha} \in (0, 1]\) and positive scalars \(\kth{s}\).  Thus, we take a step
+in the negative gradient direction (as in steepest descent), which is then projected onto \(X\), to
+obtain the feasible vector \(\kth{\bar{x}}\); see Figure~\ref{fig:gradient-projection-method}.  In
+the case \(\kth{\alpha} = 1\), the method takes the easier form
+\begin{equation*}
+  \kth[k+1]{x} = \proj_X (\kth{x} - \kth{s} \nabla f(\kth{x})).
+\end{equation*}
+If \(\kth{x} - \kth{s} \nabla f(\kth{x}) \in X\), the projection is trivial and the method reduces
+to steepest descent.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\textwidth]{gradient_projection_method}
+  \caption{Illustration of the gradient projection method for \(\kth{\alpha} = 1\).  Inside \(X\),
+    projection is trivial and we only do a normal gradient
+    step.\label{fig:gradient-projection-method}}
+\end{figure}
+
+This method needs to solve a quadratic subproblem, which may be more complex, but typically results
+in better convergents rate.
+
+We can generalize this approach to a scaled variant, just as in steepest descent; scaling may
+improve the situation with ill-conditioned objective functions, where the pure method might become
+slow.  To scale, we use
+\begin{equation*}
+  \kth{\bar{x}} = \argmin_{x \in X} \T{\nabla f(\kth{x})} (x - \kth{x}) +
+  \frac{1}{\kth{s}} \T{(x - \kth{x})} \kth{H} (x - \kth{x}).
+\end{equation*}
+Note that with \(\kth{s} = 1\) and \(\kth{H} = \nabla^2 f(\kth{x})\), the above expression
+corresponds to a second-order expansion around \(\kth{x}\); if \(\kth{\alpha} = 1\), then
+\(\kth{\bar{x}}\) just minimizes the Taylor expansion around \(\kth{x}\) in the set \(X\).  The main
+disadvantage of this variant is that the subproblem might be more complicated to solve.
 
 \summary{Linear Programming with Equality
   Constraints}\label{s:equality-constrained-linear-programming}
