@@ -209,7 +209,7 @@ The latter is equivalent to requiring that the minimum eigenvalue of \(\nabla^2 
 \(\mu \to 0\), and is identical to the definition of a convex function when \(\mu = 0\).  On
 \(X = \RR\), \(f\) is \(\mu\)-strongly convex if \(f''(x) \geq \mu > 0\) for all \(x\).
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{strong_convexity}
   \caption{Illustration of the lower bound provided by strong
@@ -314,7 +314,7 @@ A general minimization problem has the form
 \begin{equation*}
   \min_{x} f(x) \quad \text{s.t. } x \in X,
 \end{equation*}
-for a \emph{constraint set} \(X \subseteq \RR^n\) (often given by some \emph{constraint functions}
+for a \emph{constraint set} \(X \subseteq \RR^n\) (often given by some \emph{constraint functions})
 and an \emph{objective function} \(f: X \to \RR\).  We want to find an optimal value or
 \emph{minimizer} \(x^* \in X\) such that
 \begin{equation*}
@@ -491,8 +491,8 @@ Newton's method with
 \end{equation*}
 \item Gauss-Newton method: For a nonlinear least-squares problem
 \(f(x) = \frac{1}{2} \lVert g(x) \rVert^2\), we can choose
-\(\kth{D} = ( \nabla g(\kth{x} \T{\nabla g(\kth{x})})^{-1}\).  This is related to the
-pseudo-inverse (see Summary~\ref{s:gauss-newton-method}.
+\(\kth{D} = ( \nabla g(\kth{x}) \T{\nabla g(\kth{x})} )^{-1}\).  This is related to the
+pseudo-inverse (see Summary~\ref{s:gauss-newton-method}).
 \end{enumerate}
 
 
@@ -500,9 +500,9 @@ pseudo-inverse (see Summary~\ref{s:gauss-newton-method}.
 
 To ensure convergence and performance, \(\kth{\alpha}\) needs to be chosen with care.
 Theoretically, it is not enough set it such that \(f(\kth[k+1]{x}) < f(\kth{x})\); there are
-counterexamples for which this holds, but \(\lim_{k \to \infty} f(\kth{x}) > f(x^*)\), e.g., when
-the step sequence in the limit oscillates between two values on the opposite sides of a ``bowl''
-(cf. Summary~\ref{s:gradient-related-condition}).
+counterexamples for which this holds, but we have \(\lim_{k \to \infty} f(\kth{x}) > f(x^*)\), e.g.,
+when the step sequence in the limit oscillates between two values on the opposite sides of a
+``bowl'' (cf. Summary~\ref{s:gradient-related-condition}).
 
 Some usual approaches to choosing the step size are:
 \begin{enumerate}
@@ -533,14 +533,13 @@ it, the \(\kth{x}\) always converge to a stationary point).  To apply it, we fix
 \begin{equation*}
   f(\kth{x} + \beta^{m_k} s \kth{d}) - f(\kth{x}) \leq \sigma \beta^{m_k} s \nabla \T{f(\kth{x})} \kth{d}.
 \end{equation*}
+The interpretation of this is that we use \(1, \beta, \beta^2, \ldots\) succesively, to try out the
+step sizes \(\beta^{m_k} s\) in decreasing order, until we find one for which the decrease in the
+objective is sufficiently large for \(m_k\) (see Figure~\ref{fig:armijo}).
 
-The interpretation of this is that we try out the step sizes \(\beta^{m_k} s\) in decreasing order,
-until we find one for which the decrease in the objective is sufficiently large (see
-Figure~\ref{fig:armijo}).
-
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{armijo.png}
+  \includegraphics[width=0.8\textwidth]{armijo}
   \caption{Graphical interpretation of Armijo rule.\label{fig:armijo}}
 \end{figure}
 
@@ -1168,7 +1167,7 @@ For general minimization problems, we can adapt the idea of the above method as 
 \end{equation*}
 where \(\kth{\beta}\) is computed as
 \begin{equation*}
-  \kth{\beta} = \frac{\T{\nabla f(\kth{x})}(\nabla f(\kth{x}) - \nabla f(\kth[k-1]{x})}{
+  \kth{\beta} = \frac{\T{\nabla f(\kth{x})}(\nabla f(\kth{x}) - \nabla f(\kth[k-1]{x}))}{
     \T{\nabla f(\kth[k-1]{x})} \nabla f(\kth[k-1]{x})}.
 \end{equation*}
 Here, we can't anymore say anything about convergence.  It might be neccessary to sometimes restart
@@ -1334,10 +1333,10 @@ unconstrained one), we only need to consider directions (other points) inside th
 for a convex set implies that the gradient makes an an angle of \(90^\circ\) or less with the
 feasible directions.  In the non-convex case, this condition can fail.
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{non_convex.png}
-  \caption{Illustraion of the neccessary condition for constraint local minima and when it
+  \includegraphics[width=0.8\textwidth]{non_convex}
+  \caption{Illustration of the neccessary condition for constraint local minima and when it
     fails.\label{fig:non-convex}}
 \end{figure}
 
@@ -1349,7 +1348,7 @@ call
 \begin{equation*}
   \proj_X(z) = \min_{x \in X}\, \frac{1}{2}\enVert[1]{x - z}^2 \quad\text{s.t. } x \in X
 \end{equation*}
-the projection of \(z\) onto X (which is a different thing than the one in
+the \emph{projection} of \(z\) onto X (which is a different thing than the one in
 Summary~\ref{s:q-conjugacy}!).  It is the point in \(X\) which is closest to \(z\).  The projection
 operator for a convex set is a strongly convex function, and therefore has a unique solution.
 
@@ -1436,29 +1435,65 @@ where
   \lambda = (AH^{-1}\T{A})^{-1} A H^{-1}c.
 \end{equation*}
 
-% The optimality condition for this problem is
-% \begin{equation*}
-%   \T{(y^* + H^{-\frac{1}{2}}c)}y = 0, \quad\text{s.t. } AH^{-\frac{1}{2}}y = 0.
-% \end{equation*}
-% With a Lagrangian ansatz
-% \begin{equation*}
-%   y^* = -H^{-\frac{1}{2}}c + \T{(AH^{-\frac{1}{2}})}\mu,
-% \end{equation*}
-% with Lagrange multiplier \(\mu\), we get
-% \begin{alignat*}{2}
-%   &\quad & AH^{-\frac{1}{2}}y &= 0 \\
-%   &\Rightarrow\quad & -AH^{-\frac{1}{2}}c + AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})}\mu &= 0 \\
-%   &\Rightarrow\quad & (AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})})^{-1}c &= \mu \\
-%   &\Rightarrow\quad & -c + \T{(AH^{-\frac{1}{2}})}(AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})})^{-1}c &= y^* \\
-%   &\Rightarrow\quad & -(I + \T{(AH^{-\frac{1}{2}})}(AH^{-\frac{1}{2}}\T{(AH^{-\frac{1}{2}})})^{-1})c &= y^* \\
-% \end{alignat*}
-
 \summary{Feasible Direction Methods}\label{s:feasible-direction-methods}
 
-% \pd{f}{{\kth{d}}}(\kth{x})
+Given a vector \(x\), a \emph{feasible direction} at \(x\) is a vector \(d\) such that
+\(x = \alpha d\) is feasible for all sufficiently small \(\alpha > 0\) (see
+Figure~\ref{fig:feasible-directions}).
 
-Definition, alternative definition, step sizes, convergence
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{feasible_directions}
+  \caption{Illustration of feasible directions at \(x\) for a convex constraint
+    set.\label{fig:feasible-directions}}
+\end{figure}
 
+A \emph{feasible direction method} starts with a feasible vector, and generates a sequence of
+feasible points \(\{\kth{x}\}\) by
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} + \kth{\alpha}\kth{d},
+\end{equation*}
+where \(\kth{d}\) are feasible directions at \(\kth{x}\) which are also descent directions, ie.,
+\begin{equation*}
+  \T{\nabla f(\kth{x})}\kth{d} < 0.
+\end{equation*}
+The \(\kth{\alpha}\) are the step sizes satisfying \(\kth{x} + \kth{\alpha} \kth{d} \in X\).
+Alternatively, since \(X\) is assumed to be convex, the feasible directions at \(\kth{x}\) can be
+written in the form
+\begin{equation*}
+  \kth{d} = \gamma(\kth{\bar{x}} - \kth{x}), \quad \gamma > 0,
+\end{equation*}
+where \(\kth{\bar{x}}\) is some feasible vector different from \(\kth{x}\).  Assuming that
+\(\kth{x} + \kth{\alpha} \kth{d} \in X\), the steps can be expressed as
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}),
+\end{equation*}
+with \(\kth{\alpha} \in (0, 1]\), \(\kth{\bar{x}} \in X\), and
+\(\T{\nabla f(\kth{x})}(\kth{\bar{x}} - \kth{x}) < 0\).  Since \(X\) is convex, we always have
+\begin{equation*}
+\kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}) \in X  
+\end{equation*}
+for \(\kth{\alpha} \in (0, 1]\), and the sequence \(\{\kth{x}\}\) stays feasible.
+
+\summary{Step Size Selection}\label{s:step-size-selection-constrained}
+
+Most of the rules for unconstrained optimization can be adapted for use in the constrained case
+(cf. Summary~\ref{s:step-size-selection}):
+\begin{itemize}
+\item Limited minimization rule: \(\kth{\alpha}\) is chosen such that
+  \begin{equation*}
+    f(\kth{x} + \kth{\alpha}\kth{d}) = \min_{\alpha \in (0, 1]} f(\kth{x} + \alpha\kth{d}).
+  \end{equation*}
+  Limiting \(\alpha\) to \((0, 1]\) is no loss of generality, since different ranges can in effect
+  by chosen by redefining \(\kth{d}\). 
+\item Armijo rule: we fix scalars \(0 < \beta < 1\), and \(0 < \sigma < 1\), and set
+  \(\kth{\alpha} = \beta^{m_k}\), where we choose \(m_k\) as the first nonnegative integer for which
+  \begin{equation*}
+    f(\kth{x} + \beta^{m_k} \kth{d}) - f(\kth{x}) \leq \sigma \beta^{m_k} \nabla \T{f(\kth{x})} \kth{d}.
+  \end{equation*}
+  (cf. Summary~\ref{s:armijo-rule})
+\item Fixed step size rule: set \(\kth{\alpha}\) to a constant, e.g. \(\kth{\alpha} = 1\).
+\end{itemize}
 
 \summary{Conditional Gradient Method}\label{s:conditional-gradient-method}
 
