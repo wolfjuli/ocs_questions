@@ -348,9 +348,9 @@ which we can minimize at \(\kth[k+1]{y}\) to get the update rule, like above:
   & &\nabla \kth{f}(\kth[k+1]{y}) &= \T{S} \nabla f(S\kth{y}) + \T{S} \nabla^2
                                  f(S\kth{y})S(\kth[k+1]{y}
                                  - \kth{y}) \overset{!}{=} 0 \\
-  &\Rightarrow & \kth[k+1]{y} &= \kth{y} - \left( \T{S}\nabla^2 f(S\kth{y})S \right)^{-1} \T{S}
+  &\Rightarrow & S\kth[k+1]{y} &= S\kth{y} - \left( \T{S}\nabla^2 f(S\kth{y}) \right)^{-1} \T{S}
                                   \nabla f(S\kth{y}) \\
-  &\phantom{\Rightarrow} & &= \kth{y} - S^{-1} \nabla^2 f(S\kth{y})^{-1} (\T{S})^{-1}
+  &\phantom{\Rightarrow} & &= S\kth{y} - \nabla^2 f(S\kth{y})^{-1} (\T{S})^{-1}
                                  \T{S} \nabla f(S\kth{y}) \\
   &\Rightarrow & S\kth[k+1]{y} &= S\kth{y} - \nabla^2 f(S\kth{y})^{-1} \nabla f(S\kth{y}) \\
   &\Leftrightarrow & \kth[k+1]{x} &= \kth{x} - \nabla^2 f(\kth{x})^{-1} \nabla f(\kth{x}).
