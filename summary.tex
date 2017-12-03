@@ -1544,11 +1544,14 @@ corresponds to a second-order expansion around \(\kth{x}\); if \(\kth{\alpha} = 
 \(\kth{\bar{x}}\) just minimizes the Taylor expansion around \(\kth{x}\) in the set \(X\).  The main
 disadvantage of this variant is that the subproblem might be more complicated to solve.
 
-\summary{Affine Scaling Method}\label{s:affine-scaling-method}
+
+
+\summary{Linear Programming \& Affine Scaling Method}\label{s:affine-scaling-method}
 
 % see https://ocw.mit.edu/courses/sloan-school-of-management/15-093j-optimization-methods-fall-2009/lecture-notes/MIT15_093J_F09_lec21.pdf
 
-The affine scaling method is a specialization of the above result for linear programs.  Given
+The affine scaling method is a specialization of the above result for linear programs with equality
+constraints.  Given
 \begin{equation*}
   \min \T{c} x, \quad\text{s.t. } Ax = b, \; x \geq 0,
 \end{equation*}
@@ -1589,6 +1592,28 @@ sets it to be
 
 \summary{Linear Programming with Inequality
   Constraints}\label{s:inequality-constrained-linear-programming}
+
+Linear problems with inequality constraints, in the general form of
+\begin{equation*}
+  \max_y \T{b}y, \quad\text{s.t. } \T{A}y \leq c,
+\end{equation*}
+can be transformed to their dual problem
+\begin{equation*}
+  \min_x \T{w} x, \quad\text{s.t. } x = c - \T{A}y, \; x \geq 0
+\end{equation*}
+by using \(x = c - \T{A}y\) and choosing \(w\) such that \(Aw = b\).
+
+This problem has the previous form, and thus can be solved by the affine scaling method, but we can
+also write the resulting iteration form purely in terms of \(y\):
+\begin{equation*}
+  \kth[k+1]{y} = \kth{y} + \kth{\alpha}(A \kth{X} \T{A})^{-1} b,
+\end{equation*}
+with \(\kth{X} = \diag(\kth{x}_1, \dots, \kth{x}_n)\), and the step size \(\kth{\alpha}\) chosen
+such that
+\begin{equation*}
+  \kth[k+1]{x} = c - \T{A}\kth[k+1]{y} > 0.
+\end{equation*}
+This variant is known as \emph{dual affine scaling method}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Lagrange Multiplier Theory}
