@@ -444,7 +444,7 @@ is automatically convex for positive semidefinite \(Q\).  The lower bounds for f
 methods then depend only on the eigenvalues of \(Q\), since they fix \(L = \lambda_{\text{max}}\)
 and \(\mu = \lambda_{\text{min}}\): if \(Q \succeq 0\) (just positive semidefinite), then
 \begin{equation*}
-  f(\kth{x}) - f(x^*) \geq \frac{3\lambda_{\text{max}} \enVert[1]{\kth[0]{x} - x^*}}{32 (n+1)^2}.
+  f(\kth{x}) - f(x^*) \geq \frac{3\lambda_{\text{max}} \enVert[1]{\kth[0]{x} - x^*}}{32(k+1)^2}.
 \end{equation*}
 If \(Q \succ 0\) (positive definite, therefore a strongly convex problem), then
 \begin{equation*}
@@ -464,14 +464,27 @@ An optimal first order method for these cases is the conjugate gradient method.
   What is the relation to solving linear system of equations?
 \end{question}
 
-We set
+The steps in the CG method for a quadratic problem have the form
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} + \kth{\alpha}\kth{d},
+\end{equation*}
+where
+\begin{equation*}
+  \kth{d} = -\kth{g} + \kth{\beta}\kth[k-1]{d},
+\end{equation*}
+and \(\kth{\beta}\) is given by
+\begin{equation*}
+  \kth{\beta} = \frac{\T{(\kth{g})}\kth{g}}{\T{(\kth[k-1]{g})}\kth[k-1]{g}}.
+\end{equation*}
+
+For this concrete problem, we set
 \begin{equation*}
   \kth{g} = \nabla f(\kth{x}) = Q \kth{x} - b,
 \end{equation*}
 and calculate the descent directions as
 \begin{align*}
   \kth[0]{d} &= -\kth[0]{g}, \\
-  \kth[k]{d} &= \kth{d} = -\kth{g} + \kth{\beta}\kth[k-1]{d},
+  \kth[k]{d} &= -\kth{g} + \kth{\beta}\kth[k-1]{d},
 \end{align*}
 where \(\kth{\beta}\) is given by
 \begin{equation*}
@@ -494,16 +507,29 @@ we can solve using CG.
     \kth[k+1]{x} = \kth{x} - \kth{\alpha} \nabla f(\kth{x}) + \kth{\beta}(\kth{x} - \kth[k-1]{x}).
   \end{equation*}
 \item Nesterov: instead of calculating the gradient at the current point, use a gradient step based
-  at the point extrapolated from the momentum:
+  on the point extrapolated from the momentum:
   \begin{align*}
     \kth{y} &= \kth{x} + \kth{\beta}(\kth{x} - \kth[k-1]{x}), \\
     \kth[k+1]{x} &= \kth{y} - \alpha\nabla f(\kth{y}).
   \end{align*}
-\item The heavy-ball-method is only optimal for strongly convex functions, since otherwise the step
-  size parameters cannot be chosen correctly.  Nesterov overcomes this
-  difficulty by a dynamic choice of \(\kth{\beta}\).
-\item Both algorithms are optimal for strongly convex functions; Nesterov is also optimal for
-  general smooth convex functions.
+\item Both algorithms are optimal for strongly convex functions, with
+    \begin{equation*}
+    f(\kth{x}) - f(x^*) \leq (1 - \sqrt{L/\mu})^k
+    \left( f(\kth[0]{x}) - f(x^*) + \frac{\mu}{2} \enVert[1]{x^* - \kth[0]{x}}^2 \right)
+  \end{equation*}
+  for Nesterov's method and
+  \begin{equation*}
+    \enVert[1]{\kth{x} - x^*}^2 \leq
+    \left( \frac{\sqrt{L/\mu} - 1}{\sqrt{L/\mu} + 1} \right)^{2k} \enVert[1]{\kth[0]{x} - x^*}^2.
+  \end{equation*}
+  for the heavy-ball method (for optimal choices of parameters).  Note that while the latter rate
+  appears to be better, they are asymptotically of the same order.
+\item However, only Nesterov's method is optimal for non-strong problems, since the step size
+  parameters cannot be chosen correctly in the other case (since \(\mu = 0\)).  It overcomes this
+  difficulty by a dynamic choice of \(\kth{\beta}\), leading to a still optimal rate of
+  \begin{equation*}
+    f(\kth{x}) - f(x^*) \leq \frac{2L\enVert[1]{\kth[0]{x} - x^*}^2}{(k + 1)^2}.
+  \end{equation*}
 \end{itemize}
 
 \section{Contrained optimization}
@@ -530,7 +556,7 @@ we can solve using CG.
 \end{question}
 \begin{itemize}
 \item $z$ is a fixed vector, find vector $x^*$ in a closed convex set X
-\item $min_x f(x) = || x - z || ^2$
+\item $\min_x f(x) = || x - z || ^2$
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

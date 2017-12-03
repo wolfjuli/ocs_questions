@@ -1019,39 +1019,20 @@ We can give the following general lower bounds for convex functions:
   first order method we have
   \begin{enumerate}
   \item \(\displaystyle \enVert[1]{\kth{x} - x^*} \geq \frac{1}{8} \enVert[1]{\kth[0]{x} - x^*}\)
-  \item \(\displaystyle f(\kth{x}) - f(x^*) \geq \frac{3L \enVert[1]{\kth[0]{x} - x^*}}{32 (n+1)^2}\),
+  \item \(\displaystyle f(\kth{x}) - f(x^*) \geq \frac{3L \enVert[1]{\kth[0]{x} - x^*}}{32 (k+1)^2}\),
   \end{enumerate}
 \item Strongly convex functions: for any \(\kth[0]{x} \in \RR^n\), \(\mu > 0\), and \(L > \mu\),
   there is a function \(f \in \Strong{\mu}{L}{\infty}{1}\) such that for any first order method we
   have
   \begin{enumerate}
-  \item \(\displaystyle \enVert[1]{\kth{x} - x^*} \geq
-    \left( \frac{\sqrt{L/\mu} - 1}{\sqrt{L/\mu} + 1} \right)^k \enVert[1]{\kth[0]{x} - x^*}\)
+  \item \(\displaystyle \enVert[1]{\kth{x} - x^*}^2 \geq
+    \left( \frac{\sqrt{L/\mu} - 1}{\sqrt{L/\mu} + 1} \right)^k \enVert[1]{\kth[0]{x} - x^*}^2\)
   \item \(\displaystyle \displaystyle f(\kth{x}) - f(x^*) \geq \frac{\mu}{2}
     \left( \frac{\sqrt{L/\mu} - 1}{\sqrt{L/\mu} + 1} \right)^{2k} \enVert[1]{\kth[0]{x} - x^*}^2\)
   \end{enumerate}
   Here, the value \(L / \mu \geq 1\) is called the \emph{condition number} of the function and often
   abbreviated as \(Q_f\).
 \end{itemize}
-
-% \summary{Lower Bound for Quadratic Optimization}
-
-% A quadratic minimization problem
-% \begin{equation*}
-%   \min_x f(x) = \frac{1}{2} \T{x} Q x - \T{b}x,
-% \end{equation*}
-% is automatically convex for positive semidefinite \(Q\).  The lower bounds for first-order gradient
-% methods then depend only on the eigenvalues of \(Q\), since they fix \(L = \lambda_{\text{max}}\)
-% and \(\mu = \lambda_{\text{min}}\): if \(Q \succeq 0\) (just positive semidefinite), then
-% \begin{equation*}
-%   f(\kth{x}) - f(x^*) \geq \frac{3\lambda_{\text{max}} \enVert[1]{\kth[0]{x} - x^*}}{32 (n+1)^2}.
-% \end{equation*}
-% If \(Q \succ 0\) (positive definite, therefore a strongly convex problem), then
-% \begin{equation*}
-%   \enVert[1]{\kth{x} - x^*}
-%   \geq \left( \frac{\sqrt{\lambda_{\text{max}}/\lambda_{\text{min}}} - 1}{
-%       \sqrt{\lambda_{\text{max}}/\lambda_{\text{min}}} + 1} \right)^k \enVert[1]{\kth[0]{x} - x^*}.
-% \end{equation*}  
 
 
 \summary{\texorpdfstring{\(Q\)}{Q}-Conjugacy}\label{s:q-conjugacy}
@@ -1149,8 +1130,8 @@ the optimal first order method for quadratic problems, for which we have the eas
 \(L = \lambda_{\text{max}}(Q)\) and \(\mu = \lambda_{\text{min}}(Q)\): if \(Q\) is positive
 definite, and \(0 \preceq \mu \preceq Q \preceq L\), then we have a strongly convex problem with
 \begin{equation*}
-  \enVert[1]{\kth{x} - x^*} \leq 2\sqrt{L/\mu} \left( \frac{\sqrt{L/\mu}-1}{\sqrt{L/\mu}+1} \right)^k
-  \enVert[1]{\kth[0]{x} - x^*}.
+  \enVert[1]{\kth{x} - x^*}^2 \leq 2\sqrt{L/\mu} \left( \frac{\sqrt{L/\mu}-1}{\sqrt{L/\mu}+1} \right)^{2k}
+  \enVert[1]{\kth[0]{x} - x^*}^2.
 \end{equation*}
 If \(Q\) is just positive semidefinite with \(0 \preceq Q \preceq L\), we have a smooth problem with
 \begin{equation*}
@@ -1243,7 +1224,12 @@ then for every \(\epsilon > 0\) there is a \(c > 0\) such that for all \(k\)
   \enVert{\begin{pmatrix}
       \kth[k]{x} - x^* \\
       \kth[k-1]{x} - x^*
-    \end{pmatrix}}.
+    \end{pmatrix}},
+\end{equation*}
+which implies that
+\begin{equation*}
+  \enVert[1]{\kth{x} - x^*}^2 \leq
+  \left( \frac{\sqrt{L/\mu} - 1}{\sqrt{L/\mu} + 1} \right)^{2k} \enVert[1]{\kth[0]{x} - x^*}^2.
 \end{equation*}
 By this, the heavy ball method is optimal in the strongly convex case, but does not work well if
 \(\mu = 0\) (then, we can't choose the parameters in the shown way).
@@ -1283,11 +1269,11 @@ ensures convergence, too. Using either choice we achieve a convergence rate
 so the method is optimal.
 
 If we know the problem to be strongly convex, ie., \(f \in \Strong{\mu}{L}{1}{1}\) with \(\mu > 0\),
-we can use a constant value of
+we can use the constant values
 \begin{equation*}
   \kth{\beta} = \frac{1 - \sqrt{L/\mu}}{1 + \sqrt{L/\mu}}
 \end{equation*}
-to get a linear rate
+to get a linear rate of
 \begin{equation*}
   f(\kth{x}) - f(x^*) \leq (1 - \sqrt{L/\mu})^k
     \left( f(\kth[0]{x}) - f(x^*) + \frac{\mu}{2} \enVert[1]{x^* - \kth[0]{x}}^2 \right).
