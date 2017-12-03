@@ -1487,7 +1487,7 @@ Most of the rules for unconstrained optimization can be adapted for use in the c
 
 A straightforward method for generating the point \(\kth{\bar{x}}\) is to find the feasible point
 furthest away from \(\kth{x}\) along the negative gradient direction (see
-Figure~\ref{fig:conditional-gradient-method}:
+Figure~\ref{fig:conditional-gradient-method}):
 \begin{align*}
   \kth{\bar{x}} &\in \argmin_{x \in X} \T{\nabla f(\kth{x})}(x - \kth{x}), \\
   \kth[k+1]{x} &= \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}).
@@ -1544,18 +1544,51 @@ corresponds to a second-order expansion around \(\kth{x}\); if \(\kth{\alpha} = 
 \(\kth{\bar{x}}\) just minimizes the Taylor expansion around \(\kth{x}\) in the set \(X\).  The main
 disadvantage of this variant is that the subproblem might be more complicated to solve.
 
-\summary{Linear Programming with Equality
-  Constraints}\label{s:equality-constrained-linear-programming}
-
-Intro, as a sequence of quadratic problems
-
-
 \summary{Affine Scaling Method}\label{s:affine-scaling-method}
+
+% see https://ocw.mit.edu/courses/sloan-school-of-management/15-093j-optimization-methods-fall-2009/lecture-notes/MIT15_093J_F09_lec21.pdf
+
+The affine scaling method is a specialization of the above result for linear programs.  Given
+\begin{equation*}
+  \min \T{c} x, \quad\text{s.t. } Ax = b, \; x \geq 0,
+\end{equation*}
+we can use the scaled projected gradient method as described above:
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x})
+\end{equation*}
+where we have a quadratic intermediate problem
+\begin{gather*}
+  \kth{\bar{x}} = \argmin_x \T{c}(x - \kth{x})
+  + \frac{1}{\kth{s}} \T{(x - \kth{x})} \kth{H} (x - \kth{x}),\\
+  \text{s.t. } Ax = b, \; x \geq 0
+\end{gather*}
+for some positive definite matrices \(\kth{H}\) and positive scalars \(\kth{s}\).
+
+Since \(\kth{x} > 0\), if \(\kth{s}\) is small enough, \(\kth{\bar{x}} > 0\), and we can drop the
+inequality constraint \(x \geq 0\).  Then by the above derivation of quadratic problems
+(Summary~\ref{s:equality-constrained-quadratic-problems}), we can derive the exact solution
+\begin{equation*}
+  \bar{x} = -\kth{x} - \kth{s}(\kth{H})^{-1}(I - \T{A} (A(\kth{H})^{-1}\T{A})^{-1} A (\kth{H})^{-1})c.
+\end{equation*}
+Inserting this into the iteration scheme and including \(\kth{s}\) into \(\kth{\alpha}\), we get
+\begin{equation*}
+  \kth[k+1]{x} = -\kth{x} -
+  \kth{\alpha}(\kth{H})^{-1}(I - \T{A} (A(\kth{H})^{-1}\T{A})^{-1} A (\kth{H})^{-1})c.
+\end{equation*}
+Now \(\kth{\alpha}\) has to be chosen such that \(\kth[k+1]{x} > 0\).  This can be done by using
+e.g. \(\kth{\alpha} = 0.99\kth{\bar{\alpha}}\), where \(\kth{\bar{\alpha}}\) is the largest step
+size for which \(\kth[k+1]{x} \geq 0\) (i.e., it is still feasible).  Furthermore, \(\kth[0]{x}\)
+needs to be (strictly) feasible.
+
+Lastly, and this is the interesting part, we have to choose \(\kth{H}\).  The affine scaling method
+sets it to be
+\begin{equation*}
+  \kth{H} = \left( \diag(\kth{x}_1, \dots, \kth{x}_n) \right)^{-2}.
+\end{equation*}
 
 
 \summary{Linear Programming with Inequality
   Constraints}\label{s:inequality-constrained-linear-programming}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Lagrange Multiplier Theory}
