@@ -1412,7 +1412,7 @@ which can be solved by the restricted problem stated above, resulting in
 \begin{equation*}
   y^* = -(I - H^{-\frac{1}{2}}\T{A} (AH^{-1}\T{A})^{-1} A H^{-\frac{1}{2}}) H^{-\frac{1}{2}}c.
 \end{equation*}
-Substituting back, re get the optimal solution
+Substituting back gives the optimal solution
 \begin{equation*}
   x^* = \bar{x} - H^{-1}(c - \T{A}\lambda),
 \end{equation*}
@@ -1459,7 +1459,9 @@ with \(\kth{\alpha} \in (0, 1]\), \(\kth{\bar{x}} \in X\), and
 \begin{equation*}
 \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}) \in X  
 \end{equation*}
-for \(\kth{\alpha} \in (0, 1]\), and the sequence \(\{\kth{x}\}\) stays feasible.
+for \(\kth{\alpha} \in (0, 1]\), and the sequence \(\{\kth{x}\}\) stays feasible.  Feasible
+direction methods are usually presented in this form, by giving specific choices for
+\(\kth{\bar{x}}\).
 
 \summary{Step Size Selection}\label{s:step-size-selection-constrained}
 
@@ -1490,8 +1492,9 @@ Figure~\ref{fig:conditional-gradient-method}:
   \kth{\bar{x}} &\in \argmin_{x \in X} \T{\nabla f(\kth{x})}(x - \kth{x}), \\
   \kth[k+1]{x} &= \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}).
 \end{align*}
-This then is a linear subproblem over a convex set, which should be easier to solve (especially in
-the case that \(X\) is a simplex).  This method is also known as \emph{Frank-Wolfe method}.
+Finding \(\kth{\bar{x}}\) is then a linear subproblem over a convex set, which should be easier to
+solve (especially in the case that \(X\) is a simplex).  This method is also known as
+\emph{Frank-Wolfe method}.
 
 \begin{figure}[H]
   \centering
@@ -1527,7 +1530,7 @@ to steepest descent.
 \end{figure}
 
 This method needs to solve a quadratic subproblem, which may be more complex, but typically results
-in better convergents rate.
+in better convergence rate.
 
 We can generalize this approach to a scaled variant, just as in steepest descent; scaling may
 improve the situation with ill-conditioned objective functions, where the pure method might become
