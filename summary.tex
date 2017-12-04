@@ -1625,8 +1625,8 @@ We consider the general equality constrained optimization problem
 \begin{equation*}
   \min_x f(x), \quad\text{s.t. } h_i(x) = 0, \; i = 1, \dots, m,
 \end{equation*}
-where \(f\) and all \(h_i\) are continuously differentiable.  The constraints can also be compactly
-written as \(h(x) = 0\). 
+where \(f\) and all \(h_i\) are continuously differentiable (at least in an environment around a
+local minimum).  The constraints can also be compactly combined as \(h(x) = 0\).
 
 For such a problem, the \emph{Lagrange multiplier theorem} holds: let \(x^*\) be a local minimum,
 and assume that \(\nabla h_1(x^*), \dots, \nabla h_i(x^*)\) are linearly independent.  Then there
@@ -1640,11 +1640,26 @@ This can be interpreted as \(\nabla f(x^*)\) being not linearly indepentent of t
 \(\nabla h_i(x^*)\), i.e., at the optimal value, the gradient of the cost function belongs to the
 subspace spanned by the gradients of the constraint functions.
 
-Also, \(\nabla f(x^*)\) is orthogonal to the space of feasible directions at \(x^*\):
-\begin{align*}
-  V(x^*) &= \{d \mid \T{\nabla h_i(x^*)} d = 0, i = 1, \dots, m\} \\
-         &= \{d \mid h(x^* + d) = 0\}.
-\end{align*}
+Also, \(\nabla f(x^*)\) is orthogonal to the space of \emph{feasible variations} at \(x^*\):
+\begin{equation*}
+  V(x^*) = \{d \mid \T{\nabla h_i(x^*)} d = 0, i = 1, \dots, m\},
+\end{equation*}
+which is the the set of directions \(d\) such that \(h(x^* + d) = 0\) (i.e., the constraint is still
+fulfilled).  A feasible vector for which the constraint gradients are linearly independent is called
+\emph{regular}.  There may not exist Lagrange multipliers for local minima which are not regular~--
+see Figures~.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.45\textwidth]{lagrange_regular}
+  \hspace{1em}
+  \includegraphics[width=0.45\textwidth]{lagrange_irregular}
+  \caption{Left: illustration of Lagrange theorem for \(f(x) = x_1 + x_2\) subject to
+    \(h(x) = x_1^2 + x_2^2 = 0\).  Right: failure in the non-regular case for
+    \(h_1(x) = (x_1 - 1)^2 + x_2^2 - 1 = 0\), \(h_2(x) = (x_1 - 2)^2 + x_2^2 - 4 = 0\), where the
+    constraint gradients at \(x^*\) are collinear.\label{fig:lagrange}}
+\end{figure}
+
 
 % \summary{Derviation of Lagrange Theorem (Penalty Approach)}
 % \label{s:lagrange-derivation}
@@ -1679,6 +1694,24 @@ Also, \(\nabla f(x^*)\) is orthogonal to the space of feasible directions at \(x
 
 
 \summary{Lagrangian Function}\label{s:lagrangian-function}
+
+Often we rewrite the constrained optimization problem in terms of a \emph{Lagrangian function}:
+\begin{equation*}
+  L(x, \lambda) = f(x) + \sum_i \lambda_i h_i(x).
+\end{equation*}
+The first order neccessary conditions for an optimum \(x^*\) are then
+\begin{equation*}
+  \nabla_x L(x^*, \lambda^*) = 0, \quad \nabla_\lambda L(x^*, \lambda^*) = 0.
+\end{equation*}
+These represent a system of \(n + m\) equations in the coordinates of \(x^*\) and \(\lambda^*\).
+Every local minimum which is regular, together with the associated Lagrange vector, will be a
+solution of it; however, without further assumptions, a solution need not be a minimum (it can be
+any stationary point).
+
+We furthermore have the neccesary second order condition
+\begin{equation*}
+  \T{d} \nabla^2_{xx} L(x^*, \lambda^*) d \geq 0, \quad\forall d \in V(x^*).
+\end{equation*}
 
 \summary{Inequality Constrained Problems}\label{s:lagrange-inequality}
 
