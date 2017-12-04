@@ -1551,13 +1551,13 @@ disadvantage of this variant is that the subproblem might be more complicated to
 % see https://ocw.mit.edu/courses/sloan-school-of-management/15-093j-optimization-methods-fall-2009/lecture-notes/MIT15_093J_F09_lec21.pdf
 
 The affine scaling method is a specialization of the above result for linear programs with equality
-constraints.  Given
+constraints.  For the general problem
 \begin{equation*}
   \min \T{c} x, \quad\text{s.t. } Ax = b, \; x \geq 0,
 \end{equation*}
 we can use the scaled projected gradient method as described above:
 \begin{equation*}
-  \kth[k+1]{x} = \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x})
+  \kth[k+1]{x} = \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}),
 \end{equation*}
 where we have a quadratic intermediate problem
 \begin{gather*}
@@ -1621,12 +1621,67 @@ This variant is known as \emph{dual affine scaling method}.
 \summary{Lagrange Theorem for Equality Constrained Problems}
 \label{s:lagrange-equality}
 
-\summary{Derviation of Lagrange Theorem (Penalty Approach)}
-\label{s:lagrange-derivation}
+We consider the general equality constrained optimization problem
+\begin{equation*}
+  \min_x f(x), \quad\text{s.t. } h_i(x) = 0, \; i = 1, \dots, m,
+\end{equation*}
+where \(f\) and all \(h_i\) are continuously differentiable.  The constraints can also be compactly
+written as \(h(x) = 0\). 
+
+For such a problem, the \emph{Lagrange multiplier theorem} holds: let \(x^*\) be a local minimum,
+and assume that \(\nabla h_1(x^*), \dots, \nabla h_i(x^*)\) are linearly independent.  Then there
+exist unique scalars \(\lambda^*_1, \dots, \lambda^*_m\), called \emph{Lagrange multipliers}, such
+that
+\begin{equation*}
+  \nabla f(x^*) + \sum_{i=1}^m \lambda^*_i \nabla h_i(x^*) = 0.
+\end{equation*}
+
+This can be interpreted as \(\nabla f(x^*)\) being not linearly indepentent of the
+\(\nabla h_i(x^*)\), i.e., at the optimal value, the gradient of the cost function belongs to the
+subspace spanned by the gradients of the constraint functions.
+
+Also, \(\nabla f(x^*)\) is orthogonal to the space of feasible directions at \(x^*\):
+\begin{align*}
+  V(x^*) &= \{d \mid \T{\nabla h_i(x^*)} d = 0, i = 1, \dots, m\} \\
+         &= \{d \mid h(x^* + d) = 0\}.
+\end{align*}
+
+% \summary{Derviation of Lagrange Theorem (Penalty Approach)}
+% \label{s:lagrange-derivation}
+
+% % bertsekas 281
+
+% The Lagrange multiplier theorem can be proven by using a penalized unconstrained cost function as
+% approximation: let
+% \begin{equation*}
+%   \kth{F}(x) = f(x) + \frac{k}{2} \enVert[0]{h(x)}^2 + \frac{\alpha}{2} \enVert{x - x^*}^2,
+% \end{equation*}
+% where \(x^*\) is a local optimum and \(\alpha > 0\).  The second term imposes a penalty for
+% violating the constraint, while the third one has proof-technical reasons (it constrains the value
+% of \(x^*\)).
+
+% We then select the sphere
+% \begin{equation*}
+%   S = \{x \mid \enVert{x - x^*} \leq \epsilon\}
+% \end{equation*}
+% such that \(f(x^*) \leq f(x)\) for all feasible \(x \in S\) (i.e., an environment around a local
+% miniumum).  Since \(S\) is closed and bounded, there exists an optimal value \(\kth{x}\) of
+% \(\kth{F}\) over \(S\) (by the Weierstrass extreme value theorem).  Now
+% \begin{equation*}
+%   \kth{F}(\kth{x}) = f(\kth{x}) + \frac{k}{2} \enVert[0]{h(\kth{x})}^2 +
+%   \frac{\alpha}{2} \enVert{\kth{x} - x^*}^2 \leq \kth{F}(x^*) = f(x^*).
+% \end{equation*}
+% Since \(f\) is bounded over \(S\),
+% \begin{equation*}
+%   \lim_{k \to \infty} \enVert{h(\kth{x})} = 0;
+% \end{equation*}
+% otherwise, 
+
 
 \summary{Lagrangian Function}\label{s:lagrangian-function}
 
 \summary{Inequality Constrained Problems}\label{s:lagrange-inequality}
 
-\summary{Karush-Kuhn-Tucker Optimality Conditions}\label{s:kkt-conditions}
+
+% \summary{Karush-Kuhn-Tucker Optimality Conditions}\label{s:kkt-conditions}
 \end{document}
