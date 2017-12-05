@@ -701,22 +701,39 @@ Since \(\kth{x} > 0\), if \(\kth{s}\) is small enough, \(\kth{\bar{x}} > 0\), an
 inequality constraint \(x \geq 0\).
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{question}
   What is the Lagrange multiplier theorem for equality constrained optimization problems? Draw a
   simple example and explain why the gradients of the constraint functions need to be linearly
   independent.
 \end{question}
-\begin{itemize}
-\item Interpretation 1: The gradient of the cost function $\nabla f (x^*)$
-  belongs to the subspace spanned by the gradients of the
-  constraint functions $\nabla h_i (x^* )$
-\item Interpretation 2: The cost gradient $\nabla f (x^* )$ is orthogonal to
-  the subspace of first order feasible directions
-\item for failure see figure~\ref{fig:ex1}. The Eigenvectors are lineary dependent, we loose one
-  dimension and thus we can not optimize the problem (at least I think so)
-\end{itemize}
+
+Consider the general equality constrained problem
+\begin{equation*}
+  \min_x f(x), \quad\text{s.t. } h_i(x) = 0, \; i = 1, \dots, m.
+\end{equation*}
+If \(x^*\) is a local minimum, and \(\nabla h_1(x^*), \dots, \nabla h_i(x^*)\) are linearly
+independent, then there exist unique scalars \(\lambda^*_1, \dots, \lambda^*_m\), called Lagrange
+multipliers, such that
+\begin{equation*}
+  \nabla f(x^*) + \sum_{i=1}^m \lambda^*_i \nabla h_i(x^*) = 0.
+\end{equation*}
+
+This means that at the optimal value, the gradient of the cost function belongs to the subspace
+spanned by the gradients of the constraint functions.  Equivalently, \(\nabla f(x^*)\) is orthogonal
+to the space of feasible variations at \(x^*\), which is the the set of directions \(d\) such that
+\(h(x^* + d) = 0\) (i.e., the constraint is still fulfilled).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.45\textwidth]{lagrange_regular}
+  \hspace{1em}
+  \includegraphics[width=0.45\textwidth]{lagrange_irregular}
+  \caption{Left: illustration of Lagrange theorem for \(f(x) = x_1 + x_2\) subject to
+    \(h(x) = x_1^2 + x_2^2 = 0\).  Right: failure in the non-regular case for
+    \(h_1(x) = (x_1 - 1)^2 + x_2^2 - 1 = 0\), \(h_2(x) = (x_1 - 2)^2 + x_2^2 - 4 = 0\), where the
+    constraint gradients at \(x^*\) are collinear.\label{fig:lagrange}}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{question}
