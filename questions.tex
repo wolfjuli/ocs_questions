@@ -676,11 +676,31 @@ which may be more complex, but typically results in better convergence rate.
   solved based on solving a sequence of linearly constrained quadratic programs. Why can the
   inequality constraint be skipped?
 \end{question}
-\begin{itemize}
-\item iterative method $x^{k+1} = x^k + \alpha^k (H^k)^{-1} (\texttt{big AHA formula})$
-\item affine scaling: choose $H^k = (X^k)^{-2}$, $X^k = diag(x_1, ..., x_n)$ leads to
-  $y^{k+1} = y^k + \alpha^k (AX^k A' )^{-1} b $, $\alpha^k$ ensures $x^{k+1} > 0$
-\end{itemize}
+
+The affine scaling method is based on the scaled gradient projection method, by which we generate
+the steps using
+\begin{equation*}
+  \kth{\bar{x}} = \argmin_{x \in X} \T{\nabla f(\kth{x})} (x - \kth{x}) +
+  \frac{1}{\kth{s}} \T{(x - \kth{x})} \kth{H} (x - \kth{x}).
+\end{equation*}
+Since the problem is linear, we can calculate the exact solution of this quadratic intermediate
+problem, and get an update of
+\begin{equation*}
+  \kth[k+1]{x} = -\kth{x} -
+  \kth{\alpha}(\kth{H})^{-1}(I - \T{A} (A(\kth{H})^{-1}\T{A})^{-1} A (\kth{H})^{-1})c.
+\end{equation*}
+Now \(\kth{\alpha}\) has to be chosen such that \(\kth[k+1]{x} > 0\).  This can be done by using
+e.g. \(\kth{\alpha} = 0.99\kth{\bar{\alpha}}\), where \(\kth{\bar{\alpha}}\) is the largest step
+size for which \(\kth[k+1]{x} \geq 0\) (i.e., it is still feasible).  Furthermore, \(\kth[0]{x}\)
+needs to be (strictly) feasible. \(\kth{H}\) is for different reasons chosen as
+\begin{equation*}
+  \kth{H} = \left( \diag(\kth{x}_1, \dots, \kth{x}_n) \right)^{-2}.
+\end{equation*}
+
+Since \(\kth{x} > 0\), if \(\kth{s}\) is small enough, \(\kth{\bar{x}} > 0\), and we can drop the
+inequality constraint \(x \geq 0\).
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{question}
