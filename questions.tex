@@ -591,36 +591,83 @@ particular, it contains the zero vector.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{question}
-  What is a feasible direction? Give an example. What is the general form of a feasible direction
+  What is a feasible direction? Give an example.  What is the general form of a feasible direction
   method? Also give an alternative form of the feasible direction based on a feasible vector
   \(\bar{x}\).
 \end{question}
-middle/end of pages slide 10 - start in interior and just take small steps $->$ we can ignore
-constraint under these conditions
-\begin{itemize}
-\item Given a feasible vector $x$, a feasible
-  direction at $x$ is a vector $d$ such that the
-  vector $x + \alpha d$ is feasible for all sufficiently
-  small $\alpha > 0$.
-\item a feasable method generates starts at $x^0$ and generates multiple such points $x^{k+1}$
-\end{itemize}
+
+Given a vector \(x\), a feasible direction at \(x\) is a vector \(d\) such that \(x + \alpha d\) is
+feasible for all sufficiently small \(\alpha > 0\); i.e., \(x + \alpha d \in X\) (see
+Figure~\ref{fig:feasible-directions}).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{feasible_directions}
+  \caption{Illustration of feasible directions at \(x\) for a convex constraint
+    set.\label{fig:feasible-directions}}
+\end{figure}
+
+A \emph{feasible direction method} starts with a feasible vector, and generates a sequence of
+feasible points \(\{\kth{x}\}\) by
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} + \kth{\alpha}\kth{d},
+\end{equation*}
+where \(\kth{d}\) are feasible directions at \(\kth{x}\) which are also descent directions, and the
+\(\kth{\alpha}\) are step sizes satisfying \(\kth{x} + \kth{\alpha} \kth{d} \in X\).
+
+Since \(X\) is assumed to be convex, the feasible directions at \(\kth{x}\) can be written in the
+form
+\begin{equation*}
+  \kth{d} = \gamma(\kth{\bar{x}} - \kth{x}), \quad \gamma > 0,
+\end{equation*}
+where \(\kth{\bar{x}}\) is some feasible vector different from \(\kth{x}\).  Assuming that
+\(\kth{x} + \kth{\alpha} \kth{d} \in X\), the steps can be expressed as
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}),
+\end{equation*}
+with \(\kth{\alpha} \in (0, 1]\), \(\kth{\bar{x}} \in X\), and
+\(\T{\nabla f(\kth{x})}(\kth{\bar{x}} - \kth{x}) < 0\).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{question}
   Explain the conditional gradient method and the projected gradient method.  What is different? For
   both methods draw a simple example showing how the feasible directions are computed.
 \end{question}
-\begin{itemize}
-\item Conditional gradient solves subproblem with linear cost, gradient projection method solves
-  quadratic cost fct
-\item The conditional gradient method generates the point $\overline{x}^k$ by finding a feasible
-  point which is furthest way from $x^k$ along the negative gradient direction $-\nabla f (x^k )$.
+% \begin{itemize}
+% \item Conditional gradient solves subproblem with linear cost, gradient projection method solves
+%   quadratic cost fct
+% \item The conditional gradient method generates the point $\overline{x}^k$ by finding a feasible
+%   point which is furthest way from $x^k$ along the negative gradient direction $-\nabla f (x^k )$.
 
-\end{itemize}
+The conditional gradient method generates the point \(\kth{\bar{x}}\) by finding the feasible point
+furthest away from \(\kth{x}\) along the negative gradient direction:
+\begin{align*}
+  \kth{\bar{x}} &\in \argmin_{x \in X} \T{\nabla f(\kth{x})}(x - \kth{x}), \\
+  \kth[k+1]{x} &= \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}).
+\end{align*}
+Finding \(\kth{\bar{x}}\) is then a linear subproblem over a convex set, which should be easier to
+solve (especially in the case that \(X\) is a simplex).
+
+The gradient projection method generates a feasible direction method with
+\begin{align*}
+  \kth{\bar{x}} &= \proj_X (\kth{x} - \kth{s} \nabla f(\kth{x})), \\
+  \kth[k+1]{x} &= \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}),
+\end{align*}
+for a step size \(\kth{\alpha} \in (0, 1]\) and positive scalars \(\kth{s}\).  Thus, we take a step
+in the negative gradient direction (as in steepest descent), which is then projected onto \(X\), to
+obtain the feasible vector \(\kth{\bar{x}}\).  This method needs to solve a quadratic subproblem,
+which may be more complex, but typically results in better convergence rate.
+
 \begin{figure}[H]
-  \includegraphics[width=\textwidth]{proj_desc.png}
-  \caption{Graphical representation of conditional (left) and projective (right)
-    method\label{fig:proj_desc}}
+  \centering
+  \includegraphics[width=0.3\textwidth]{conditional_gradient_method}
+  \hspace{1em}
+  \includegraphics[width=0.4\textwidth]{gradient_projection_method}
+  \caption{Left: illustration of finding the feasible direction in at point \(x\) in the conditional
+    gradient method. \(\bar{x}\) is the furthest point in \(X\) that lies in a descent direction.
+    Right: illustration of the gradient projection method for \(\kth{\alpha} = 1\).  Inside \(X\),
+    projection is trivial and we only do a normal gradient
+    step.\label{fig:feasible-direction-methods}}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
