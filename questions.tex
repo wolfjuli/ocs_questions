@@ -113,7 +113,8 @@ this contradicts the assumption, therefore \(x^*\) must be optimal.
 \end{itemize}
 
 \begin{figure}[H]
-  \includegraphics[width=\textwidth]{loc_glob_min.png}
+  \centering
+  \includegraphics[width=0.8\textwidth]{loc_glob_min.png}
   \caption{Local/global minima.\label{fig:min}}
 \end{figure}
 
@@ -227,7 +228,8 @@ it, we fix scalars \(s\), \(0 < \beta < 1\), and \(0 < \sigma < 1\), and set
 Thus, the step sizes are chosen such that the energy decrease is sufficiently large~-- see
 Figure~\ref{fig:armijo}.
 \begin{figure}[H]
-  \includegraphics[width=\textwidth]{armijo.png}
+  \centering
+  \includegraphics[width=0.8\textwidth]{armijo.png}
   \caption{Graphical representation of the idea of the Armijo rule.\label{fig:armijo}}
 \end{figure}
 
@@ -299,7 +301,7 @@ Classes of convergence rates (see Figure~\ref{fig:convergence}):
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{convergence.png}
+  \includegraphics[width=0.7\textwidth]{convergence.png}
   \caption{Graphical representation of linear, superinear and sublinear
     convergence \label{fig:convergence}}
 \end{figure}
@@ -532,21 +534,30 @@ we can solve using CG.
   \end{equation*}
 \end{itemize}
 
-\section{Contrained optimization}
+\section{Constrained optimization}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{question}
   Give an example showing the necessary optimality condition for minimizing a differentiable
   function over a convex set. Why does it fail in case the feasible set is non-convex?
 \end{question}
-\begin{itemize}
-\item the gradient $\nabla f(x^*)$ makes an angle $\leq$ 90 in all feasable points
-\item this condition is in general not reachable
 
-\end{itemize}
+The neccessary condition for optimality for a convex constraint set \(X\) is
+\begin{equation*}
+  \T{\nabla f(x^*)}(x - x^*) \geq 0, \quad\forall x \in X;
+\end{equation*}
+ie., the gradient in all feasible directions must be less than \(0\). 
+
+For illustration, see Figure~\ref{fig:non-convex}: if a local minimum is at the boundary of \(X\) (which
+will be the most interesting case, otherwise the problem is not much different from an unconstrained
+one), we only need to consider directions (other points) inside the boundary, which for a convex set
+implies that the gradient makes an an angle of \(90^\circ\) or less with the feasible directions.
+In the non-convex case, this condition can fail.
+
 \begin{figure}[H]
-  \includegraphics[width=\textwidth]{non_convex.png}
-  \caption{Graphical representation of convex and non-convex set \label{fig:convex}}
+  \centering
+  \includegraphics[width=0.8\textwidth]{non_convex.png}
+  \caption{Graphical representation of convex and non-convex set \label{fig:non-convex}}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
