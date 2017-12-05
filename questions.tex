@@ -565,10 +565,29 @@ In the non-convex case, this condition can fail.
   What is a projection on a convex set? Give the optimality condition and specialize the condition
   to the case where the convex set is a subspace.  What are the properties of a subspace?
 \end{question}
-\begin{itemize}
-\item $z$ is a fixed vector, find vector $x^*$ in a closed convex set X
-\item $\min_x f(x) = || x - z || ^2$
-\end{itemize}
+
+Let \(z \in \RR^n\).  The projection of \(z\) onto X is defined by
+\begin{equation*}
+  \proj_X(z) = \min_{x \in X}\, \frac{1}{2}\enVert[1]{x - z}^2 \quad\text{s.t. } x \in X
+\end{equation*}
+It is the point in \(X\) which is closest to \(z\). 
+
+Since \(f(x) = \frac{1}{2} \enVert{x - z}^2\), we have \(\nabla f(x) = x - z\).  By the (neccessary
+and sufficient) optimality condition we get that
+\begin{alignat*}{2}
+  &\quad & \T{\nabla f(x^*)}(x - x^*) &\geq 0 \\
+  &\Leftrightarrow\quad & \T{(x - z)}(x - x^*) &\geq 0 \\
+  &\Leftrightarrow\quad & \T{(z - x)}(x - x^*) &\leq 0.
+\end{alignat*}
+If \(X\) is a linear subspace of \(\RR^n\), this reduces to
+\begin{equation*}
+  \T{(z - x^*)}x = 0, \quad\forall x \in X,
+\end{equation*}
+since for all \(x \in X\), both \(x^* + x\) and \(x^* - x\) are in \(X\).
+
+A linear subspace \(Y \subseteq X\) is a subset of \(X\) which is also a vector space, i.e., it is
+an abelian group with respect to addition and behaves as expected with scalar multiplication.  In
+particular, it contains the zero vector.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{question}
