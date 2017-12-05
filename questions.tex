@@ -735,11 +735,12 @@ to the space of feasible variations at \(x^*\), which is the the set of directio
     constraint gradients at \(x^*\) are collinear.\label{fig:lagrange}}
 \end{figure}
 
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{question}
   Show how to solve the projection problem:
   \[
-    \min_x \frac{1}{2} \enVert{x - y}^2
+    \min_x \frac{1}{2} \enVert{x - y}^2, \quad\text{s.t. } Ax = 0.
   \]
   Write down the Lagrangian, give the KKT conditions and show how the
 problem is solved.
@@ -749,7 +750,7 @@ problem is solved.
 \begin{question}
   Show how to compute the projection onto a half space:
   \[
-    \min_x \frac{1}{2} \enVert{x-y}^2 \quad \text{s.t.} \quad \T{a}x = b
+    \min_x \frac{1}{2} \enVert{x-y}^2 \quad \text{s.t.} \quad \T{a}x = b.
   \]
   Write down the Lagrangian, give the KKT conditions and show how the
   problem is solved.
