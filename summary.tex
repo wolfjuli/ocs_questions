@@ -1647,7 +1647,7 @@ Also, \(\nabla f(x^*)\) is orthogonal to the space of \emph{feasible variations}
 which is the the set of directions \(d\) such that \(h(x^* + d) = 0\) (i.e., the constraint is still
 fulfilled).  A feasible vector for which the constraint gradients are linearly independent is called
 \emph{regular}.  There may not exist Lagrange multipliers for local minima which are not regular~--
-see Figures~.
+see Figure~\ref{fig:lagrange}.
 
 \begin{figure}[H]
   \centering
@@ -1713,7 +1713,62 @@ We furthermore have the neccesary second order condition
   \T{d} \nabla^2_{xx} L(x^*, \lambda^*) d \geq 0, \quad\forall d \in V(x^*).
 \end{equation*}
 
+
 \summary{Inequality Constrained Problems}\label{s:lagrange-inequality}
+
+We can also consider a problem involving both equality and inequality constraints:
+\begin{align*}
+  \min_x \quad &f(x), \\
+  \text{s.t.} \quad &h_1(x) = 0, \dots, h_m(x) = 0, \\
+               &g_1(x) \leq 0, \dots, g_r(x) \leq 0,
+\end{align*}
+where again we assume \(f\), \(h_i\), and \(g_j\) to be continuously differentiable.  We compactify
+the constraints into functions \(h\) and \(g\).
+
+To reduce the inequality constrained problem (ICP) to a form which can be treated by the above
+methods for equality constrained problems (ECP), we introduce the set of \emph{active inequality
+  constraints}:
+\begin{equation*}
+  A(x) = \{j \mid g_j(x) = 0\}.
+\end{equation*}
+If \(j \notin A(x)\), then the \(j\)-th constraint is said to be \emph{inactive} at \(x\).  Now, if
+\(x^*\) is a local minimum of the ICP, then \(x^*\) is also a local minimum of the problem without
+the inactive constrints at \(x^*\).  On the other hand, active inequality constraints can often be
+treated as equalities: a local optimum of an ICP is also a local optimum for the ECP of the form
+\begin{align*}
+  \min_x \quad &f(x), \\
+  \text{s.t.} \quad &h_1(x) = 0, \dots, h_m(x) = 0, \\
+               &g_j(x) = 0, \quad\forall j \in A(x^*).
+\end{align*}
+This, like above, if \(x^*\) is regular, there exist Lagrange multipliers \(\lambda^*_i\) and
+\(\mu^*_j\), \(j \in A(x^*)\), such that
+\begin{equation*}
+  \nabla f(x^*) + \sum_i \lambda^*_i \nabla h_i(x^*) + \sum_{j \in A(x^*)} \mu^*_j \nabla g_j(x^*) = 0.
+\end{equation*}
+Equivalently, we can write this in the form
+\begin{gather*}
+  \nabla f(x^*) + \sum_i \lambda^*_i \nabla h_i(x^*) + \sum_{j} \mu^*_j \nabla g_j(x^*) = 0, \\
+  \text{where } \mu^*_j = 0 \text{ for all } j \notin A(x^*).
+\end{gather*}
+In this form, the \(\mu^*_j\) are assigned zero for inactive constraints.  Futhermore, they are all
+nonnegative, since otherwise, there would exist a point with smaller cost.
+
+Again, we call a feasible vector \(x\) \emph{regular} if the equality constraint gradients \(\nabla
+h_i(x)\) and all active inequality constraint gradients \(\nabla g_j(x)\) are linearly independent.
+Thus we can construct a Lagrangian function
+\begin{equation*}
+  L(x, \lambda, \mu) = f(x) + \sum_i \lambda_i h_i(x) + \sum_j \mu_j g_j(x).
+\end{equation*}
+The optima in this case are characterized the neccessary \emph{Karush-Kuhn-Tucker conditions}: if
+\(x^*\) is a local minimum and regular, then there exist unique Lagrange multipliers \(\lambda^*\)
+and \(\mu^*\) such that
+\begin{gather*}
+  \nabla_x L(x^*, \lambda^*, \mu^*) = 0, \\
+  \mu^*_j \geq 0, \quad j = 1, \dots, r, \\
+  \mu^*_j = 0, \quad\forall j \notin A(x^*).
+\end{gather*}
+
+
 
 
 % \summary{Karush-Kuhn-Tucker Optimality Conditions}\label{s:kkt-conditions}
