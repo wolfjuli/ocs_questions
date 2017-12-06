@@ -350,7 +350,7 @@ Now, the second-order approximation around \(S\kth{y}\) becomes
 \end{align*}
 which we can minimize at \(\kth[k+1]{y}\) to get the update rule, like above:
 \begin{align*}
-  & &\nabla \kth{f}(\kth[k+1]{y}) &= \T{S} \nabla f(S\kth{y}) + \T{S} \nabla^2
+  & &\nabla \kth{f}(S\kth[k+1]{y}) &= \T{S} \nabla f(S\kth{y}) + \T{S} \nabla^2
                                  f(S\kth{y})S(\kth[k+1]{y}
                                  - \kth{y}) \overset{!}{=} 0 \\
   &\Rightarrow & S\kth[k+1]{y} &= S\kth{y} - \left( \T{S}\nabla^2 f(S\kth{y}) \right)^{-1} \T{S}
