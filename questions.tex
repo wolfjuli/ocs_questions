@@ -739,31 +739,71 @@ to the space of feasible variations at \(x^*\), which is the the set of directio
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{question}
   Show how to solve the projection problem:
-  \[
+  \begin{equation*}
     \min_x \frac{1}{2} \enVert{x - y}^2, \quad\text{s.t. } Ax = 0.
-  \]
-  Write down the Lagrangian, give the KKT conditions and show how the
-problem is solved.
+  \end{equation*}
+  Write down the Lagrangian, give the KKT conditions and show how the problem is solved.
 \end{question}
+
+We assume \(x, y \in \RR^n\), \(A \in \RR^{m \times n}\). The Lagrangian is
+\begin{align*}
+  L(x, \lambda) &= \frac{1}{2} \enVert{x - y}^2 + \sum_i \lambda_i \sum_j A_{ij} x_j \\
+                &= \frac{1}{2} \enVert{x - y}^2 + \T{\lambda} A x,
+\end{align*}
+for \(\lambda \in \RR^m\). Its gradients are
+\begin{align*}
+  \nabla_x L(x, \lambda) &= x - y + \T{A} \lambda, \\
+  \nabla_\lambda L(x, \lambda) &= A x.
+\end{align*}
+Since this is an equality constrained problem, the KKT conditions consist only of the stationarity
+condition:
+\begin{align*}
+  x^* &= y - \T{A} \lambda, \\
+  A x^* &= 0.
+\end{align*}
+Inserting the second into the first gives us
+\begin{align*}
+  A(y - \T{A} \lambda) &= 0 \\
+  Ay &= A \T{A} \lambda \\
+  \lambda = (A \T{A})^{-1} A y,
+\end{align*}
+which we can put back to get the solution
+\begin{equation*}
+  x^* = y - \T{A} (A \T{A})^{-1} A y.
+\end{equation*}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{question}
   Show how to compute the projection onto a half space:
   \[
-    \min_x \frac{1}{2} \enVert{x-y}^2 \quad \text{s.t.} \quad \T{a}x = b.
+    \min_x \frac{1}{2} \enVert{x-y}^2 \quad \text{s.t.} \quad \T{a}x \leq b.
   \]
   Write down the Lagrangian, give the KKT conditions and show how the
   problem is solved.
 \end{question}
 
+We assume \(x, y \in \RR^n\), \(a \in \RR^n\), \(b \in \RR\).  The Lagrangian is
+\begin{equation*}
+  L(x, \mu) = \frac{1}{2} \enVert{x-y}^2 + \mu(\T{a}x - b)
+\end{equation*}
+for \(\mu \in \RR\).  It has derivatives
+\begin{align*}
+  \nabla_x L(x, \mu) &= x - y + \mu a, \\
+  \nabla_\mu L(x, \mu) &= \T{a} x - b.
+\end{align*}
 
-\begin{figure}[H]
-  \includegraphics[width=\textwidth]{2017_01_24-ex1.jpg}
-  \caption{Example1,  24.01.2017\label{fig:ex1}}
-\end{figure}
 
-\begin{figure}[H]
-  \includegraphics[width=\textwidth]{2017_01_24-ex2.jpg}
-  \caption{Example 2,  24.01.2017\label{fig:ex2}}
-\end{figure}
+
+
+
+% \begin{figure}[H]
+%   \includegraphics[width=\textwidth]{2017_01_24-ex1.jpg}
+%   \caption{Example1,  24.01.2017\label{fig:ex1}}
+% \end{figure}
+
+% \begin{figure}[H]
+%   \includegraphics[width=\textwidth]{2017_01_24-ex2.jpg}
+%   \caption{Example 2,  24.01.2017\label{fig:ex2}}
+% \end{figure}
 \end{document}
