@@ -793,7 +793,28 @@ for \(\mu \in \RR\).  It has derivatives
   \nabla_\mu L(x, \mu) &= \T{a} x - b.
 \end{align*}
 
+The stationarity condition \(\nabla_x L(x^*, \mu) = 0\) gives us
+\begin{equation*}
+  x^* = y - \mu a.
+\end{equation*}
+Now, since this is an inequality constrained problem, we have to distinguish the case of the
+constraint being active or not.  If it is inactive (i.e., \(\T{a}x^* - b < 0\)), the KKT conditions
+require \(\mu = 0\), which results in the solution \(x^* = y\).  This is the case where \(y\) is
+already in the half space, so the projection is trivial.
 
+If the constraint is active, we know that \(\T{a}x^* = b\).  In this case, the KKT conditions
+require \(\mu \geq 0\).  We insert the expression for \(x^*\) into the constraint:
+\begin{align*}
+  \T{a}(y - \mu a) &= b \\
+  \T{a} y - \mu \T{a} a &= b \\
+  \frac{\T{a}y - b}{\T{a} a} &= \mu.
+\end{align*}
+Putting \(\mu\) back into the stationarity equation gives the projection
+\begin{equation*}
+  x^* = y - \frac{\T{a}y - b}{\T{a} a} a.
+\end{equation*}
+This is the case where an ``outside'' \(y\) is projected onto the closest point on the plane defined by \(a\) and
+\(b\).
 
 
 
