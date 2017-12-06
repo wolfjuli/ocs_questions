@@ -1316,7 +1316,7 @@ consider the neccessary condition
 \begin{equation*}
   \T{\nabla f(x^*)}(x - x^*) \geq 0, \quad\forall x \in X;
 \end{equation*}
-ie., the gradient \emph{in all feasible directions} must be less than \(0\).  If \(f\) is convex
+i.e., the gradient \emph{in all feasible directions} must be increasing.  If \(f\) is convex
 over \(X\), then this condition is also sufficient.
 
 For illustration, see Figure~\ref{fig:non-convex}: if a local minimum is at the boundary of \(X\)
@@ -1335,12 +1335,12 @@ feasible directions.  In the non-convex case, this condition can fail.
 
 \summary{Projection on a Convex Set}\label{s:projection-operator}
 
-This operation is a subproblem of many constraint optimization algorithms.  Let \(z \in \RR^n\).  We
-call
+This operation is a subproblem of many constraint optimization algorithms.  Let \(z \in \RR^n\), and
+\(X\) be closed and convex.  We call
 \begin{equation*}
-  \proj_X(z) = \min_{x \in X}\, \frac{1}{2}\enVert[1]{x - z}^2 \quad\text{s.t. } x \in X
+  \proj_X(z) = \min_{x}\, \frac{1}{2}\enVert[1]{x - z}^2 \quad\text{s.t. } x \in X
 \end{equation*}
-the \emph{projection} of \(z\) onto X (which is a different thing than the one in
+the \emph{(orthogonal) projection} of \(z\) onto X (which is a different thing than the one in
 Summary~\ref{s:q-conjugacy}!).  It is the point in \(X\) which is closest to \(z\).  The projection
 operator for a convex set is a strongly convex function, and therefore has a unique solution.
 
