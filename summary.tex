@@ -336,14 +336,20 @@ and an \emph{objective function} \(f: X \to \RR\).  We want to find an optimal v
     \begin{equation*}
       \min_x \T{c} x, \quad\text{s.t. } Ax \leq b,\; x \geq 0.
     \end{equation*}
-    Constraints describe a polyhedron.  Polynomially solvable.
+    The constraints describe a convex polyhedron.  Polynomially solvable.
   \item Quadratic: Objective function is quadratic, constraints linear:
     \begin{equation*}
       \min_x \frac{1}{2}\T{x} Q x + \T{c} x, \quad\text{s.t. } Ax \leq b,\; Ex = d.
     \end{equation*}
     If \(Q\) is positive semidefinite, the objective is convex and the problem is polynomially
     solvable.
-  \item Nonlinear: no further constraints.
+  \item Convex: objective function \(f\) and constraint set \(X\) are convex:
+    \begin{equation*}
+      \min_x f(x), \quad\text{s.t. } x \in X.
+    \end{equation*}
+  \item Nonlinear: Nonlinear: no further requirements~-- objective function and constraints may be
+    arbitrary.  Usually used if not known whether the problem is convex.  Not much theory available
+    in general form.
   \end{enumerate}
 \item
   \begin{enumerate}
@@ -1486,8 +1492,9 @@ Most of the rules for unconstrained optimization can be adapted for use in the c
 \summary{Conditional Gradient Method}\label{s:conditional-gradient-method}
 
 A straightforward method for generating the point \(\kth{\bar{x}}\) is to find the feasible point
-furthest away from \(\kth{x}\) along the negative gradient direction (see
-Figure~\ref{fig:conditional-gradient-method}):
+furthest away from \(\kth{x}\) ``along'' the negative gradient direction (see
+Figure~\ref{fig:conditional-gradient-method}).  This is achieved by minimizing all descent steps
+over the constraint set:
 \begin{align*}
   \kth{\bar{x}} &\in \argmin_{x \in X} \T{\nabla f(\kth{x})}(x - \kth{x}), \\
   \kth[k+1]{x} &= \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}).

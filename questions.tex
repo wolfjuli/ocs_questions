@@ -19,15 +19,14 @@
   explain the notion of an objective function, a constraint set, an optimal solution and the
   definition of the level sets of a function.
 \end{question}
-Draw level lines and arrows
 \begin{itemize}
 \item General form:
   \begin{equation*}
     \min_{x} f(x) \quad \text{s.t. } x \in X,
   \end{equation*}
 \item Objective function \(f\), constraint set \(X\).
-\item A solution \(x^*\) is globally optimal if \(f(x^*) \leq f(x), \forall x \in X\) (locally, if
-  this holds in an environment in \(X\) around \(x^*\)).
+\item A solution \(x^*\) is globally optimal if \(f(x^*) \leq f(x)\) for all \(x \in X\), and
+  locally, if this holds in a neighbourhood around \(x^*\)).
 \item Level sets: for \(c \in \RR\), the sets
   \begin{equation*}
     S_c(f) = \{x \in X: f(x) = c\}
@@ -37,8 +36,8 @@ Draw level lines and arrows
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{question}
-  Explain nonlinear programming, linear programming, quadratic programming, convex programming and
-  give examples. What is the definition of a convex set and a convex function? Give examples for
+  Explain nonlinear programming, linear programming, quadratic programming, and convex programming,
+  and give examples. What is the definition of a convex set and a convex function? Give examples for
   convex sets and convex functions.
 \end{question}
 
@@ -49,10 +48,12 @@ Draw level lines and arrows
   \end{equation*}
 \item Quadratic: objective function is quadratic, constraints linear:
   \begin{equation*}
-    \min_x \frac{1}{2}\T{x} Q x + \T{c} x, \quad\text{s.t. } Ax \leq b,\; Ex = d.
+    \min_x \frac{1}{2}\T{x} Q x + \T{c} x, \quad\text{s.t. } Ax \leq b, \; Ex = d.
   \end{equation*}
-  If \(Q\) is positive semidefinite, the objective is convex and the problem is polynomially
-  solvable.
+\item Convex: objective function \(f\) and constraint set \(X\) are convex:
+  \begin{equation*}
+    \min_x f(x), \quad\text{s.t. } x \in X.
+  \end{equation*}
 \item Nonlinear: no further requirements~-- objective function and constraints may be
   arbitrary.  Usually used if not known whether the problem is convex.  Not much theory available in
   general form.
@@ -72,7 +73,7 @@ Draw level lines and arrows
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{question}
-  What is the difference between local and global minima. Give examples.  Give the first order
+  What is the difference between local and global minima?  Give examples.  Give the first order
   necessary condition of optimality and prove it. What is the second order necessary condition of
   optimality? Show that for differentiable convex functions, the first order necessary condition of
   optimality becomes sufficient.
@@ -83,11 +84,12 @@ Draw level lines and arrows
   \begin{equation*}
     f(x^*) \leq f(x).
   \end{equation*}
-\item \(x^*\) is called an local minimum of \(f\) if it is minimal in some neighbourhood; i.e.,
-  there is an \(\epsilon > 0\) such that
+  \(x^*\) is called a local minimum of \(f\) if it is minimal in some neighbourhood; i.e., there is
+  an \(\epsilon > 0\) such that
   \begin{equation*}
     f(x^*) \leq f(x) \quad \forall x \text{ with } \lVert x^* - x \rVert \leq \epsilon.
   \end{equation*}
+  (see Figure~\ref{fig:min}).
 \item First order neccessary condition: If \(f\) is continuously differentiable, then in a small
   neighbourhood of \(x^*\), we can by Taylor expansion write \(f\) as
   \begin{equation*}
@@ -104,8 +106,8 @@ Draw level lines and arrows
   so \(\T{\nabla f(x^*)} \Delta x = 0\), which, since \(\Delta x\) is arbitrary, implies that
   \(\nabla f(x^*) = 0\), which is the neccessary condition.
 \item Second order neccessary condition: \(\nabla^2 f(x^*)\) must be positive semidefinite.
-\item Assume \(\nabla f(x^*) = 0\), but \(x^*\) were not optimal, so there is a \(y^*\) with
-  \(f(y^*) < f(x^*)\).  Then, by convexity of \(f\),
+\item For \(f\) convex: assume \(\nabla f(x^*) = 0\), but \(x^*\) were not optimal, so there is a
+  \(y^*\) with \(f(y^*) < f(x^*)\).  Then, by the first order convexity condition of \(f\),
 \begin{equation*}
   f(y^*) \geq f(x^*) + \iprod{\nabla f(x^*)}{y^* - x^*} = f(x^*);
 \end{equation*}
@@ -150,9 +152,10 @@ In more concrete form: if \(Q = \diag(\alpha, \beta)\), \(\T{b} = [1, 0]\), then
 \begin{equation*}
   f(x) = \frac{1}{2} (\alpha x^2 + \beta y^2) + x.
 \end{equation*}
-\(Q\) is positive definite if all eigenvalues, which in this case are \(\alpha\) and \(\beta\),
-are positive.  See Figure~\ref{fig:cond_quad}.  The second case is not bounded from below; the
-fourth case is a saddle surface.
+\(Q\) is positive definite if all eigenvalues, which in this case are \(\alpha\) and \(\beta\), are
+positive.  It is positive semidefinite if \(\alpha\), \(\beta\), and \(\alpha\beta\) are
+nonnegative.  See Figure~\ref{fig:cond_quad}: the second case is not bounded from below; the fourth
+case is a saddle surface.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.6\textwidth]{cond_quad_q.png}
@@ -453,8 +456,11 @@ If \(Q \succ 0\) (positive definite, therefore a strongly convex problem), then
   \enVert[1]{\kth{x} - x^*}
   \geq \left( \frac{\sqrt{\lambda_{\text{max}}/\lambda_{\text{min}}} - 1}{
       \sqrt{\lambda_{\text{max}}/\lambda_{\text{min}}} + 1} \right)^k \enVert[1]{\kth[0]{x} - x^*}.
-\end{equation*}  
-An optimal first order method for these cases is the conjugate gradient method.
+\end{equation*}
+
+In the positive semindefinite case, Nesterov's method is optimal; in the positive definite (i.e.,
+strongly convex) case, also the conjugate gradient and heavy ball methods are optimal (they are
+equivalent in this case).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{question}
@@ -503,13 +509,14 @@ we can solve using CG.
   rates of convergence of those algorithms on strongly convex problems?
 \end{question}
 \begin{itemize}
-\item Heavy-ball: idea is like in physics: a ball uses its momentum it gained beforehand to overcome
-  small increases or flat areas of its way:
+\item Heavy-ball: inspired by physics.  A ball uses the momentum it gained beforehand to overcome
+  small increases or flat areas on its way; this is achieved by including the difference to the
+  second-last term:
   \begin{equation*}
     \kth[k+1]{x} = \kth{x} - \kth{\alpha} \nabla f(\kth{x}) + \kth{\beta}(\kth{x} - \kth[k-1]{x}).
   \end{equation*}
-\item Nesterov: instead of calculating the gradient at the current point, use a gradient step based
-  on the point extrapolated from the momentum:
+\item Nesterov: instead of calculating the gradient at the current point, one uses a gradient step
+  based on the point extrapolated from the momentum:
   \begin{align*}
     \kth{y} &= \kth{x} + \kth{\beta}(\kth{x} - \kth[k-1]{x}), \\
     \kth[k+1]{x} &= \kth{y} - \alpha\nabla f(\kth{y}).
@@ -557,7 +564,7 @@ In the non-convex case, this condition can fail.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{non_convex.png}
-  \caption{Graphical representation of convex and non-convex set \label{fig:non-convex}}
+  \caption{Differences between convex and non-convex sets\label{fig:non-convex}}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -639,8 +646,8 @@ with \(\kth{\alpha} \in (0, 1]\), \(\kth{\bar{x}} \in X\), and
 % \item The conditional gradient method generates the point $\overline{x}^k$ by finding a feasible
 %   point which is furthest way from $x^k$ along the negative gradient direction $-\nabla f (x^k )$.
 
-The conditional gradient method generates the point \(\kth{\bar{x}}\) by finding the feasible point
-furthest away from \(\kth{x}\) along the negative gradient direction:
+The conditional gradient method generates the point \(\kth{\bar{x}}\) by minimizing all descent
+steps over the constraint set:
 \begin{align*}
   \kth{\bar{x}} &\in \argmin_{x \in X} \T{\nabla f(\kth{x})}(x - \kth{x}), \\
   \kth[k+1]{x} &= \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}).
@@ -722,9 +729,10 @@ multipliers, such that
 This means that at the optimal value, the gradient of the cost function belongs to the subspace
 spanned by the gradients of the constraint functions.  Equivalently, \(\nabla f(x^*)\) is orthogonal
 to the space of feasible variations at \(x^*\), which is the the set of directions \(d\) such that
-\(h(x^* + d) = 0\) (i.e., the constraint is still fulfilled).
+\(h(x^* + d) = 0\) (i.e., the constraint is still fulfilled).  See Figure~\ref{fig:lagrange} for an
+illustration of this condition.
 
-\begin{figure}[H]
+\begin{figure}
   \centering
   \includegraphics[width=0.45\textwidth]{lagrange_regular}
   \hspace{1em}
@@ -735,8 +743,8 @@ to the space of feasible variations at \(x^*\), which is the the set of directio
     constraint gradients at \(x^*\) are collinear.\label{fig:lagrange}}
 \end{figure}
 
-\newpage
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{question}
   Show how to solve the projection problem:
   \begin{equation*}
