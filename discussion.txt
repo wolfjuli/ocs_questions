@@ -1,7 +1,3 @@
-Quest 2
-linear: woher kommt A und b?
-quad: woher kommt E und d
-                                         
 Quest 3
 wie kommt man von schritt 2 auf 3 in first order proove
                                                                                                                                  

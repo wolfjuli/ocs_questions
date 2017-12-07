@@ -26,7 +26,7 @@
   \end{equation*}
 \item Objective function \(f\), constraint set \(X\).
 \item A solution \(x^*\) is globally optimal if \(f(x^*) \leq f(x)\) for all \(x \in X\), and
-  locally, if this holds in a neighbourhood around \(x^*\)).
+  locally, if this holds in a neighbourhood around \(x^*\).
 \item Level sets: for \(c \in \RR\), the sets
   \begin{equation*}
     S_c(f) = \{x \in X: f(x) = c\}
@@ -44,12 +44,14 @@
 \begin{itemize}
 \item Linear: objective functions and constraints are all linear:
   \begin{equation*}
-    \min_x \T{c} x, \quad\text{s.t. } Ax \leq b,\; x \geq 0.
+    \min_x \T{c} x, \quad\text{s.t. } Ax \leq b,\; x \geq 0,
   \end{equation*}
+  for some constraint matrix \(A\) and vector \(b\).
 \item Quadratic: objective function is quadratic, constraints linear:
   \begin{equation*}
-    \min_x \frac{1}{2}\T{x} Q x + \T{c} x, \quad\text{s.t. } Ax \leq b, \; Ex = d.
+    \min_x \frac{1}{2}\T{x} Q x + \T{c} x, \quad\text{s.t. } Ax \leq b, \; Ex = d,
   \end{equation*}
+  for some constraint matrices \(A\) and \(E\), and vectors \(b\) and \(d\).
 \item Convex: objective function \(f\) and constraint set \(X\) are convex:
   \begin{equation*}
     \min_x f(x), \quad\text{s.t. } x \in X.
