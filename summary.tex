@@ -530,11 +530,12 @@ where \(\pd{f}{{\kth{d}}}\) is the directional derivative in direction \(\kth{d}
 \summary{Matrix-Scaled Gradients}\label{s:scaled-gradients}
 
 Given the above form, one can choose \(\kth{d} = -\kth{D} \nabla f(\kth{x})\) for a positive
-definite \(\kth{D}\):
+definite \(\kth{D}\).  That this gives a descent direction follows directly from positive
+definiteness:
 \begin{equation*}
   \T{\nabla f(\kth{x})} \kth{d} = -\T{\nabla f(\kth{x})} \kth{D} \nabla f(\kth{x}) < 0,
 \end{equation*}
-by the definition of positive definiteness.
+(since \(\T{x}\kth{D}x > 0\) for all \(x\)).
 
 \begin{enumerate}
 \item Steepest descent: \(\kth{D} = I\). Simple, but slow convergence.
