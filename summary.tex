@@ -658,6 +658,7 @@ Proof: let \(g(t) = f(x + t(y - x))\), so that \(g(0) = f(x)\) and \(g(1) = f(y)
        &= f(x) + g(1) - g(0) \\
        &= f(x) + \int_0^1 g'(t) \dif t \\
        &= f(x) + \int_0^1 \T{\nabla f(x + t(y - x))} (y - x) \dif t \\
+       &= f(x) + \int_o^1 \iprod{\nabla f(x) + (f(x) + t(y - x)) - \nabla f(x)}{y - x} \dif t \\
        &= f(x) + \int_0^1 \iprod{\nabla f(x)}{y - x} \dif t
          + \int_0^1 \iprod{\nabla f(x + t(y - x)) - \nabla f(x)}{y - x} \dif t \\
        &\overset{(1)}{\leq} f(x) + \iprod{\nabla f(x)}{y - x}
