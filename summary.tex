@@ -273,31 +273,26 @@ of them, listed below; in each case except the last, the whole statement holds f
 \(\smash{\Lipl}\), respectively.
 
 \begin{enumerate}
-\item Differences in gradients are bounded by differences in arguments:
-  \begin{equation*}
-    \mu \enVert{x - y}^2 \leq \iprod{\nabla f(x) - \nabla f(y)}{x - y} \leq L \enVert{x - y}^2
-  \end{equation*}
-
 \item The descent lemma (Summary~\ref{s:descent-lemma}) and its converse, which bound the first
   order approximation around a point:
   \begin{align*}
+    f(y) &\leq f(x) + \iprod{\nabla f(x)}{y - x} + \frac{L}{2}\enVert{y - x}^2 \\
     f(y) &\geq f(x) + \iprod{\nabla f(x)}{y - x} + \frac{\mu}{2}\enVert{y - x}^2 \\
-    f(y) &\leq f(x) + \iprod{\nabla f(x)}{y - x} + \frac{L}{2}\enVert{y - x}^2
   \end{align*}
-  
+  \vspace{-3em}
 \item Their ``inverses'', bounding the first order approximation by the gradients:
   \begin{align*}
     f(y) &\geq f(x) + \iprod{\nabla f(x)}{y - x} + \frac{1}{2L}\enVert{\nabla f(x) - \nabla f(y)}^2 \\
     f(y) &\leq f(x) + \iprod{\nabla f(x)}{y - x} + \frac{1}{2\mu}\enVert{\nabla f(x) - \nabla f(y)}^2
   \end{align*}
-  
-\item A bound on the difference between gradients (the left inequality is known as
-  \emph{co-coercivity}):
-  \begin{equation*}
+\item A bound on the difference between gradients by values(the left inequality on the bottom is
+  known as \emph{co-coercivity}):
+  \begin{align*}
+    \mu \enVert{x - y}^2 \leq \iprod{\nabla f(x) - \nabla f(y)}{x - y} &\leq L \enVert{x - y}^2 \\
     \frac{1}{L} \enVert{\nabla f(x) - \nabla f(y)}^2 \leq \iprod{\nabla f(x) - \nabla f(y)}{x - y}
-    \leq  \frac{1}{\mu} \enVert{\nabla f(x) - \nabla f(y)}^2
-  \end{equation*}
-
+    &\leq  \frac{1}{\mu} \enVert{\nabla f(x) - \nabla f(y)}^2 \\
+  \end{align*}
+  \vspace{-3em}
 \item Finally, we have a combination of bounds with \(L\) and \(\mu\):
   \begin{equation*}
     \iprod{\nabla f(x) - \nabla f(y)}{x - y} \geq \frac{\mu L}{\mu + L}\enVert{x - y}^2 +
