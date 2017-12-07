@@ -58,8 +58,62 @@ as well as the Taylor expansion around \(x_0\):
   f(x) = f(x_0) + \T{\nabla f(x_0)}(x - x_0) + \frac{1}{2} \T{(x - x_0)}\nabla^2 f(x_0)(x - x_0)
   + o(\,\enVert{x - x_0}^2).
 \end{equation*}
+
+
+\summary{Calclulating Eigenvalues by Hand}
 % calclulating eigenvalues by hand:
 % http://math.harvard.edu/archive/21b_fall_04/exhibits/2dmatrices/index.html
+% https://math.stackexchange.com/questions/395698/fast-way-to-calculate-eigen-of-2x2-matrix-using-a-formula
+
+Given
+\begin{equation*}
+  A = \begin{pmatrix}
+    a & b \\
+    c & d\\
+  \end{pmatrix},
+\end{equation*}
+we have \(\tr(A) = a + d\).  Then the characteristic polynomial can be written as
+\begin{equation*}
+  \lambda^2 - \lambda \tr(A) + \det(A) = 0.
+\end{equation*}
+This can be solved in the usual way by using the quadratic solution formula or by factorization.
+
+The corresponding eigenvectors can then be written as follows:
+\begin{itemize}
+\item If \(c \neq 0\), they are
+  \begin{equation*}
+    \begin{pmatrix}
+      \lambda_1 - d \\
+      c 
+    \end{pmatrix},
+    \begin{pmatrix}
+      \lambda_2 - d \\
+      c 
+    \end{pmatrix}.
+  \end{equation*}.
+\item If \(b \neq 0\), they are
+  \begin{equation*}
+    \begin{pmatrix}
+      b \\
+      \lambda_1 - a
+    \end{pmatrix},
+    \begin{pmatrix}
+      b \\
+      \lambda_2 - a 
+    \end{pmatrix}.
+  \end{equation*}
+\item If \(b = c = 0\), they are
+  \begin{equation*}
+    \begin{pmatrix}
+      1 \\
+      0
+    \end{pmatrix},
+    \begin{pmatrix}
+      0 \\
+      1
+    \end{pmatrix}.
+  \end{equation*}
+\end{itemize}
 
 
 \summary{Definiteness}\label{s:definiteness}
