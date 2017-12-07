@@ -591,15 +591,18 @@ Some usual approaches to choosing the step size are:
 \summary{Armijo Rule}\label{s:armijo-rule}
 
 This is a special method for step size selection, which has nice theoretical properties (e.g. using
-it, the \(\kth{x}\) always converge to a stationary point).  To apply it, we fix scalars \(s\), \(0 <
-\beta < 1\), and \(0 < \sigma < 1\), and set \(\kth{\alpha} = \beta^{m_k} s\), where we choose
-\(m_k\) as the first nonnegative integer for which
+it, the \(\kth{x}\) always converge to a stationary point).  To apply it, we fix an initial step
+size \(s\), a reduction factor \(0 < \beta < 1\), and a scalar \(0 < \sigma < 1\), and choose
+\(\kth{m}\) as the first nonnegative integer for which
 \begin{equation*}
-  f(\kth{x} + \beta^{m_k} s \kth{d}) - f(\kth{x}) \leq \sigma \beta^{m_k} s \nabla \T{f(\kth{x})} \kth{d}.
+  f(\kth{x} + \beta^{\kth{m}} s \kth{d}) - f(\kth{x}) \leq \sigma \beta^{\kth{m}} s \nabla \T{f(\kth{x})} \kth{d}.
 \end{equation*}
+Then, set \(\kth{\alpha} = \beta^{\kth{m}} s\).  (Usually, \(\sigma \in [10^{-5}; 10^{-1}]\),
+\(\beta \in [1/10; 1/2]\), and \(s = 1\).)
+
 The interpretation of this is that we use \(1, \beta, \beta^2, \ldots\) succesively, to try out the
-step sizes \(\beta^{m_k} s\) in decreasing order, until we find one for which the decrease in the
-objective is sufficiently large for \(m_k\) (see Figure~\ref{fig:armijo}).
+step sizes \(\beta^{\kth{m}} s\) in decreasing order, until we find one for which the decrease in
+the objective is sufficiently large for \(\kth{m}\) (see Figure~\ref{fig:armijo}).
 
 \begin{figure}[H]
   \centering

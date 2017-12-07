@@ -228,13 +228,13 @@ Possible descent scalings:
 \end{itemize}
 
 Armijo rule: it is not sufficient to simply ensure that \(f(\kth[k+1]{x}) < f(\kth{x})\). To apply
-it, we fix scalars \(s\), \(0 < \beta < 1\), and \(0 < \sigma < 1\), and set
-\(\kth{\alpha} = \beta^{m_k} s\), where we choose \(m_k\) as the first nonnegative integer for which
+it, we fix an initial step size \(s\), a reduction factor \(0 < \beta < 1\), and a scalar
+\(0 < \sigma < 1\), and choose \(\kth{m}\) as the first nonnegative integer for which
 \begin{equation*}
-  f(\kth{x} + \beta^{m_k} s \kth{d}) - f(\kth{x}) \leq \sigma \beta^{m_k} s \nabla \T{f(\kth{x})} \kth{d}.
+  f(\kth{x} + \beta^{\kth{m}} s \kth{d}) - f(\kth{x}) \leq \sigma \beta^{\kth{m}} s \nabla \T{f(\kth{x})} \kth{d}.
 \end{equation*}
-Thus, the step sizes are chosen such that the energy decrease is sufficiently large~-- see
-Figure~\ref{fig:armijo}.
+Then, set \(\kth{\alpha} = \beta^{\kth{m}} s\).  Thus, the step sizes are chosen such that the
+energy decrease is sufficiently large~-- see Figure~\ref{fig:armijo}.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{armijo.png}
