@@ -1492,8 +1492,8 @@ Most of the rules for unconstrained optimization can be adapted for use in the c
 
 A straightforward method for generating the point \(\kth{\bar{x}}\) is to find the feasible point
 furthest away from \(\kth{x}\) ``along'' the negative gradient direction (see
-Figure~\ref{fig:conditional-gradient-method}).  This is achieved by minimizing all descent steps
-over the constraint set:
+Figure~\ref{fig:conditional-gradient-method}).  This is achieved by minimizing the directional
+derivative (i.e., maximizing the descent) over the constraint set:
 \begin{align*}
   \kth{\bar{x}} &\in \argmin_{x \in X} \T{\nabla f(\kth{x})}(x - \kth{x}), \\
   \kth[k+1]{x} &= \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}).

@@ -651,8 +651,8 @@ with \(\kth{\alpha} \in (0, 1]\), \(\kth{\bar{x}} \in X\), and
 % \item The conditional gradient method generates the point $\overline{x}^k$ by finding a feasible
 %   point which is furthest way from $x^k$ along the negative gradient direction $-\nabla f (x^k )$.
 
-The conditional gradient method generates the point \(\kth{\bar{x}}\) by minimizing all descent
-steps over the constraint set:
+The conditional gradient method generates the point \(\kth{\bar{x}}\) by finding the descent
+direction furthest away from \(\kth{x}\) in the constraint set:
 \begin{align*}
   \kth{\bar{x}} &\in \argmin_{x \in X} \T{\nabla f(\kth{x})}(x - \kth{x}), \\
   \kth[k+1]{x} &= \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}).
@@ -774,7 +774,7 @@ condition (there is no \(\mu\)):
   x^* &= y - \T{A} \lambda, \\
   A x^* &= 0.
 \end{align*}
-Inserting the second into the first gives us
+Replacing \(x^*\) in the second line gives us
 \begin{align*}
   A(y - \T{A} \lambda) &= 0 \\
   Ay &= A \T{A} \lambda \\
