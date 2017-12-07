@@ -125,15 +125,15 @@ A further family of matrix norms are the \emph{Schatten \(p\)-norms}.  For a mat
 \begin{equation*}
   A = U \Sigma \T{V},
 \end{equation*}
-where \(U, V\) are orthogonal and
-\(\Sigma = \diag(\sigma_1, \ldots, \sigma_R, 0, \ldots, 0) \in \RR^{m \times n}\).  It holds that
-\(\sigma_i(A) = \sqrt{\lambda_i(A \T{A})}\).  Then
+where \(U \in \RR^{M \times R}\), \(V \in \RR^{R \times N}\) are orthogonal and
+\(\Sigma = \diag(\sigma_1, \ldots, \sigma_R) \in \RR^{R \times R}\).  It holds that
+\(\sigma_i(A) = \sqrt{\lambda_i(A \T{A})}\).  Then we can define norms
 \begin{equation*}
   \lVert A \rVert_{S_p} = \left( \sum_{1 \leq i \leq R} \sigma_i(A)^p \right).
 \end{equation*}
-This norm is based solely on the eigenvalues; it measures the stretching of the matrix (described by
-\(\Sigma\)), while ignoring the rotation part.  Special cases here are the \emph{nuclear norm}
-(\(p = 1\))
+These norms are based solely on the eigenvalues; they measure the stretching of the matrix
+(described by \(\Sigma\)), while ignoring the rotation part.  Special cases here are the
+\emph{nuclear norm} (\(p = 1\))
 \begin{equation*}
   \lVert A \rVert_{*} = \sum_{1 \leq i \leq R} \sigma_i(A),
 \end{equation*}
@@ -145,7 +145,7 @@ the \emph{Frobenius norm} (\(p = 2\))
 as well as the limit cases of the \emph{spectral norm} and the rank:
 \begin{equation*}
   \lVert A \rVert_{\infty} = \max\{\sigma_1, \ldots, \sigma_R\} \quad \text{and} \quad
-  \lVert A \rVert_{0} = \rank(A).
+  \lVert A \rVert_{0} = R = \rank(A).
 \end{equation*}
 
 \summary{Convex Sets}\label{s:convex_sets}
