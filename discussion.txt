@@ -1,7 +1,3 @@
-Fehler summary
-1.1
-detA = ad -cb , nicht ab - cd
-
 Quest 2
 linear: woher kommt A und b?
 quad: woher kommt E und d
