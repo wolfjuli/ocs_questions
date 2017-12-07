@@ -478,20 +478,14 @@ equivalent in this case).
   What is the relation to solving linear system of equations?
 \end{question}
 
-The steps in the CG method for a quadratic problem have the form
+The step scheme for the CG method is
 \begin{equation*}
   \kth[k+1]{x} = \kth{x} + \kth{\alpha}\kth{d},
 \end{equation*}
-where
-\begin{equation*}
-  \kth{d} = -\kth{g} + \kth{\beta}\kth[k-1]{d},
-\end{equation*}
-and \(\kth{\beta}\) is given by
-\begin{equation*}
-  \kth{\beta} = \frac{\T{(\kth{g})}\kth{g}}{\T{(\kth[k-1]{g})}\kth[k-1]{g}}.
-\end{equation*}
+where \(\kth{\alpha}\) is chosen by line minimization, and the descent directions are obtained by
+applying the Gram-Schmidt procedure on the gradient vectors at the successive steps.
 
-For this concrete problem, we set
+For a quadratic problem, we set
 \begin{equation*}
   \kth{g} = \nabla f(\kth{x}) = Q \kth{x} - b,
 \end{equation*}
@@ -504,6 +498,7 @@ where \(\kth{\beta}\) is given by
 \begin{equation*}
   \kth{\beta} = \frac{\T{(\kth{g})}\kth{g}}{\T{(\kth[k-1]{g})}\kth[k-1]{g}}.
 \end{equation*}
+
 
 When solving a linear system \(Ax = y\), we are essentially also looking for an \(x\) which
 minimizes the expression \(\enVert{Ax - y}\).  This is a special form of a quadratic problem, which
