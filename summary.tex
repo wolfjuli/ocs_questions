@@ -381,13 +381,15 @@ Since \(x^*\) is a local minimum, \(f(x^* + \Delta x) - f(x^*) \geq 0\), and we 
 \begin{equation*}
   f(x^*) + \T{\nabla f(x^*)} \Delta x - f(x^*) = \T{\nabla f(x^*)} \Delta x \geq 0.
 \end{equation*}
-Since we can equally choose \(\Delta x\) to have the opposite sign, it holds also that
-\begin{equation*}
-  \T{\nabla f(x^*)} \Delta x \leq 0,
-\end{equation*}
-so \(\T{\nabla f(x^*)} \Delta x = 0\), which, since \(\Delta x\) is arbitrary, implies that
-\(\nabla f(x^*) = 0\), which is the neccessary condition. A point which has this property is called
-a \emph{stationary point}.  In ``normal'' cases, it is either a local optimum or a saddle point.
+Since we can equally choose \(\Delta x\) to have the opposite sign, we can do the same proof using
+  \(f(x^* - \Delta x)\), which results in
+  \begin{equation*}
+    \T{\nabla f(x^*)} \Delta x \leq 0.
+  \end{equation*}
+  Combining both inequalities implies \(\T{\nabla f(x^*)} \Delta x = 0\), which, since \(\Delta x\)
+  is arbitrary, implies that \(\nabla f(x^*) = 0\), which is the neccessary condition.  A point which
+  has this property is called a \emph{stationary point}.  In ``normal'' cases, it is either a local
+  optimum or a saddle point.
 
 
 \summary{Second Order Neccessary Condition for Optimality}\label{s:second-order-optimality}
