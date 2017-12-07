@@ -107,10 +107,12 @@
   \(\nabla f(x^*) = 0\), which is the neccessary condition.
 \item Second order neccessary condition: \(\nabla^2 f(x^*)\) must be positive semidefinite.
 \item For \(f\) convex: assume \(\nabla f(x^*) = 0\), but \(x^*\) were not optimal, so there is a
-  \(y^*\) with \(f(y^*) < f(x^*)\).  Then, by the first order convexity condition of \(f\),
-\begin{equation*}
-  f(y^*) \geq f(x^*) + \iprod{\nabla f(x^*)}{y^* - x^*} = f(x^*);
-\end{equation*}
+  \(y^*\) with \(f(y^*) < f(x^*)\).  Then, by the first order convexity condition of \(f\) (see
+  Summary: ``Convex Functions''),
+\begin{align*}
+  f(y^*) &\geq f(x^*) + \underbrace{\T{\nabla f(x^*)}}_{=\, 0}(y^* - x^*) \\
+         &= f(x^*);
+\end{align*}
 this contradicts the assumption, therefore \(x^*\) must be optimal.
 \end{itemize}
 

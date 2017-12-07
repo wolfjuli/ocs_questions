@@ -434,10 +434,12 @@ must also be a global minimum.
 
 Furthermore, the neccessary condition for minima, \(\nabla f(x^*) = 0\), for convex functions
 becomes a sufficient condition: assume \(\nabla f(x^*) = 0\), but \(x^*\) were not optimal, so there
-is a \(y^*\) with \(f(y^*) < f(x^*)\).  Then, by convexity of \(f\),
-\begin{equation*}
-  f(y^*) \geq f(x^*) + \iprod{\nabla f(x^*)}{y^* - x^*} = f(x^*);
-\end{equation*}
+is a \(y^*\) with \(f(y^*) < f(x^*)\).  Then, by the first order convexity condition of \(f\) (see
+Summary~\ref{s:convex_functions}),
+\begin{align*}
+  f(y^*) &\geq f(x^*) + \underbrace{\T{\nabla f(x^*)}}_{=\, 0}(y^* - x^*) \\
+         &= f(x^*);
+\end{align*}
 this contradicts the assumption, therefore \(x^*\) must be optimal.
 
 \optionalsummary{Existence of Minimizers}\label{s:minimizers-existence}
