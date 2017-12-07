@@ -538,21 +538,25 @@ definiteness:
 (since \(\T{x}\kth{D}x > 0\) for all \(x\)).
 
 \begin{enumerate}
-\item Steepest descent: \(\kth{D} = I\). Simple, but slow convergence.
-\item Newton's method: \(\kth{D} = (\nabla^2 f(\kth{x}))^{-1}\).  Fast convergence, but
-  \(\nabla^2 f(\kth{x})\) needs to be positive definite to be useful.  Corresponds to local
-  approximation by a quadratic surface (see Summary~\ref{s:newton-method-derivation}).
+\item Steepest descent: \(\kth{D} = I\).  Slow convergence if the level lines are elongated (leads
+  to zig-zagging), but easy to evaluate.
+\item Newton's method: \(\kth{D} = (\nabla^2 f(\kth{x}))^{-1}\).  Very fast convergence near minima,
+  but unstable wrt. initial values (may diverge).  Requires recalculation of inverse of Hessian in
+  every step~-- very expensive in large dimensions.  \(\nabla^2 f(\kth{x})\) might become singular.
+  Corresponds to local approximation by a quadratic surface (see
+  Summary~\ref{s:newton-method-derivation}).
 \item Levenberg-Marquart method: \(\kth{D} = (\nabla^2 f(\kth{x}) + \lambda I)^{-1}\).  Tries
-to fix problems with Newton's method by regularization (see Summary~\ref{s:levenberg-method}).
+  to fix problems with Newton's method by regularization (see Summary~\ref{s:levenberg-method}).
 \item Diagonal scaling: \(\kth{D} = \diag(\kth{d}_1, \ldots, \kth{d}_n)\). E.g. approximating
-Newton's method with
-\begin{equation*}
-  \kth{d}_i = \left( \pd[2]{f}{x_i}(\kth{x}) \right)^{-1}.
-\end{equation*}
+  Newton's method with
+  \begin{equation*}
+    \kth{d}_i = \left( \pd[2]{f}{x_i}(\kth{x}) \right)^{-1},
+  \end{equation*}
+  but usually not worth it (scales only in diagonal directions).
 \item Gauss-Newton method: For a nonlinear least-squares problem
-\(f(x) = \frac{1}{2} \lVert g(x) \rVert^2\), we can choose
-\(\kth{D} = ( \nabla g(\kth{x}) \T{\nabla g(\kth{x})} )^{-1}\).  This is related to the
-pseudo-inverse (see Summary~\ref{s:gauss-newton-method}).
+  \(f(x) = \frac{1}{2} \lVert g(x) \rVert^2\), we can choose
+  \(\kth{D} = ( \nabla g(\kth{x}) \T{\nabla g(\kth{x})} )^{-1}\).  This is related to the
+  pseudo-inverse (see Summary~\ref{s:gauss-newton-method}).
 \end{enumerate}
 
 

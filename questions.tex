@@ -216,11 +216,11 @@ case is a saddle surface.
 Possible descent scalings:
 \begin{itemize}
 \item \(\kth{D} = I\): steepest descent, slow convergence if the level lines are elongated (leads to
-  zig-zagging).
-\item \(\kth{D} = \nabla^2 f(\kth{x})\): Newton's method, very fast convergence near minima.  Unstable in
-  wrt. initial values (may diverge). Requires recalculation of inverse of Hessian in every step~--
-  very expensive in large dimensions.
-\item \(\kth{d} = \del[1]{\pd[2]{f(\kth{x})}{(x_i)}}^2\): diagonal scaling, an approximation of
+  zig-zagging), but easy to evaluate.
+\item \(\kth{D} = (\nabla^2 f(\kth{x}))^{-1}\): Newton's method, very fast convergence near minima.
+  Unstable in wrt. initial values (may diverge).  Requires recalculation of inverse of Hessian in
+  every step~-- very expensive in large dimensions.  Hessian might also become singular.
+\item \(\kth{d} = \del[1]{\pd[2]{f(\kth{x})}{(x_i)}}^{-1}\): diagonal scaling, an approximation of
   Newton's method, but usually not worth it (scales only in diagonal directions).
 \item \(\kth{d} = \del[1]{\nabla g(\kth{x}) \T{\nabla g(\kth{x})}}^{-1}\): Gauss-Newton method, for
   least squares problems with design function \(g\). Good performance; again calculation of inverse,
