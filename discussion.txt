@@ -1,1 +1,11 @@
-                                                                                                                                 
+
+
+
+
+
+Q5)
+direct applicaition of pos semidefinite?
+
+Q7)
+wie kommt man von schritt 4 zu schritt 5 (auf inprodukt)
+von vorletztem zu letztem schritt: sollte es nicht L/2 t^2 sein?
