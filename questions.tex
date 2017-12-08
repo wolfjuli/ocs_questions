@@ -252,8 +252,8 @@ energy decrease is sufficiently large~-- see Figure~\ref{fig:armijo}.
   descent lemma.
 \end{question}
 
-A differentiable function \(f: \RR^n \to \RR\) has Lipschitz continuous gradient if there is
-a Lipschitz constant \(L \geq 0\), such that for all \(x, y \in \RR^n\)
+A differentiable function \(f: \RR^n \to \RR\) has Lipschitz continuous gradient if there is a
+Lipschitz constant \(L \geq 0\), such that for all \(x, y \in \RR^n\)
 \begin{equation*}
   \enVert{\nabla f(x) - \nabla f(y)} \leq L \enVert[1]{x - y},
 \end{equation*}
@@ -264,7 +264,7 @@ or equivalently
 for some norm.
 
 Let \(f: \RR^n \to \RR\) have an \(L\)-Lipschitz continuous gradient.  Then for all \(x, y\), we
-have the following quadratic upper bound on the objective function at \(x\):
+have the following quadratic upper bound on the objective function around \(x\):
 \begin{equation*}
   f(y) \leq f(x) + \iprod{\nabla f(x)}{y - x} + \frac{L}{2}\enVert{y - x}^2,
 \end{equation*}
@@ -284,7 +284,12 @@ Proof: let \(g(t) = f(x + t(y - x))\), so that \(g(0) = f(x)\) and \(g(1) = f(y)
 \end{align*}
 where (1) is an application of the Cauchy-Schwarz theorem
 (\(\langle x, y \rangle \leq \enVert{x} \cdot \enVert{y}\)), and (2) follows from Lipschitz
-continuity of the gradient
+continuity of the gradient:
+\begin{align*}
+  \enVert{\nabla f(x + t(y - x)) - \nabla f(x)} &\leq L \enVert{x + t(y - x) - x} \\
+                                                &= L \enVert{t(y - x)} \\
+                                                &= Lt \enVert{y - x}.
+\end{align*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{question}

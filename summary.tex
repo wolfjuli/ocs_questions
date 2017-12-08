@@ -305,7 +305,7 @@ and only if it has a bounded first derivative.
 
 Let us denote the following classes of \emph{covex} functions:
 \begin{itemize}
-\item \(\Lip{L}{n}{k}\): convex \(n\) times continuously differentiable functions with
+\item \(\Lip{L}{n}{k}\): \(n\) times continuously differentiable convex functions with
   \(L\)-Lipschitz continuous \(k\)-th derivative,
 \item \(\strong{\mu}{n}\): \(n\) times continuously differentiable \(\mu\)-strongly
 convex functions, and
@@ -396,6 +396,7 @@ and an \emph{objective function} \(f: X \to \RR\).  We want to find an optimal v
     \begin{equation*}
       \min_x f(x), \quad\text{s.t. } x \in X.
     \end{equation*}
+    \vspace{-1.5em}
   \item Nonlinear: Nonlinear: no further requirements~-- objective function and constraints may be
     arbitrary.  Usually used if not known whether the problem is convex.  Not much theory available
     in general form.
@@ -597,10 +598,11 @@ it, the \(\kth{x}\) always converge to a stationary point).  To apply it, we fix
 size \(s\), a reduction factor \(0 < \beta < 1\), and a scalar \(0 < \sigma < 1\), and choose
 \(\kth{m}\) as the first nonnegative integer for which
 \begin{equation*}
-  f(\kth{x} + \beta^{\kth{m}} s \kth{d}) - f(\kth{x}) \leq \sigma \beta^{\kth{m}} s \nabla \T{f(\kth{x})} \kth{d}.
+  f(\kth{x} + \beta^{\kth{m}} s \kth{d}) - f(\kth{x}) \leq
+  \sigma \beta^{\kth{m}} s \nabla \T{f(\kth{x})} \kth{d}.
 \end{equation*}
-Then, set \(\kth{\alpha} = \beta^{\kth{m}} s\).  (Usually, \(\sigma \in [10^{-5}; 10^{-1}]\),
-\(\beta \in [1/10; 1/2]\), and \(s = 1\).)
+Then, set \(\kth{\alpha} = \beta^{\kth{m}} s\).  (Usually, \(\sigma \in [10^{-5}, 10^{-1}]\),
+\(\beta \in [1/10, 1/2]\), and \(s = 1\).)
 
 The interpretation of this is that we use \(1, \beta, \beta^2, \ldots\) succesively, to try out the
 step sizes \(\beta^{\kth{m}} s\) in decreasing order, until we find one for which the decrease in
@@ -657,7 +659,7 @@ they get ``worse'' in the limit).
 \summary{Descent Lemma}\label{s:descent-lemma}
 
 Let \(f: \RR^n \to \RR\) have an \(L\)-Lipschitz continuous gradient.  Then for all \(x, y\), we
-have the following quadratic upper bound on the objective function at \(x\):
+have the following quadratic upper bound on the objective function around \(x\):
 \begin{equation*}
   f(y) \leq f(x) + \iprod{\nabla f(x)}{y - x} + \frac{L}{2}\enVert{y - x}^2,
 \end{equation*}
@@ -677,8 +679,12 @@ Proof: let \(g(t) = f(x + t(y - x))\), so that \(g(0) = f(x)\) and \(g(1) = f(y)
 \end{align*}
 where (1) is an application of the Cauchy-Schwarz theorem
 (\(\langle x, y \rangle \leq \enVert{x} \cdot \enVert{y}\)), and (2) follows from Lipschitz
-continuity of the gradient (Summary~\ref{s:lipschitz-continuity}).
-
+continuity of the gradient (Summary~\ref{s:lipschitz-continuity}):
+\begin{align*}
+  \enVert{\nabla f(x + t(y - x)) - \nabla f(x)} &\leq L \enVert{x + t(y - x) - x} \\
+                                                &= L \enVert{t(y - x)} \\
+                                                &= Lt \enVert{y - x}.
+\end{align*}
 
 \summary{Interpretation of Descent Lemma}\label{s:descent-lemma-interpretation}
 
