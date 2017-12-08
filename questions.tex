@@ -583,7 +583,8 @@ In the non-convex case, this condition can fail.
 
 Let \(z \in \RR^n\).  The projection of \(z\) onto X is defined by
 \begin{equation*}
-  \proj_X(z) = \min_{x}\, \frac{1}{2}\enVert[1]{x - z}^2 \quad\text{s.t. } x \in X
+  \proj_X(z) = \min_x \enVert{x - z}
+  = \min_{x}\, \frac{1}{2}\enVert{x - z}^2 \quad\text{s.t. } x \in X
 \end{equation*}
 It is the point in \(X\) which is closest to \(z\). 
 
@@ -601,7 +602,7 @@ If \(X\) is a linear subspace of \(\RR^n\), this reduces to
 since for all \(x \in X\), both \(x^* + x\) and \(x^* - x\) are in \(X\).
 
 A linear subspace \(Y \subseteq X\) is a subset of \(X\) which is also a vector space, i.e., it is
-an abelian group with respect to addition and behaves as expected with scalar multiplication.  In
+an abelian group with respect to addition and behaves ring-like with scalar multiplication.  In
 particular, it contains the zero vector.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -658,9 +659,9 @@ The conditional gradient method generates the point \(\kth{\bar{x}}\) by finding
 direction furthest away from \(\kth{x}\) in the constraint set:
 \begin{align*}
   \kth{\bar{x}} &\in \argmin_{x \in X} \T{\nabla f(\kth{x})}(x - \kth{x}), \\
-  \kth[k+1]{x} &= \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}).
+  \kth[k+1]{x} &= \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x})
 \end{align*}
-Finding \(\kth{\bar{x}}\) is then a linear subproblem over a convex set, which should be easier to
+for a step size \(\kth{\alpha} \in (0, 1]\).  Finding \(\kth{\bar{x}}\) is then a linear subproblem over a convex set, which should be easier to
 solve (especially in the case that \(X\) is a simplex).
 
 The gradient projection method generates a feasible direction method with
