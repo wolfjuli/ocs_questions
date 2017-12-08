@@ -1,15 +1,22 @@
+Fehler summary
+1.1
+detA = ad - cb , nicht ab - cd
 
-
-
-
+q2)
+linear: woher kommt A und b?
+quad: woher kommt E und d
+                                         
+q3)
+wie kommt man von schritt 2 auf 3 in first order proove
+bei second order: woher kommt f(x) + <f'(x), x - y> ?
+                                                                                                                                 
 
 Q5)
 direct applicaition of pos semidefinite?
 
 Q7)
 wie kommt man von schritt 4 zu schritt 5 (auf inprodukt)
-von vorletztem zu letztem schritt: sollte es nicht L/2 t^2 sein?
-Nein. es ist ja ein bestimmtes integral, und 1^2 = 1.
+
 
 Q9) 
 nach was wird abgeleitet?
@@ -17,3 +24,4 @@ nach was wird abgeleitet?
 Q10)
 "This leads to a step method.." wie?
 Fehlt im step ein nabla am ende?
+
