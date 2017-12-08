@@ -5,6 +5,8 @@ von vorletztem zu letztem schritt: sollte es nicht L/2 t^2 sein?
 
 Q9) 
 nach was wird abgeleitet?
+-> ha. habs "verbessert". ist jetzt eindeutig. aber wahrscheinlich so eindeutig, dass
+es unverstaendlich ist ;)
 
 Q10)
 "This leads to a step method.." wie?
