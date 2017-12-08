@@ -98,16 +98,18 @@
     f(x) = f(x^* + \Delta x) = f(x^*) + \T{\nabla f(x^*)} \Delta x + o(\lVert \Delta x \rVert).
   \end{equation*}
   Since \(x^*\) is a local minimum, \(f(x^* + \Delta x) - f(x^*) \geq 0\), and we have
-  \begin{equation*}
-    f(x^*) + \T{\nabla f(x^*)} \Delta x - f(x^*) = \T{\nabla f(x^*)} \Delta x \geq 0.
-  \end{equation*}
+  \begin{align*}
+    0 &\leq f(x^* + \Delta x) - f(x^*) \\
+      &\leq f(x^*) + \T{\nabla f(x^*)} \Delta x - f(x^*) \\
+      &= \T{\nabla f(x^*)} \Delta x.
+  \end{align*}
   Since we can equally choose \(\Delta x\) to have the opposite sign, we can do the same proof using
   \(f(x^* - \Delta x)\), which results in
   \begin{equation*}
     \T{\nabla f(x^*)} \Delta x \leq 0.
   \end{equation*}
-  Combining both inequalities implies \(\T{\nabla f(x^*)} \Delta x = 0\), which, since \(\Delta x\)
-  is arbitrary, implies that \(\nabla f(x^*) = 0\), which is the neccessary condition.
+  Combining both inequalities implies \(\T{\nabla f(x^*)} \Delta x = 0\).  Since \(\Delta x\) is
+  arbitrary, that implies that \(\nabla f(x^*) = 0\), which is the neccessary condition.
 \item Second order neccessary condition: \(\nabla^2 f(x^*)\) must be positive semidefinite.
 \item For \(f\) convex: assume \(\nabla f(x^*) = 0\), but \(x^*\) were not optimal, so there is a
   \(y^*\) with \(f(y^*) < f(x^*)\).  Then, by the first order convexity condition of \(f\) (see
@@ -203,8 +205,8 @@ case is a saddle surface.
   \begin{equation*}
     \T{\nabla f(\kth{x})} \kth{d} = -\T{\nabla f(\kth{x})} \kth{D} \nabla f(\kth{x}) < 0,
   \end{equation*}
-  by direct application of the definition of positive definiteness.
-
+  which follows directly from the assumption of \(\kth{D}\) being positive definite (since
+  \(\T{x}\kth{D}x > 0\) for all \(x\)). 
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -216,11 +218,11 @@ case is a saddle surface.
 Possible descent scalings:
 \begin{itemize}
 \item \(\kth{D} = I\): steepest descent, slow convergence if the level lines are elongated (leads to
-  zig-zagging).
-\item \(\kth{D} = \nabla^2 f(\kth{x})\): Newton's method, very fast convergence near minima.  Unstable in
-  wrt. initial values (may diverge). Requires recalculation of inverse of Hessian in every step~--
-  very expensive in large dimensions.
-\item \(\kth{d} = \del[1]{\pd[2]{f(\kth{x})}{(x_i)}}^2\): diagonal scaling, an approximation of
+  zig-zagging), but easy to evaluate.
+\item \(\kth{D} = (\nabla^2 f(\kth{x}))^{-1}\): Newton's method, very fast convergence near minima.
+  Unstable in wrt. initial values (may diverge).  Requires recalculation of inverse of Hessian in
+  every step~-- very expensive in large dimensions.  Hessian might also become singular.
+\item \(\kth{d} = \del[1]{\pd[2]{f(\kth{x})}{(x_i)}}^{-1}\): diagonal scaling, an approximation of
   Newton's method, but usually not worth it (scales only in diagonal directions).
 \item \(\kth{d} = \del[1]{\nabla g(\kth{x}) \T{\nabla g(\kth{x})}}^{-1}\): Gauss-Newton method, for
   least squares problems with design function \(g\). Good performance; again calculation of inverse,
@@ -228,13 +230,13 @@ Possible descent scalings:
 \end{itemize}
 
 Armijo rule: it is not sufficient to simply ensure that \(f(\kth[k+1]{x}) < f(\kth{x})\). To apply
-it, we fix scalars \(s\), \(0 < \beta < 1\), and \(0 < \sigma < 1\), and set
-\(\kth{\alpha} = \beta^{m_k} s\), where we choose \(m_k\) as the first nonnegative integer for which
+it, we fix an initial step size \(s\), a reduction factor \(0 < \beta < 1\), and a scalar
+\(0 < \sigma < 1\), and choose \(\kth{m}\) as the first nonnegative integer for which
 \begin{equation*}
-  f(\kth{x} + \beta^{m_k} s \kth{d}) - f(\kth{x}) \leq \sigma \beta^{m_k} s \nabla \T{f(\kth{x})} \kth{d}.
+  f(\kth{x} + \beta^{\kth{m}} s \kth{d}) - f(\kth{x}) \leq \sigma \beta^{\kth{m}} s \nabla \T{f(\kth{x})} \kth{d}.
 \end{equation*}
-Thus, the step sizes are chosen such that the energy decrease is sufficiently large~-- see
-Figure~\ref{fig:armijo}.
+Then, set \(\kth{\alpha} = \beta^{\kth{m}} s\).  Thus, the step sizes are chosen such that the
+energy decrease is sufficiently large~-- see Figure~\ref{fig:armijo}.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{armijo.png}
@@ -250,8 +252,8 @@ Figure~\ref{fig:armijo}.
   descent lemma.
 \end{question}
 
-A differentiable function \(f: \RR^n \to \RR\) has Lipschitz continuous gradient if there is
-a Lipschitz constant \(L \geq 0\), such that for all \(x, y \in \RR^n\)
+A differentiable function \(f: \RR^n \to \RR\) has Lipschitz continuous gradient if there is a
+Lipschitz constant \(L \geq 0\), such that for all \(x, y \in \RR^n\)
 \begin{equation*}
   \enVert{\nabla f(x) - \nabla f(y)} \leq L \enVert[1]{x - y},
 \end{equation*}
@@ -262,7 +264,7 @@ or equivalently
 for some norm.
 
 Let \(f: \RR^n \to \RR\) have an \(L\)-Lipschitz continuous gradient.  Then for all \(x, y\), we
-have the following quadratic upper bound on the objective function at \(x\):
+have the following quadratic upper bound on the objective function around \(x\):
 \begin{equation*}
   f(y) \leq f(x) + \iprod{\nabla f(x)}{y - x} + \frac{L}{2}\enVert{y - x}^2,
 \end{equation*}
@@ -272,6 +274,7 @@ Proof: let \(g(t) = f(x + t(y - x))\), so that \(g(0) = f(x)\) and \(g(1) = f(y)
        &= f(x) + g(1) - g(0) \\
        &= f(x) + \int_0^1 g'(t) \dif t \\
        &= f(x) + \int_0^1 \T{\nabla f(x + t(y - x))} (y - x) \dif t \\
+       &= f(x) + \int_o^1 \iprod{\nabla f(x) + (f(x) + t(y - x)) - \nabla f(x)}{y - x} \dif t \\
        &= f(x) + \int_0^1 \iprod{\nabla f(x)}{y - x} \dif t
          + \int_0^1 \iprod{\nabla f(x + t(y - x)) - \nabla f(x)}{y - x} \dif t \\
        &\overset{(1)}{\leq} f(x) + \iprod{\nabla f(x)}{y - x}
@@ -281,7 +284,12 @@ Proof: let \(g(t) = f(x + t(y - x))\), so that \(g(0) = f(x)\) and \(g(1) = f(y)
 \end{align*}
 where (1) is an application of the Cauchy-Schwarz theorem
 (\(\langle x, y \rangle \leq \enVert{x} \cdot \enVert{y}\)), and (2) follows from Lipschitz
-continuity of the gradient
+continuity of the gradient:
+\begin{align*}
+  \enVert{\nabla f(x + t(y - x)) - \nabla f(x)} &\leq L \enVert{x + t(y - x) - x} \\
+                                                &= L \enVert{t(y - x)} \\
+                                                &= Lt \enVert{y - x}.
+\end{align*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{question}
@@ -477,20 +485,14 @@ equivalent in this case).
   What is the relation to solving linear system of equations?
 \end{question}
 
-The steps in the CG method for a quadratic problem have the form
+The step scheme for the CG method is
 \begin{equation*}
   \kth[k+1]{x} = \kth{x} + \kth{\alpha}\kth{d},
 \end{equation*}
-where
-\begin{equation*}
-  \kth{d} = -\kth{g} + \kth{\beta}\kth[k-1]{d},
-\end{equation*}
-and \(\kth{\beta}\) is given by
-\begin{equation*}
-  \kth{\beta} = \frac{\T{(\kth{g})}\kth{g}}{\T{(\kth[k-1]{g})}\kth[k-1]{g}}.
-\end{equation*}
+where \(\kth{\alpha}\) is chosen by line minimization, and the descent directions are obtained by
+applying the Gram-Schmidt procedure on the gradient vectors at the successive steps.
 
-For this concrete problem, we set
+For a quadratic problem, we set
 \begin{equation*}
   \kth{g} = \nabla f(\kth{x}) = Q \kth{x} - b,
 \end{equation*}
@@ -503,6 +505,7 @@ where \(\kth{\beta}\) is given by
 \begin{equation*}
   \kth{\beta} = \frac{\T{(\kth{g})}\kth{g}}{\T{(\kth[k-1]{g})}\kth[k-1]{g}}.
 \end{equation*}
+
 
 When solving a linear system \(Ax = y\), we are essentially also looking for an \(x\) which
 minimizes the expression \(\enVert{Ax - y}\).  This is a special form of a quadratic problem, which
@@ -580,7 +583,8 @@ In the non-convex case, this condition can fail.
 
 Let \(z \in \RR^n\).  The projection of \(z\) onto X is defined by
 \begin{equation*}
-  \proj_X(z) = \min_{x}\, \frac{1}{2}\enVert[1]{x - z}^2 \quad\text{s.t. } x \in X
+  \proj_X(z) = \min_x \enVert{x - z}
+  = \min_{x}\, \frac{1}{2}\enVert{x - z}^2 \quad\text{s.t. } x \in X
 \end{equation*}
 It is the point in \(X\) which is closest to \(z\). 
 
@@ -598,7 +602,7 @@ If \(X\) is a linear subspace of \(\RR^n\), this reduces to
 since for all \(x \in X\), both \(x^* + x\) and \(x^* - x\) are in \(X\).
 
 A linear subspace \(Y \subseteq X\) is a subset of \(X\) which is also a vector space, i.e., it is
-an abelian group with respect to addition and behaves as expected with scalar multiplication.  In
+an abelian group with respect to addition and behaves ring-like with scalar multiplication.  In
 particular, it contains the zero vector.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -651,13 +655,13 @@ with \(\kth{\alpha} \in (0, 1]\), \(\kth{\bar{x}} \in X\), and
 % \item The conditional gradient method generates the point $\overline{x}^k$ by finding a feasible
 %   point which is furthest way from $x^k$ along the negative gradient direction $-\nabla f (x^k )$.
 
-The conditional gradient method generates the point \(\kth{\bar{x}}\) by minimizing all descent
-steps over the constraint set:
+The conditional gradient method generates the point \(\kth{\bar{x}}\) by finding the descent
+direction furthest away from \(\kth{x}\) in the constraint set:
 \begin{align*}
   \kth{\bar{x}} &\in \argmin_{x \in X} \T{\nabla f(\kth{x})}(x - \kth{x}), \\
-  \kth[k+1]{x} &= \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x}).
+  \kth[k+1]{x} &= \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x})
 \end{align*}
-Finding \(\kth{\bar{x}}\) is then a linear subproblem over a convex set, which should be easier to
+for a step size \(\kth{\alpha} \in (0, 1]\).  Finding \(\kth{\bar{x}}\) is then a linear subproblem over a convex set, which should be easier to
 solve (especially in the case that \(X\) is a simplex).
 
 The gradient projection method generates a feasible direction method with
@@ -774,7 +778,7 @@ condition (there is no \(\mu\)):
   x^* &= y - \T{A} \lambda, \\
   A x^* &= 0.
 \end{align*}
-Inserting the second into the first gives us
+Replacing \(x^*\) in the second line gives us
 \begin{align*}
   A(y - \T{A} \lambda) &= 0 \\
   Ay &= A \T{A} \lambda \\
