@@ -696,7 +696,7 @@ We can express the lemma in terms of a step sequence \(\{\kth{x}\}\) by substitu
 This is actually a local upper bound of \(f\) at \(x\) by a quadratic function, which we can
 optimize analytically:
 \begin{gather*}
-  \nabla f(\kth{x}) + L (x - \kth{x}) \overset{!}{=} 0\\
+  \nabla f(\kth{x}) + L (x - \kth{x}) \overset{!}{=} 0 \\
   \quad \Rightarrow x = \kth{x} - \frac{1}{L} \nabla f(\kth{x})
 \end{gather*}
 Convergent step size methods relate to this fact.
@@ -1354,7 +1354,8 @@ to get a linear rate of
   f(\kth{x}) - f(x^*) \leq (1 - \sqrt{L/\mu})^k
     \left( f(\kth[0]{x}) - f(x^*) + \frac{\mu}{2} \enVert[1]{x^* - \kth[0]{x}}^2 \right).
 \end{equation*}
-
+Note that while this rate appears to be worse compared to the heav ball method, they are
+asymptotically of the same order.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Constraint Optimization over Convex Sets}
