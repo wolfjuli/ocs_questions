@@ -20,8 +20,12 @@ wie kommt man von schritt 4 zu schritt 5 (auf inprodukt)
 
 Q9) 
 nach was wird abgeleitet?
+-> ha. habs "verbessert". ist jetzt eindeutig. aber wahrscheinlich so eindeutig, dass
+es unverstaendlich ist ;)
 
 Q10)
 "This leads to a step method.." wie?
-Fehlt im step ein nabla am ende?
+-> nicht gefragt, steht aber im summary. 
 
+Fehlt im step ein nabla am ende?
+-> nein. es ist eine skalierte gradientenmethode, und \kth{D} = (...)^{-1}.

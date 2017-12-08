@@ -841,7 +841,7 @@ convergence rate.
 By Taylor approximation: Given a point \(\kth{x}\), we can approximate a function
 \(f \in \mathcal{C}^2\) locally as
 \begin{equation*}
-  \kth{f}(x) = f(\kth{x}) + \T{\nabla f(\kth{x})}(x - \kth{x})
+  \kth{T}(x) = f(\kth{x}) + \T{\nabla f(\kth{x})}(x - \kth{x})
   + \frac{1}{2} \T{(x - \kth{x})} \nabla^2 f(\kth{x})(x - \kth{x}).
 \end{equation*}
 Compare this to the descent lemma (Summary~\ref{s:descent-lemma-interpretation})~-- there,
@@ -849,10 +849,11 @@ Compare this to the descent lemma (Summary~\ref{s:descent-lemma-interpretation})
 
 We can analytically minimize this approximation, which gives the stated update rule:
 \begin{align*}
-  \nabla \kth{f}(x) = \nabla f(\kth{x}) + \nabla^2 f(\kth{x})(x - \kth{x}) &\overset{!}{=} 0 \\
-  \nabla^2 f(\kth{x})(x - \kth{x}) &= -\nabla f(\kth{x}) \\
-  (x - \kth{x}) &= -(\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}) \\
-  x = \kth[k+1]{x} &= \kth{x} - (\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}).
+  0 \overset{!}{=} \nabla \kth{T}(\kth[k+1]{x})
+      &= \nabla f(\kth{x}) + \nabla^2 f(\kth{x})(\kth[k+1]{x} - \kth{x}) \\
+  \nabla^2 f(\kth{x})(\kth[k+1]{x} - \kth{x}) &= -\nabla f(\kth{x}) \\
+  (\kth[k+1]{x} - \kth{x}) &= -(\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}) \\
+  \kth[k+1]{x} &= \kth{x} - (\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}).
 \end{align*}
 
 
@@ -870,31 +871,41 @@ symmetric matrix \(\T{\nabla g(x)} = \nabla^2 f(x)\).
 
 \summary{Scale Invariance}\label{s:newton-scale}
 
-Newton's method has the property that it is invariant under affine coordinate changes; ie., if we
-exchange \(x = Sy\) for a nonsingular \(S\), the generated steps will remain the same.  Proof:
-First, observe that
+Newton's method has the property that it is invariant under affine coordinate changes; i.e. if we
+used a transformation of variables \(Sy = x\), such that \((f \circ S)(y) = f(x)\), where \(S\) is a
+nonsingular affine transformation, the generated steps will remain the same.  Proof: First, observe
+that by chain rule,
 \begin{align*}
-  \nabla_y f(Sy) &= \T{S} \nabla f(Sy), \\
-  \nabla_y^2 f(Sy) &= \T{S} \nabla^2 f(Sy) S.
+  \nabla (f \circ S)(y) &= \T{S}(\nabla f \circ S)(y), \\
+  \nabla^2 (f \circ S)(y) &= \T{S}(\nabla^2 f \circ S))(y)S.
 \end{align*}
-Now, the second-order approximation around \(S\kth{y}\) becomes
+Now, the second-order approximation of \(f \circ S\) around \(\kth{y}\) becomes
 \begin{align*}
-  \kth{f}(Sy) &= f(S\kth{y}) + \T{(\T{S} \nabla f(Sy))}(y - \kth{y}) \\
-  &\qquad + \frac{1}{2} \T{(y - \kth{y})} \nabla^2 f(S\kth{y}) (y - \kth{y}),
+  \kth{T}(y) &= (f \circ S)(\kth{y}) + \T{\nabla (f \circ S)(\kth{y})}(y - \kth{y}) \\
+             &\quad + \frac{1}{2} \T{(y - \kth{y})} \nabla^2 (f \circ S)(\kth{y}) (y - \kth{y}) \\
+             &= (f \circ S)(\kth{y}) + \T{(\T{S}(\nabla f \circ S)(\kth{y}))}(y - \kth{y}) \\
+             &\quad + \frac{1}{2} \T{(y - \kth{y})}
+               \T{S}(\nabla^2 f \circ S)(\kth{y})S (y - \kth{y}).
 \end{align*}
-which we can minimize at \(\kth[k+1]{y}\) to get the update rule, like above:
+We can then set \(\kth[k+1]{y}\) as the minimizer of \(\kth{T}\) to get the update rule, like above:
 \begin{align*}
-  & &\nabla \kth{f}(S\kth[k+1]{y}) &= \T{S} \nabla f(S\kth{y}) + \T{S} \nabla^2
-                                 f(S\kth{y})S(\kth[k+1]{y}
-                                 - \kth{y}) \overset{!}{=} 0 \\
-  &\Rightarrow & S\kth[k+1]{y} &= S\kth{y} - \left( \T{S}\nabla^2 f(S\kth{y}) \right)^{-1} \T{S}
-                                  \nabla f(S\kth{y}) \\
-  &\phantom{\Rightarrow} & &= S\kth{y} - \nabla^2 f(S\kth{y})^{-1} (\T{S})^{-1}
-                                 \T{S} \nabla f(S\kth{y}) \\
-  &\Rightarrow & S\kth[k+1]{y} &= S\kth{y} - \nabla^2 f(S\kth{y})^{-1} \nabla f(S\kth{y}) \\
-  &\Leftrightarrow & \kth[k+1]{x} &= \kth{x} - \nabla^2 f(\kth{x})^{-1} \nabla f(\kth{x}).
+  & & 0 \overset{!}{=} \nabla \kth{T}(\kth[k+1]{y}) &= \T{S}(\nabla f \circ S)(\kth{y})
+                                                      + \T{S}(\nabla^2 f \circ S)(\kth{y})S
+                                                      (\kth[k+1]{y} - \kth{y}) \\
+  & & 0 &= S(\kth[k+1]{y} - \kth{y}) + \left( \T{S}(\nabla^2 f \circ S)(\kth{y}) \right)^{-1}
+          \T{S}(\nabla f \circ S)(\kth{y}) \\
+  & & &= S(\kth[k+1]{y} - \kth{y}) + \left( (\nabla^2 f \circ S)(\kth{y}) \right)^{-1} (\T{S})^{-1}
+          \T{S}(\nabla f \circ S)(\kth{y}) \\
+  & & S\kth[k+1]{y} &= S\kth{y} - \left( (\nabla^2 f \circ S)(\kth{y}) \right)^{-1}
+                      (\nabla f \circ S)(\kth{y}) \\
+  & & &= S\kth{y} - \left( \nabla^2 f(S\kth{y}) \right)^{-1}
+                      \nabla f(S\kth{y}).
 \end{align*}
-
+Here we can substitute back to get
+\begin{equation*}
+  \kth[k+1]{x} = \kth{x} - \nabla^2 f(\kth{x})^{-1} \nabla f(\kth{x}),
+\end{equation*}
+which is equivalent to the above result.
 
 \summary{Local convergence}\label{s:newton-local-convergence}
 
@@ -916,7 +927,7 @@ therefore we have superlinear convergence.
 
 To solve the problems mentioned above, when we are far away from an optimum, we can add a diagonal
 matrix \(\kth{\Delta}\) to the Hessian, such that \(\nabla^2 f(\kth{x}) + \kth{\Delta} \succ 0\).
-In that way, we the Newton equation
+In that way, the Newton equation
 \begin{equation*}
   \left( \nabla^2 f(\kth{x}) + \kth{\Delta} \right) \kth{d} = -\nabla f(\kth{x})
 \end{equation*}
