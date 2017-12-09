@@ -331,28 +331,15 @@ Classes of convergence rates (see Figure~\ref{fig:convergence}):
   affine change of the coordinate system.
 \end{question}
 
-Newton's method is base on the sequence
+Newton's method is a fast second order method based on the sequence
 \begin{equation*}
   \kth[k+1]{x} = \kth{x} - \kth{\alpha}\left( \nabla^2 f(\kth{x}) \right)^{-1} \nabla f(\kth{x}).
 \end{equation*}
-By Taylor approximation: Given a point \(\kth{x}\), we can approximate a function
-\(f \in \mathcal{C}^2\) locally as
-\begin{equation*}
-  \kth{T}(x) = f(\kth{x}) + \T{\nabla f(\kth{x})}(x - \kth{x})
-  + \frac{1}{2} \T{(x - \kth{x})} \nabla^2 f(\kth{x})(x - \kth{x}).
-\end{equation*}
-We can analytically minimize this approximation, which gives the stated update rule:
-\begin{align*}
-  0 \overset{!}{=} \nabla \kth{T}(\kth[k+1]{x})
-      &= \nabla f(\kth{x}) + \nabla^2 f(\kth{x})(\kth[k+1]{x} - \kth{x}) \\
-  \nabla^2 f(\kth{x})(\kth[k+1]{x} - \kth{x}) &= -\nabla f(\kth{x}) \\
-  (\kth[k+1]{x} - \kth{x}) &= -(\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}) \\
-  \kth[k+1]{x} &= \kth{x} - (\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}).
-\end{align*}
-
-Scale invariance: if we used a transformation of variables \(Sy = x\), such that
+It is also scale invariant: if we used a transformation of variables \(Sy = x\), such that
 \((f \circ S)(y) = f(x)\), where \(S\) is a nonsingular affine transformation, the generated steps
-will remain the same.  Proof: First, observe that by chain rule,
+will remain the same.
+
+Derivation including scale invariance proof: first, observe that by chain rule,
 \begin{align*}
   \nabla (f \circ S)(y) &= \T{S}(\nabla f \circ S)(y), \\
   \nabla^2 (f \circ S)(y) &= \T{S}(\nabla^2 f \circ S))(y)S.
@@ -379,11 +366,27 @@ We can then set \(\kth[k+1]{y}\) as the minimizer of \(\kth{T}\) to get the upda
   & & &= S\kth{y} - \left( \nabla^2 f(S\kth{y}) \right)^{-1}
                       \nabla f(S\kth{y}).
 \end{align*}
-Here we can substitute back to get
+Here we can substitute back \(\kth[i]{x}\) for \(S\kth[i]{y}\) to get the formula from above:
 \begin{equation*}
-  \kth[k+1]{x} = \kth{x} - \nabla^2 f(\kth{x})^{-1} \nabla f(\kth{x}),
+  \kth[k+1]{x} = \kth{x} - \nabla^2 f(\kth{x})^{-1} \nabla f(\kth{x}).
 \end{equation*}
-which is equivalent to the above result.
+
+% By Taylor approximation: Given a point \(\kth{x}\), we can approximate a function
+% \(f \in \mathcal{C}^2\) locally as
+% \begin{equation*}
+%   \kth{T}(x) = f(\kth{x}) + \T{\nabla f(\kth{x})}(x - \kth{x})
+%   + \frac{1}{2} \T{(x - \kth{x})} \nabla^2 f(\kth{x})(x - \kth{x}).
+% \end{equation*}
+% We can analytically minimize this approximation, which gives the stated update rule:
+% \begin{align*}
+%   0 \overset{!}{=} \nabla \kth{T}(\kth[k+1]{x})
+%       &= \nabla f(\kth{x}) + \nabla^2 f(\kth{x})(\kth[k+1]{x} - \kth{x}) \\
+%   \nabla^2 f(\kth{x})(\kth[k+1]{x} - \kth{x}) &= -\nabla f(\kth{x}) \\
+%   (\kth[k+1]{x} - \kth{x}) &= -(\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}) \\
+%   \kth[k+1]{x} &= \kth{x} - (\nabla^2 f(\kth{x}))^{-1} \nabla f(\kth{x}).
+% \end{align*}
+
+
 
 \section{Least squares problems}
 
