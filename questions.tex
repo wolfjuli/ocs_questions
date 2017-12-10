@@ -70,7 +70,7 @@
   \begin{equation*}
     f(\alpha x + (1 - \alpha) y) \leq \alpha f(x) + (1 - \alpha) f(y).
   \end{equation*}
-  This means that no points lie below any tangent.
+  This means that the graph always lies below any secant.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -112,8 +112,8 @@
   arbitrary, that implies that \(\nabla f(x^*) = 0\), which is the neccessary condition.
 \item Second order neccessary condition: \(\nabla^2 f(x^*)\) must be positive semidefinite.
 \item For \(f\) convex: assume \(\nabla f(x^*) = 0\), but \(x^*\) were not optimal, so there is a
-  \(y^*\) with \(f(y^*) < f(x^*)\).  Then, by the first order convexity condition of \(f\) (see
-  Summary: ``Convex Functions''),
+  \(y^*\) with \(f(y^*) < f(x^*)\).  Then, by the first order convexity condition of \(f\) (the
+  graph lies above any tangent; see Summary: ``Convex Functions''),
 \begin{align*}
   f(y^*) &\geq f(x^*) + \underbrace{\T{\nabla f(x^*)}}_{=\, 0}(y^* - x^*) \\
          &= f(x^*);
@@ -352,7 +352,7 @@ Now, the second-order approximation of \(f \circ S\) around \(\kth{y}\) becomes
              &\quad + \frac{1}{2} \T{(y - \kth{y})}
                \T{S}(\nabla^2 f \circ S)(\kth{y})S (y - \kth{y}).
 \end{align*}
-We can then set \(\kth[k+1]{y}\) as the minimizer of \(\kth{T}\) to get the update rule, like above:
+We can then set \(\kth[k+1]{y}\) as the minimizer of \(\kth{T}\) to get the update rule:
 \begin{align*}
   & & 0 \overset{!}{=} \nabla \kth{T}(\kth[k+1]{y}) &= \T{S}(\nabla f \circ S)(\kth{y})
                                                       + \T{S}(\nabla^2 f \circ S)(\kth{y})S
@@ -555,12 +555,12 @@ we can solve using CG.
   \end{equation*}
   for the heavy-ball method (for optimal choices of parameters).  Note that while the latter rate
   appears to be better, they are asymptotically of the same order.
-\item However, only Nesterov's method is optimal for non-strong problems, since the step size
-  parameters cannot be chosen correctly in the other case (since \(\mu = 0\)).  It overcomes this
-  difficulty by a dynamic choice of \(\kth{\beta}\), leading to a still optimal rate of
-  \begin{equation*}
-    f(\kth{x}) - f(x^*) \leq \frac{2L\enVert[1]{\kth[0]{x} - x^*}^2}{(k + 1)^2}.
-  \end{equation*}
+% \item However, only Nesterov's method is optimal for non-strong problems, since the step size
+%   parameters cannot be chosen correctly in the other case (since \(\mu = 0\)).  It overcomes this
+%   difficulty by a dynamic choice of \(\kth{\beta}\), leading to a still optimal rate of
+%   \begin{equation*}
+%     f(\kth{x}) - f(x^*) \leq \frac{2L\enVert[1]{\kth[0]{x} - x^*}^2}{(k + 1)^2}.
+%   \end{equation*}
 \end{itemize}
 
 \section{Constrained optimization}
@@ -787,10 +787,10 @@ for \(\lambda \in \RR^m\). Its gradients are
   \nabla_\lambda L(x, \lambda) &= A x.
 \end{align*}
 Since this is an equality constrained problem, the KKT conditions consist only of the stationarity
-condition (there is no \(\mu\)):
+conditions (there is no \(\mu\)):
 \begin{align*}
-  x^* &= y - \T{A} \lambda, \\
-  A x^* &= 0.
+  \nabla_x L(x^*, \lambda^*) \overset{!}{=} 0 &\Rightarrow x^* = y - \T{A} \lambda, \\
+  \nabla_\lambda L(x^*, \lambda^*) \overset{!}{=} 0 &\Rightarrow A x^* = 0.
 \end{align*}
 Replacing \(x^*\) in the second line gives us
 \begin{align*}

@@ -222,23 +222,24 @@ For a function \(f: X \to \RR\), and \(c \in \RR\), the sets
 \end{equation*}
 are called \emph{level sets} of \(f\). They can be convex even if \(f\) is not!
 
-\summary{Convex Functions}\label{s:convex_functions}
+\summary{Convex Functions}\label{s:convex-functions}
 
 If \(X\) is a convex set in some vector space, then \(f: X \to \RR\) is called \emph{convex} if for
 all \(x, y \in X\) and \(\alpha \in [0,1]\):
 \begin{equation*}
   f(\alpha x + (1 - \alpha) y) \leq \alpha f(x) + (1 - \alpha) f(y).
 \end{equation*}
-This means that no points lie below any tangent.  Equivalent to this, for sufficiently
+This means that the graph always lies below a secant.  Equivalent to this, for sufficiently
 differentiable functions, are the first-order condition
 \begin{equation*}
   f(x) \geq f(y) + \T{\nabla f(y)}(x - y), \quad \forall x, y \in X
 \end{equation*}
-and the second-order condition
+(the graph lies above any tangent) and the second-order condition
 \begin{equation*}
-  \nabla^2 f(x) \succeq 0 \quad \forall x \in X.
+  \nabla^2 f(x) \succeq 0 \quad \forall x \in X
 \end{equation*}
-We speak about \emph{strict convexity} when the inequalities are replaced by strict ones.
+(curvature is everywhere nonnegative).  We speak about \emph{strict convexity} when the inequalities
+are replaced by strict ones.
 
 \summary{Strong Convexity}\label{s:strong-convexity}
 
@@ -487,14 +488,15 @@ which contradicts the assumption of \(x^*\) being minimal in a local environment
 must also be a global minimum.
 
 Furthermore, the neccessary condition for minima, \(\nabla f(x^*) = 0\), for convex functions
-becomes a sufficient condition: assume \(\nabla f(x^*) = 0\), but \(x^*\) were not optimal, so there
-is a \(y^*\) with \(f(y^*) < f(x^*)\).  Then, by the first order convexity condition of \(f\) (see
-Summary~\ref{s:convex_functions}),
+becomes a sufficient condition: assume \(\nabla f(x^*) = 0\), but \(x^*\) were not optimal, so there is a
+  \(y^*\) with \(f(y^*) < f(x^*)\).  Then, by the first order convexity condition of \(f\) (the
+  graph lies above any tangent; see Summary~\ref{s:convex-functions}),
 \begin{align*}
   f(y^*) &\geq f(x^*) + \underbrace{\T{\nabla f(x^*)}}_{=\, 0}(y^* - x^*) \\
          &= f(x^*);
 \end{align*}
 this contradicts the assumption, therefore \(x^*\) must be optimal.
+
 
 \optionalsummary{Existence of Minimizers}\label{s:minimizers-existence}
 
