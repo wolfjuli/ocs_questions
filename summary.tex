@@ -421,7 +421,7 @@ A point \(x^*\) is called an \emph{unconstrained global minimum} of \(f\) if for
 \(x^*\) is called an \emph{unconstrained local minimum} of \(f\) if it is minimal in some
 neighbourhood; i.e., there is an \(\epsilon > 0\) such that
 \begin{equation*}
-  f(x^*) \leq f(x) \quad \forall x \text{ with } \lVert x^* - x \rVert \leq \epsilon.
+  f(x^*) \leq f(x) \quad \forall x \text{ with } \enVert{x - x^*} \leq \epsilon.
 \end{equation*}
 For \emph{constrained} minima, we just require additionally that \(x^* \in X \subset \RR^n\).
 
@@ -1365,7 +1365,7 @@ we can use the constant values
 to get a linear rate of
 \begin{equation*}
   f(\kth{x}) - f(x^*) \leq (1 - \sqrt{L/\mu})^k
-    \left( f(\kth[0]{x}) - f(x^*) + \frac{\mu}{2} \enVert[1]{x^* - \kth[0]{x}}^2 \right).
+    \left( f(\kth[0]{x}) - f(x^*) + \frac{\mu}{2} \enVert[1]{\kth[0]{x} - x^*}^2 \right).
 \end{equation*}
 Note that while this rate appears to be worse compared to the heav ball method, they are
 asymptotically of the same order.
@@ -1663,11 +1663,11 @@ Since \(\kth{x} > 0\), if \(\kth{s}\) is small enough, \(\kth{\bar{x}} > 0\), an
 inequality constraint \(x \geq 0\).  Then by the above derivation of quadratic problems
 (Summary~\ref{s:equality-constrained-quadratic-problems}), we can derive the exact solution
 \begin{equation*}
-  \bar{x} = -\kth{x} - \kth{s}(\kth{H})^{-1}(I - \T{A} (A(\kth{H})^{-1}\T{A})^{-1} A (\kth{H})^{-1})c.
+  \bar{x} = \kth{x} - \kth{s}(\kth{H})^{-1}(I - \T{A} (A(\kth{H})^{-1}\T{A})^{-1} A (\kth{H})^{-1})c.
 \end{equation*}
 Inserting this into the iteration scheme and including \(\kth{s}\) into \(\kth{\alpha}\), we get
 \begin{equation*}
-  \kth[k+1]{x} = -\kth{x} -
+  \kth[k+1]{x} = \kth{x} -
   \kth{\alpha}(\kth{H})^{-1}(I - \T{A} (A(\kth{H})^{-1}\T{A})^{-1} A (\kth{H})^{-1})c.
 \end{equation*}
 Now \(\kth{\alpha}\) has to be chosen such that \(\kth[k+1]{x} > 0\).  This can be done by using

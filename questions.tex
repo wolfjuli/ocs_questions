@@ -24,7 +24,7 @@
   \begin{equation*}
     \min_{x} f(x) \quad \text{s.t. } x \in X,
   \end{equation*}
-\item Objective function \(f\), constraint set \(X\).
+  where \(f\) is the objective function, and \(X\) the constraint set.
 \item A solution \(x^*\) is globally optimal if \(f(x^*) \leq f(x)\) for all \(x \in X\), and
   locally, if this holds in a neighbourhood around \(x^*\).
 \item Level sets: for \(c \in \RR\), the sets
@@ -89,7 +89,7 @@
   \(x^*\) is called a local minimum of \(f\) if it is minimal in some neighbourhood; i.e., there is
   an \(\epsilon > 0\) such that
   \begin{equation*}
-    f(x^*) \leq f(x) \quad \forall x \text{ with } \lVert x^* - x \rVert \leq \epsilon.
+    f(x^*) \leq f(x) \quad \forall x \text{ with } \enVert{x - x^*} \leq \epsilon.
   \end{equation*}
   (see Figure~\ref{fig:min}).
 \item First order neccessary condition: If \(f\) is continuously differentiable, then in a small
@@ -145,7 +145,7 @@ Example for \(f: \RR \to \RR\): in this case, \(f(x) = \frac{1}{2}qx^2 + bx\). W
 Since this is a parabola, we have three cases:
 \begin{enumerate}
 \item \(q > 0\): Unique minimum exists as minimum of upwards parabola.
-\item \(q = 0\): Horizontal line, every point is locally minimal.
+\item \(q = 0\): Line through origin; either unbounded, or every point is minimal (if \(b = 0\)).
 \item \(q < 0\): Downwards parabola, not bounded from below, so no minimum.
 \end{enumerate}
 
@@ -161,8 +161,9 @@ In more concrete form: if \(Q = \diag(\alpha, \beta)\), \(\T{b} = [1, 0]\), then
 \end{equation*}
 \(Q\) is positive definite if all eigenvalues, which in this case are \(\alpha\) and \(\beta\), are
 positive.  It is positive semidefinite if \(\alpha\), \(\beta\), and \(\alpha\beta\) are
-nonnegative.  See Figure~\ref{fig:cond_quad}: the second case is not bounded from below; the fourth
-case is a saddle surface.
+nonnegative.  See Figure~\ref{fig:cond_quad}: the first case is positive definite, the second not
+bounded from below, the third positive semidefinite but not definite, and the fourth case is a
+saddle surface.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.6\textwidth]{cond_quad_q.png}
@@ -180,7 +181,7 @@ case is a saddle surface.
   direction.
 \end{question}
 \begin{itemize}
-\item \(\kth{d}\) is a descent direction if
+\item \(\kth{d}\) is a descent direction if the directional derivative into \(\kth{d}\) is negative:
   \begin{equation*}
     \pd{f}{{\kth{d}}}(\kth{x}) = \T{\nabla f(\kth{x})} \kth{d} < 0
   \end{equation*}
@@ -411,7 +412,7 @@ Often, a least squares problem is a model fitting problem, where
 is the loss for a single sample for a model function \(h\) with parameters \(\theta\), samples
 \(x_i\), and targets~\(\hat{y}_i\).  If we take, e.g., a linear predictor, we would have the form
 \(g_i(\theta) = \T{\theta} x_i - \hat{y}_i\), which we can put together in matrix form as
-\(g(\theta) = Ax - y\) with the so-called model matrix \(A\).
+\(g(\theta) = X\theta - \hat{y}\) with the so-called model matrix \(X\).
 
 To derive the Gauss-Newton method, we replace \(g\) by a local approximation around \(\kth{x}\):
 \begin{equation*}
@@ -485,7 +486,7 @@ If \(Q \succ 0\) (positive definite, therefore a strongly convex problem), then
       \sqrt{\lambda_{\text{max}}/\lambda_{\text{min}}} + 1} \right)^k \enVert[1]{\kth[0]{x} - x^*}.
 \end{equation*}
 
-In the positive semindefinite case, Nesterov's method is optimal; in the positive definite (i.e.,
+In the positive semidefinite case, Nesterov's method is optimal; in the positive definite (i.e.,
 strongly convex) case, also the conjugate gradient and heavy ball methods are optimal (they are
 equivalent in this case).
 
@@ -546,7 +547,7 @@ we can solve using CG.
 \item Both algorithms are optimal for strongly convex functions, with
     \begin{equation*}
     f(\kth{x}) - f(x^*) \leq (1 - \sqrt{L/\mu})^k
-    \left( f(\kth[0]{x}) - f(x^*) + \frac{\mu}{2} \enVert[1]{x^* - \kth[0]{x}}^2 \right)
+    \left( f(\kth[0]{x}) - f(x^*) + \frac{\mu}{2} \enVert[1]{\kth[0]{x} - x^*}^2 \right)
   \end{equation*}
   for Nesterov's method and
   \begin{equation*}
@@ -606,8 +607,8 @@ Since \(f(x) = \frac{1}{2} \enVert{x - z}^2\), we have \(\nabla f(x) = x - z\). 
 and sufficient) optimality condition we get that
 \begin{alignat*}{2}
   &\quad & \T{\nabla f(x^*)}(x - x^*) &\geq 0 \\
-  &\Leftrightarrow\quad & \T{(x - z)}(x - x^*) &\geq 0 \\
-  &\Leftrightarrow\quad & \T{(z - x)}(x - x^*) &\leq 0.
+  &\Leftrightarrow\quad & \T{(x^* - z)}(x - x^*) &\geq 0 \\
+  &\Leftrightarrow\quad & \T{(z - x^*)}(x - x^*) &\leq 0.
 \end{alignat*}
 If \(X\) is a linear subspace of \(\RR^n\), this reduces to
 \begin{equation*}
@@ -669,8 +670,8 @@ with \(\kth{\alpha} \in (0, 1]\), \(\kth{\bar{x}} \in X\), and
 % \item The conditional gradient method generates the point $\overline{x}^k$ by finding a feasible
 %   point which is furthest way from $x^k$ along the negative gradient direction $-\nabla f (x^k )$.
 
-The conditional gradient method generates the point \(\kth{\bar{x}}\) by finding the descent
-direction furthest away from \(\kth{x}\) in the constraint set:
+The conditional gradient method generates the point \(\kth{\bar{x}}\) by minimizing the directional
+derivative (i.e., maximizing the descent) over the constraint set:
 \begin{align*}
   \kth{\bar{x}} &\in \argmin_{x \in X} \T{\nabla f(\kth{x})}(x - \kth{x}), \\
   \kth[k+1]{x} &= \kth{x} + \kth{\alpha}(\kth{\bar{x}} - \kth{x})
@@ -716,7 +717,7 @@ the steps using
 Since the problem is linear, we can calculate the exact solution of this quadratic intermediate
 problem, and get an update of
 \begin{equation*}
-  \kth[k+1]{x} = -\kth{x} -
+  \kth[k+1]{x} = \kth{x} -
   \kth{\alpha}(\kth{H})^{-1}(I - \T{A} (A(\kth{H})^{-1}\T{A})^{-1} A (\kth{H})^{-1})c.
 \end{equation*}
 Now \(\kth{\alpha}\) has to be chosen such that \(\kth[k+1]{x} > 0\).  This can be done by using
