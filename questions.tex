@@ -137,9 +137,9 @@ this contradicts the assumption, therefore \(x^*\) must be optimal.
   different realizations of \(Q\).
 \end{question}
 
-Example for \(f: \RR \to \RR\): in this case, \(f(x) = \frac{1}{2}qx^2 + bx\). We have:
+Example for \(f: \RR \to \RR\): in this case, \(f(x) = \frac{1}{2}qx^2 - bx\). We have:
 \begin{itemize}
-\item First order necessessary optimality condition: \(\nabla f(x^*) = qx - b = 0\).
+\item First order necessessary optimality condition: \(\nabla f(x^*) = qx^* - b = 0\).
 \item Second order necessessary optimality condition: \(\nabla^2 f(x^*) = q \geq 0\).
 \end{itemize}
 Since this is a parabola, we have three cases:
@@ -151,7 +151,7 @@ Since this is a parabola, we have three cases:
 
 Example for \(f: \RR \to \RR^2\):
 \begin{itemize}
-\item First order necessessary optimality condition: \(\nabla f(x^*) = Qx - b = 0\)
+\item First order necessessary optimality condition: \(\nabla f(x^*) = Qx^* - b = 0\)
 \item Second order necessessary optimality condition: \(\nabla^2 f(x^*) = Q\) is positive
   semidefinite.	
 \end{itemize}
@@ -189,7 +189,8 @@ saddle surface.
   \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{desc_dir.png}
-    \caption{Illustration of a descent direction.\label{fig:desc_dir}}
+    \caption{Illustration of a descent direction.  \(x - \alpha \nabla f(x)\) is a decreasing step,
+      while \(x - \delta \nabla f(x)\) goes to far and makes the result worse.\label{fig:desc_dir}}
   \end{figure}
 \item General form of gradient method:
   \begin{enumerate}
@@ -241,7 +242,8 @@ energy decrease is sufficiently large~-- see Figure~\ref{fig:armijo}.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{armijo.png}
-  \caption{Graphical representation of the idea of the Armijo rule.\label{fig:armijo}}
+  \caption{Graphical representation of the idea of the Armijo rule.  The x-axis shows \(\alpha\),
+    the y-axis the decrease.\label{fig:armijo}}
 \end{figure}
 
 
@@ -298,7 +300,7 @@ continuity of the gradient:
   examples.
 \end{question}
 
-We measure convergence in terms of asymtotic rates of a step-dependent error function
+We measure convergence in terms of asymptotic rates of a step-dependent error function
 \(e: \RR^n \to \RR\) with \(e(x^*) = 0\).  The usual choices are
 \begin{gather*}
   e(x) = \enVert[1]{x - x^*}, \text{ or } \\
@@ -310,7 +312,7 @@ Classes of convergence rates (see Figure~\ref{fig:convergence}):
 \item Sublinear: \(\limsup_{k \to \infty} \frac{e(\kth[k+1]{x})}{e(\kth{x})} = 1\). Example:
   \(e(\kth{x}) \sim 1/(k + 1)^2\) (black curve; this does not imply that the method does not
   converge!).
-\item Linear: \(\limsup_{k \to \infty} \frac{e(\kth[k+1]{x})}{e(\kth{x})} \leq \beta \in (0, 1)\).
+\item Linear: \(\limsup_{k \to \infty} \frac{e(\kth[k+1]{x})}{e(\kth{x})} \in (0, 1)\).
   Example: \(e(\kth{x}) \sim 1/2^k\) (blue curve)
 \item Superlinear: \(\limsup_{k \to \infty} \frac{e(\kth[k+1]{x})}{e(\kth{x})} = 0\). Example:
   \(e(\kth{x}) \sim 1/2^{2^k}\) (red curve).
@@ -477,13 +479,12 @@ is automatically convex for positive semidefinite \(Q\).  The lower bounds for f
 methods then depend only on the eigenvalues of \(Q\), since they fix \(L = \lambda_{\text{max}}\)
 and \(\mu = \lambda_{\text{min}}\): if \(Q \succeq 0\) (just positive semidefinite), then
 \begin{equation*}
-  f(\kth{x}) - f(x^*) \geq \frac{3\lambda_{\text{max}} \enVert[1]{\kth[0]{x} - x^*}}{32(k+1)^2}.
+  f(\kth{x}) - f(x^*) \geq \frac{3L \enVert[1]{\kth[0]{x} - x^*}^2}{32(k+1)^2}.
 \end{equation*}
 If \(Q \succ 0\) (positive definite, therefore a strongly convex problem), then
 \begin{equation*}
-  \enVert[1]{\kth{x} - x^*}
-  \geq \left( \frac{\sqrt{\lambda_{\text{max}}/\lambda_{\text{min}}} - 1}{
-      \sqrt{\lambda_{\text{max}}/\lambda_{\text{min}}} + 1} \right)^k \enVert[1]{\kth[0]{x} - x^*}.
+  \enVert[1]{\kth{x} - x^*}^2
+  \geq \left( \frac{\sqrt{L/\mu} - 1}{\sqrt{L/\mu} + 1} \right)^{2k} \enVert[1]{\kth[0]{x} - x^*}^2.
 \end{equation*}
 
 In the positive semidefinite case, Nesterov's method is optimal; in the positive definite (i.e.,
@@ -542,7 +543,7 @@ we can solve using CG.
   based on the point extrapolated from the momentum:
   \begin{align*}
     \kth{y} &= \kth{x} + \kth{\beta}(\kth{x} - \kth[k-1]{x}), \\
-    \kth[k+1]{x} &= \kth{y} - \alpha\nabla f(\kth{y}).
+    \kth[k+1]{x} &= \kth{y} - \kth{\alpha} \nabla f(\kth{y}).
   \end{align*}
 \item Both algorithms are optimal for strongly convex functions, with
     \begin{equation*}

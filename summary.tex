@@ -1107,15 +1107,15 @@ We can give the following general lower bounds for convex functions:
   and \(\kth[0]{x} \in \RR^n\), there is a function \(f \in \Lip{L}{\infty}{1}\) such that for any
   first order method we have
   \begin{enumerate}
-  \item \(\displaystyle \enVert[1]{\kth{x} - x^*} \geq \frac{1}{8} \enVert[1]{\kth[0]{x} - x^*}\)
-  \item \(\displaystyle f(\kth{x}) - f(x^*) \geq \frac{3L \enVert[1]{\kth[0]{x} - x^*}}{32 (k+1)^2}\),
+  \item \(\displaystyle \enVert[1]{\kth{x} - x^*}^2 \geq \frac{1}{8} \enVert[1]{\kth[0]{x} - x^*}^2\)
+  \item \(\displaystyle f(\kth{x}) - f(x^*) \geq \frac{3L \enVert[1]{\kth[0]{x} - x^*}^2}{32 (k+1)^2}\),
   \end{enumerate}
 \item Strongly convex functions: for any \(\kth[0]{x} \in \RR^n\), \(\mu > 0\), and \(L > \mu\),
   there is a function \(f \in \Strong{\mu}{L}{\infty}{1}\) such that for any first order method we
   have
   \begin{enumerate}
   \item \(\displaystyle \enVert[1]{\kth{x} - x^*}^2 \geq
-    \left( \frac{\sqrt{L/\mu} - 1}{\sqrt{L/\mu} + 1} \right)^k \enVert[1]{\kth[0]{x} - x^*}^2\)
+    \left( \frac{\sqrt{L/\mu} - 1}{\sqrt{L/\mu} + 1} \right)^{2k} \enVert[1]{\kth[0]{x} - x^*}^2\)
   \item \(\displaystyle \displaystyle f(\kth{x}) - f(x^*) \geq \frac{\mu}{2}
     \left( \frac{\sqrt{L/\mu} - 1}{\sqrt{L/\mu} + 1} \right)^{2k} \enVert[1]{\kth[0]{x} - x^*}^2\)
   \end{enumerate}
@@ -1219,7 +1219,7 @@ an optimal first order method for quadratic problems, for which we have the easy
 \(L = \lambda_{\text{max}}(Q)\) and \(\mu = \lambda_{\text{min}}(Q)\): if \(Q\) is positive
 definite, and \(0 \preceq \mu \preceq Q \preceq L\), then we have a strongly convex problem with
 \begin{equation*}
-  \enVert[1]{\kth{x} - x^*}^2 \leq 2\sqrt{L/\mu} \left( \frac{\sqrt{L/\mu}-1}{\sqrt{L/\mu}+1} \right)^{2k}
+  \enVert[1]{\kth{x} - x^*}^2 \leq 4(L/\mu) \left( \frac{\sqrt{L/\mu}-1}{\sqrt{L/\mu}+1} \right)^{2k}
   \enVert[1]{\kth[0]{x} - x^*}^2.
 \end{equation*}
 If \(Q\) is just positive semidefinite with \(0 \preceq Q \preceq L\), we have a smooth problem with
@@ -1334,7 +1334,7 @@ For the algorithm, let \(f \in \Lip{L}{1}{1}\).  Set
 \(\kth[-1]{x} = \kth[0]{x} = \kth[0]{y}\) arbitrary, and \(\alpha = 1/L\). Then:
 \begin{align*}
   \kth{y} &= \kth{x} + \kth{\beta}(\kth{x} - \kth[k-1]{x}), \\
-  \kth[k+1]{x} &= \kth{y} - \alpha\nabla f(\kth{y}).
+  \kth[k+1]{x} &= \kth{y} - \kth{\alpha}\nabla f(\kth{y}).
 \end{align*}
 In essence, this is the same idea as in the heavy ball/momentum method, just that the gradient
 is evaluated at the extrapolated point \(\kth{y}\) (which is ``where the ball would have rolled
