@@ -49,9 +49,10 @@
   for some constraint matrix \(A\) and vector \(b\).
 \item Quadratic: objective function is quadratic, constraints linear:
   \begin{equation*}
-    \min_x \frac{1}{2}\T{x} Q x + \T{c} x, \quad\text{s.t. } Ax \leq b, \; Ex = d,
+    \min_x \frac{1}{2}\T{x} A x + \T{b} x, \quad\text{s.t. } Cx \leq d, \; Ex = f,
   \end{equation*}
-  for some constraint matrices \(A\) and \(E\), and vectors \(b\) and \(d\).
+  for a symmetric matrix \(A\), some constraint matrices \(C\) and \(E\), and vectors \(b\), \(d\),
+  and \(f\).
 \item Convex: objective function \(f\) and constraint set \(X\) are convex:
   \begin{equation*}
     \min_x f(x), \quad\text{s.t. } x \in X.
@@ -89,7 +90,7 @@
   \(x^*\) is called a local minimum of \(f\) if it is minimal in some neighbourhood; i.e., there is
   an \(\epsilon > 0\) such that
   \begin{equation*}
-    f(x^*) \leq f(x) \quad \forall x \text{ with } \enVert{x - x^*} \leq \epsilon.
+    f(x^*) \leq f(x) \quad \forall x \in X \text{ with } \enVert{x - x^*} \leq \epsilon.
   \end{equation*}
   (see Figure~\ref{fig:min}).
 \item First order neccessary condition: If \(f\) is continuously differentiable, then in a small
@@ -447,7 +448,7 @@ enough to find the optimal solution (this amounts to the analytical solution usi
 pseudoinverse).  However, we can develop an incremental method for this, avoiding the matrix
 inversion, and instead using one sample at a time.
 
-Concretely, for \(g_i(x) = z_i - C_i x_i\), we have a step method
+Concretely, for \(g_i(x) = z_i - C_i x\), we have a step method
 \begin{align*}
   \xi_i &= \xi_{i-1} + H_i^{-1}\T{C_i}(z_i - C_i \xi_{i-1}), \quad\text{with} \\
   H_i &= \lambda H_{i-1} + \T{C_i}C_i, \\
@@ -506,7 +507,8 @@ The step scheme for the CG method is
   \kth[k+1]{x} = \kth{x} + \kth{\alpha}\kth{d},
 \end{equation*}
 where \(\kth{\alpha}\) is chosen by line minimization, and the descent directions are obtained by
-applying the Gram-Schmidt procedure on the gradient vectors at the successive steps.
+orthogonalizing the gradient vectors at the successive steps, using the Gram-Schmidt procedure with
+respect to the metric defined by \(Q\).
 
 For a quadratic problem, we set
 \begin{equation*}
@@ -555,8 +557,9 @@ we can solve using CG.
     \enVert[1]{\kth{x} - x^*}^2 \leq
     \left( \frac{\sqrt{L/\mu} - 1}{\sqrt{L/\mu} + 1} \right)^{2k} \enVert[1]{\kth[0]{x} - x^*}^2.
   \end{equation*}
-  for the heavy-ball method (for optimal choices of parameters).  Note that while the latter rate
-  appears to be better, they are asymptotically of the same order.
+  for the heavy-ball method.  (In both cases, for optimal choices of parameters, which can be done
+  analytically based on \(L\), \(\mu\), and \(k\)).  Note that while the latter rate appears to be
+  better, they are asymptotically of the same order.
 % \item However, only Nesterov's method is optimal for non-strong problems, since the step size
 %   parameters cannot be chosen correctly in the other case (since \(\mu = 0\)).  It overcomes this
 %   difficulty by a dynamic choice of \(\kth{\beta}\), leading to a still optimal rate of
@@ -577,7 +580,7 @@ The neccessary condition for optimality for a convex constraint set \(X\) is
 \begin{equation*}
   \T{\nabla f(x^*)}(x - x^*) \geq 0, \quad\forall x \in X;
 \end{equation*}
-ie., the gradient in all feasible directions must be increasing. 
+ie., the directional derivative in all feasible directions must be increasing.
 
 For illustration, see Figure~\ref{fig:non-convex}: if a local minimum is at the boundary of \(X\) (which
 will be the most interesting case, otherwise the problem is not much different from an unconstrained
@@ -605,7 +608,7 @@ Let \(z \in \RR^n\).  The projection of \(z\) onto X is defined by
 It is the point in \(X\) which is closest to \(z\). 
 
 Since \(f(x) = \frac{1}{2} \enVert{x - z}^2\), we have \(\nabla f(x) = x - z\).  By the (neccessary
-and sufficient) optimality condition we get that
+and sufficient) optimality condition we get that for all \(x \in X\),
 \begin{alignat*}{2}
   &\quad & \T{\nabla f(x^*)}(x - x^*) &\geq 0 \\
   &\Leftrightarrow\quad & \T{(x^* - z)}(x - x^*) &\geq 0 \\
